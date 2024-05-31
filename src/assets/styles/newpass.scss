@@ -1,0 +1,95 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto Sans:wght@400;500;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap");
+$text-color: #3c374b;
+.container {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: $text-color;
+  font-family: "Noto Sans";
+  overflow-y: hidden;
+  .left-side {
+    width: 35%;
+    height: 100%;
+    background-color: #f3cfd8;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+  .right-side {
+    width: 60%;
+    height: 100vh;
+    .missing {
+      position: relative;
+      left: 620px;
+      top: 30px;
+      a {
+        text-decoration: none;
+        color: #f3cfd8;
+        &:hover {
+          color: #e84c89;
+        }
+      }
+    }
+    .form-fogot {
+      width: 450px;
+      height: 350px;
+      margin: 0 auto;
+      position: relative;
+      top: 200px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      h3 {
+        font-size: 30px;
+        margin: 0;
+        a {
+          text-decoration: none;
+        }
+      }
+      h4 {
+        font-size: 15px;
+        margin: 0;
+        font-weight: normal;
+        letter-spacing: 0.75px;
+      }
+      p {
+        font-weight: bold;
+      }
+      input {
+        height: 45px;
+        border-radius: 5px;
+        border: #f3cfd8 2px solid;
+        box-shadow: #f3cfd8 0px 2px 8px 0px;
+        position: relative;
+        top: -15px;
+        color: #e84c89;
+        outline: #f3cfd8;
+        text-indent: 10px;
+
+        font-family: "Noto Sans";
+      }
+      button {
+        width: 200px;
+        height: 40px;
+        background-color: #e84c89;
+        border-radius: 5px;
+        border: none;
+        color: white;
+        font-weight: bold;
+        cursor: pointer;
+        position: relative;
+        top: -15px;
+      }
+    }
+  }
+}
+.message {
+  position: relative;
+  top: 10px;
+  font-family: "Noto Sans";
+  font-size: 14px;
+  color: #e84c89;
+}
