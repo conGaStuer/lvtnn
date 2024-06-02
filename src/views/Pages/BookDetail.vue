@@ -1,0 +1,396 @@
+<template>
+  <NavBar></NavBar>
+  <Route></Route>
+  <div class="container" v-if="book">
+    <div class="book-detail">
+      <div
+        class="book-image"
+        :style="{ backgroundImage: `url(${book.HinhAnh})` }"
+      ></div>
+      <div class="book-info">
+        <h1>{{ book.TenSach }}</h1>
+        <p class="author">
+          Tác giả :
+          <router-link
+            :to="{
+              name: 'AuthorBook',
+              params: { id: book.MaTacGia, name: book.TacGia },
+            }"
+            >{{ book.TacGia }}</router-link
+          >
+        </p>
+
+        <p class="publisher">
+          Nhà Xuất Bản :
+          <router-link
+            :to="{
+              name: 'Publisher',
+              params: { id: book.MaNhaXuatBan, name: book.NhaXuatBan },
+            }"
+            >{{ book.NhaXuatBan }}</router-link
+          >
+        </p>
+
+        <p class="price"><span>30000</span> {{ book.DonGia }} đồng</p>
+        <p class="description">{{ book.ChiTiet }}</p>
+        <div class="actions">
+          <div class="quantity">1</div>
+          <button @click="addToCart">THÊM VÀO GIỎ</button>
+        </div>
+        <div class="metas">
+          <p class="meta">
+            <i class="pi pi-truck"></i>Giao hàng từ 2 đến 3 ngày
+          </p>
+          <p class="meta">
+            <i class="pi pi-wallet"></i>An toàn và bảo mật tuyệt đối
+          </p>
+        </div>
+
+        <p class="categories">
+          Danh mục:
+          <span>
+            <router-link
+              :to="{
+                name: 'Category',
+                params: { id: book.MaDanhMuc, name: book.DanhMuc },
+              }"
+              >{{ book.DanhMuc }}</router-link
+            >
+          </span>
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="tabb" v-if="book">
+    <nav>
+      <button
+        @click="selectedTab = 'description'"
+        :class="{ active: selectedTab === 'description' }"
+      >
+        DESCRIPTION
+      </button>
+
+      <button
+        @click="selectedTab = 'bookDetails'"
+        :class="{ active: selectedTab === 'bookDetails' }"
+      >
+        BOOK DETAILS
+      </button>
+    </nav>
+    <div v-if="selectedTab === ' description'">
+      <p>
+        {{ book.ChiTiet }}
+      </p>
+    </div>
+    <div v-else-if="selectedTab === 'bookDetails'">
+      <p>Book information</p>
+      <div class="book-infoo">
+        <div class="info-row">
+          <p class="info-label">Nhà Xuất Bản</p>
+          <p class="info-value">{{ book.NhaXuatBan }}</p>
+        </div>
+        <div class="info-row">
+          <p class="info-label">Ngôn Ngữ</p>
+          <p class="info-value">{{ book.NgonNgu }}</p>
+        </div>
+        <div class="info-row">
+          <p class="info-label">Ngày ra mắt</p>
+          <p class="info-value">Apr 1889</p>
+        </div>
+        <div class="info-row">
+          <p class="info-label">Tái bản</p>
+          <p class="info-value">Lần 1</p>
+        </div>
+
+        <div class="info-row">
+          <p class="info-label">Loại</p>
+          <p class="info-value">Giấy</p>
+        </div>
+        <div class="info-row">
+          <p class="info-label">Loại</p>
+          <p class="info-value">Sách</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <section class="featured-books" v-if="relatedBooks.length">
+    <div class="containerr">
+      <div class="header">
+        <h2>Sách liên quan</h2>
+      </div>
+      <div class="book-list">
+        <div
+          class="bookk"
+          v-for="relatedBook in relatedBooks"
+          :key="relatedBook.MaSach"
+          @mouseover="hover = relatedBook.MaSach"
+          @mouseleave="hover = null"
+        >
+          <div class="image-container">
+            <img :src="relatedBook.HinhAnh" :alt="relatedBook.TenSach" />
+            <transition name="fade">
+              <div v-if="hover === relatedBook.MaSach" class="overlay">
+                <div class="icon"><i class="pi pi-eye"></i></div>
+                <div class="icon"><i class="pi pi-heart"></i></div>
+                <div class="icon"><i class="pi pi-shopping-cart"></i></div>
+              </div>
+            </transition>
+          </div>
+          <div class="book-detailss">
+            <span class="categoryy">{{ relatedBook.DanhMuc }}</span>
+            <h3>{{ relatedBook.TenSach }}</h3>
+            <p class="authorr">Tác giả: {{ relatedBook.TacGia }}</p>
+            <p class="pricee">{{ relatedBook.DonGia }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Footer></Footer>
+</template>
+
+<script>
+import { onMounted, ref } from "vue";
+import axios from "axios";
+import { useRoute } from "vue-router";
+import NavBar from "../UI_Components/NavBar.vue";
+import Route from "../UI_Components/Route.vue";
+import Footer from "../UI_Components/Footer.vue";
+
+export default {
+  components: {
+    NavBar,
+    Route,
+    Footer,
+  },
+  setup() {
+    const book = ref(null);
+    const route = useRoute();
+    const hover = null;
+    const getDetailBook = () => {
+      const bookId = route.params.id;
+      axios
+        .get(
+          `http://localhost/LVTN/book-store/src/api/getDetailBook.php?id=${bookId}`
+        )
+        .then((res) => {
+          if (res.data) {
+            book.value = res.data;
+            console.log(book.value);
+            getRelatedBooks(book.value.DanhMuc, book.value.MaSach);
+          } else {
+            console.log("deo co data");
+          }
+        })
+        .catch((err) => {
+          console.log("Error", err);
+        });
+    };
+    const relatedBooks = ref([]);
+
+    const getRelatedBooks = (category, currentBookId) => {
+      axios
+        .get(
+          `http://localhost/LVTN/book-store/src/api/getRelatedBooks.php?category=${category}&id=${currentBookId}`
+        )
+        .then((res) => {
+          if (res.data) {
+            relatedBooks.value = res.data;
+          } else {
+            console.log("Không có dữ liệu liên quan");
+          }
+        })
+        .catch((err) => {
+          console.log("Lỗi", err);
+        });
+    };
+    onMounted(() => {
+      getDetailBook();
+    });
+    const selectedTab = ref("description");
+    const addToCart = () => {
+      alert("Thêm vào giỏ hàng thành công");
+      const formData = new FormData();
+      formData.append("MaSach", book.value.MaSach);
+      // Thêm các trường dữ liệu khác tương tự ở đây
+
+      // Thêm thông tin người dùng vào FormData
+      formData.append("userId", currentUser.maND);
+      axios
+        .post(
+          "http://localhost/LVTN/book-store/src/api/addtocart.php",
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        )
+        .then((res) => {
+          console.log("Manga added to cart: ", res.data);
+        })
+        .catch((err) => {
+          console.log("Error ", err);
+        });
+    };
+    const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+    const userData = ref({ ...currentUser });
+    return {
+      book,
+      addToCart,
+      selectedTab,
+      hover,
+      relatedBooks,
+      userData,
+      currentUser,
+    };
+  },
+};
+</script>
+
+<style lang="scss" scoped>
+@import "@/assets/styles/bookdetail.scss";
+.featured-books {
+  text-align: center;
+  padding: 40px 20px;
+  font-family: "Noto Sans";
+  margin-bottom: 120px;
+  .containerr {
+    max-width: 1200px;
+    margin: 0 auto;
+
+    .header {
+      margin-bottom: 20px;
+
+      .badge {
+        display: inline-block;
+        padding: 5px 10px;
+        background-color: #f0f0f0;
+        border-radius: 5px;
+        font-weight: bold;
+        margin-bottom: 10px;
+      }
+
+      h2 {
+        font-size: 36px;
+        margin-bottom: 10px;
+      }
+
+      p {
+        color: #666;
+        margin-bottom: 30px;
+      }
+    }
+
+    .book-list {
+      display: flex;
+      justify-content: flex-start;
+      flex-wrap: wrap;
+
+      .bookk {
+        background: #fff;
+        border-radius: 10px;
+        overflow: hidden;
+        margin: 10px;
+        flex-basis: calc(25% - 20px);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: relative;
+        cursor: pointer;
+        .image-container {
+          position: relative;
+          width: 100%;
+          height: 65%;
+          background-color: #f8f9fa;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: 8px;
+          border-bottom-left-radius: 0px;
+        }
+
+        img {
+          width: 70%;
+          height: 80%;
+          border-radius: 8px;
+          box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+        }
+
+        .overlay {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          background: rgba(#dd907b, 0.7);
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          gap: 10px;
+          height: 100%;
+        }
+
+        .overlay .icon {
+          font-size: 18px;
+          color: black;
+          cursor: pointer;
+          transition: all 0.3s ease-in-out;
+          width: 50px;
+          height: 50px;
+          background-color: #f0f0f0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .overlay .icon:hover {
+          background-color: black;
+          color: #fff;
+        }
+
+        .book-detailss {
+          padding: 15px;
+          text-align: left;
+          width: 100%;
+          height: 35%;
+          .categoryy {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 5px;
+          }
+
+          h3 {
+            font-size: 18px;
+            margin: 5px 0;
+          }
+
+          .authorr {
+            color: #999;
+            font-size: 14px;
+            margin-bottom: 10px;
+          }
+
+          .pricee {
+            font-size: 16px;
+            font-weight: bold;
+            color: #f28b82;
+            position: relative;
+            top: -10px;
+          }
+        }
+      }
+    }
+  }
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}
+</style>

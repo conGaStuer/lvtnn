@@ -26,6 +26,30 @@ const routes = [
       import(/* webpackChunkName: "about" */ "../views/Pages/Products.vue"),
   },
   {
+    path: "/products/:id",
+    name: "bookDetail",
+    component: () =>
+      import(/* webpackChunkName: "about" */ "../views/Pages/BookDetail.vue"),
+  },
+  {
+    path: "/author/:id/:name",
+    name: "AuthorBook",
+    component: () =>
+      import(/* webpackChunkName: "about" */ "../views/Pages/AuthorBook.vue"),
+  },
+  {
+    path: "/publisher/:id/:name",
+    name: "Publisher",
+    component: () =>
+      import(/* webpackChunkName: "about" */ "../views/Pages/Publisher.vue"),
+  },
+  {
+    path: "/category/:id/:name",
+    name: "Category",
+    component: () =>
+      import(/* webpackChunkName: "about" */ "../views/Pages/Category.vue"),
+  },
+  {
     path: "/login",
     name: "login",
     // route level code-splitting

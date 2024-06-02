@@ -15,19 +15,20 @@
         <div class="filter">
           <div><i class="pi pi-bars"></i><span>Filter</span></div>
           <select v-model="sortBy">
-            <option value="default">Default sorting</option>
-            <option value="priceAsc">Price: Low to High</option>
-            <option value="priceDesc">Price: High to Low</option>
+            <option value="default">Sắp xếp mặc định</option>
+            <option value="priceAsc">Giá : Từ thấp đến cao</option>
+            <option value="priceDesc">Giá : Từ cao đến thấp</option>
           </select>
         </div>
       </div>
-      <div :class="[view === 'grid' ? 'list-view' : 'grid-view']">
-        <div
+      <div :class="[view === 'grid' ? 'grid-view' : 'list-view']">
+        <router-link
           class="book"
           v-for="book in books"
           :key="book.MaSach"
           @mouseover="hover = book.MaSach"
           @mouseleave="hover = null"
+          :to="{ name: 'bookDetail', params: { id: book.MaSach } }"
         >
           <div class="image-container">
             <img :src="book.HinhAnh" :alt="book.TenSach" />
@@ -47,7 +48,7 @@
             <p class="detail">{{ book.ChiTiet }}</p>
             <button><i class="pi pi-shopping-cart"></i></button>
           </div>
-        </div>
+        </router-link>
       </div>
     </div>
   </section>
@@ -84,19 +85,22 @@ export default {
           console.log("Error", err);
         });
     });
+    const parsePrice = (price) => {
+      // Remove all characters except numbers, ".", "+" or "-".
+      return price.replace(/[^0-9\-+\.]/g, "");
+    };
 
     const sortedBooks = computed(() => {
+      if (!books.value) return [];
       if (sortBy.value === "priceAsc") {
         return [...books.value].sort(
           (a, b) =>
-            parseFloat(a.DonGia.replace("$", "")) -
-            parseFloat(b.DonGia.replace("$", ""))
+            parseFloat(parsePrice(a.DonGia)) - parseFloat(parsePrice(b.DonGia))
         );
       } else if (sortBy.value === "priceDesc") {
         return [...books.value].sort(
           (a, b) =>
-            parseFloat(b.DonGia.replace("$", "")) -
-            parseFloat(a.DonGia.replace("$", ""))
+            parseFloat(parsePrice(b.DonGia)) - parseFloat(parsePrice(a.DonGia))
         );
       }
       return books.value;
@@ -124,6 +128,10 @@ export default {
 .book-grid {
   font-family: "Noto Sans";
   padding: 20px;
+  a {
+    text-decoration: none;
+    color: #333;
+  }
   .container {
     max-width: 1200px;
     margin: 0 auto;
@@ -298,7 +306,7 @@ export default {
         margin-bottom: 20px;
         position: relative;
         cursor: pointer;
-        height: 260px;
+        height: 280px;
         .image-container {
           position: relative;
           width: 21.5%;
@@ -377,8 +385,9 @@ export default {
             color: #e55a5a;
           }
           .detail {
-            font-size: 12px;
+            font-size: 12.5px;
             width: 800px;
+            color: #999;
           }
           button {
             width: 40px;
