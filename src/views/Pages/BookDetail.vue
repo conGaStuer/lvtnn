@@ -119,12 +119,13 @@
         <h2>Sách liên quan</h2>
       </div>
       <div class="book-list">
-        <div
+        <router-link
           class="bookk"
           v-for="relatedBook in relatedBooks"
           :key="relatedBook.MaSach"
           @mouseover="hover = relatedBook.MaSach"
           @mouseleave="hover = null"
+          :to="{ name: 'bookDetail', params: { id: relatedBook.MaSach } }"
         >
           <div class="image-container">
             <img :src="relatedBook.HinhAnh" :alt="relatedBook.TenSach" />
@@ -142,7 +143,7 @@
             <p class="authorr">Tác giả: {{ relatedBook.TacGia }}</p>
             <p class="pricee">{{ relatedBook.DonGia }}</p>
           </div>
-        </div>
+        </router-link>
       </div>
     </div>
   </section>
