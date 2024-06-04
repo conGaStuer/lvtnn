@@ -1,0 +1,97 @@
+$font: "Poppins", sans-serif;
+
+@mixin no-space() {
+  margin: 0;
+  padding: 0;
+}
+body {
+  font-family: $font;
+}
+.direct {
+  width: 100%;
+  height: 10vh;
+  background-color: rgb(148, 150, 150);
+  position: relative;
+  top: 70px;
+  display: flex;
+  align-items: center;
+
+  a {
+    position: relative;
+    left: 40px;
+    margin-right: 15px;
+    text-decoration: none;
+    color: black;
+  }
+  span {
+    position: relative;
+    left: 35px;
+  }
+}
+.maps {
+  width: 100%;
+  height: 100vh;
+  background-color: #f28b82;
+  position: relative;
+  top: 70px;
+  iframe {
+    width: 100%;
+    height: 100%;
+  }
+}
+.form {
+  width: 100%;
+  height: 80vh;
+  background-color: white;
+  position: relative;
+  top: 70px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-bottom: 100px;
+  .location {
+    width: 40%;
+    height: 85%;
+    background-color: #f28b82;
+    border-top-right-radius: 80px;
+    position: relative;
+    top: -150px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    .location-in {
+      width: 90%;
+      height: 20%;
+      color: aliceblue;
+      position: relative;
+      top: -20px;
+      p {
+        font-weight: bold;
+        font-size: 18px;
+        i {
+          margin-right: 10px;
+        }
+      }
+    }
+  }
+  .message {
+    width: 40%;
+    height: 85%;
+    p {
+      font-size: 30px;
+    }
+    h5 {
+      font-size: 15px;
+    }
+    button {
+      width: 120px;
+      height: 40px;
+      border: none;
+      background-color: #242424;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+  }
+}

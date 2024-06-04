@@ -300,6 +300,7 @@ export default {
         align-items: center;
         position: relative;
         cursor: pointer;
+        text-decoration: none;
         .image-container {
           position: relative;
           width: 100%;
@@ -364,6 +365,7 @@ export default {
           h3 {
             font-size: 18px;
             margin: 5px 0;
+            color: #373636;
           }
 
           .authorr {
