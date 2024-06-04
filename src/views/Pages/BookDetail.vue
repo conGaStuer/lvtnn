@@ -50,11 +50,16 @@
           Danh mục:
           <span>
             <router-link
+              v-for="(category, index) in book.DanhMuc.split(',')"
+              :key="index"
               :to="{
                 name: 'Category',
-                params: { id: book.MaDanhMuc, name: book.DanhMuc },
+                params: {
+                  id: book.MaDanhMuc.split(',')[index],
+                  name: category,
+                },
               }"
-              >{{ book.DanhMuc }}</router-link
+              >{{ category }}</router-link
             >
           </span>
         </p>
@@ -67,23 +72,24 @@
         @click="selectedTab = 'description'"
         :class="{ active: selectedTab === 'description' }"
       >
-        DESCRIPTION
+        BÌNH LUẬN & ĐÁNH GIÁ
       </button>
 
       <button
         @click="selectedTab = 'bookDetails'"
         :class="{ active: selectedTab === 'bookDetails' }"
       >
-        BOOK DETAILS
+        CHI TIẾT SÁCH
       </button>
     </nav>
-    <div v-if="selectedTab === ' description'">
-      <p>
-        {{ book.ChiTiet }}
-      </p>
+    <div v-if="selectedTab === 'description'">
+      <form action="">
+        <textarea name="" id="" cols="30" rows="10"></textarea>
+        <button>Gửi</button>
+      </form>
     </div>
     <div v-else-if="selectedTab === 'bookDetails'">
-      <p>Book information</p>
+      <p>Thông tin sách</p>
       <div class="book-infoo">
         <div class="info-row">
           <p class="info-label">Nhà Xuất Bản</p>
@@ -152,7 +158,7 @@
 </template>
 
 <script>
-import { onMounted, ref } from "vue";
+import { onMounted, ref, watch } from "vue";
 import axios from "axios";
 import { useRoute } from "vue-router";
 import NavBar from "../UI_Components/NavBar.vue";
@@ -169,8 +175,7 @@ export default {
     const book = ref(null);
     const route = useRoute();
     const hover = null;
-    const getDetailBook = () => {
-      const bookId = route.params.id;
+    const getDetailBook = (bookId) => {
       axios
         .get(
           `http://localhost/LVTN/book-store/src/api/getDetailBook.php?id=${bookId}`
@@ -188,6 +193,7 @@ export default {
           console.log("Error", err);
         });
     };
+
     const relatedBooks = ref([]);
 
     const getRelatedBooks = (category, currentBookId) => {
@@ -206,9 +212,15 @@ export default {
           console.log("Lỗi", err);
         });
     };
+
     onMounted(() => {
-      getDetailBook();
+      getDetailBook(route.params.id);
     });
+
+    watch(route, (newRoute) => {
+      getDetailBook(newRoute.params.id);
+    });
+
     const selectedTab = ref("description");
     const addToCart = () => {
       alert("Thêm vào giỏ hàng thành công");

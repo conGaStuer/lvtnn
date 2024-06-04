@@ -81,7 +81,7 @@
 <script>
 import { onMounted, ref, watch, computed } from "vue";
 import axios from "axios";
-import { useRoute, useRouter } from "vue-router";
+import { useRoute } from "vue-router";
 import NavBar from "../UI_Components/NavBar.vue";
 import Route from "../UI_Components/Route.vue";
 import Footer from "../UI_Components/Footer.vue";
@@ -95,7 +95,6 @@ export default {
   setup() {
     const books = ref([]);
     const route = useRoute();
-    const router = useRouter();
     const categories = ref([]);
     const view = ref("grid");
     const sortBy = ref("default");
@@ -131,11 +130,20 @@ export default {
       }
     };
 
+    const updateBooks = () => {
+      const categoryId = route.params.id;
+      console.log("Category ID: ", categoryId); // Debugging statement
+      if (categoryId) {
+        fetchBooksByCategory(categoryId);
+      }
+    };
+
     watch(
       () => route.params.id,
-      async (newId) => {
-        if (newId) {
-          await fetchBooksByCategory(newId);
+      (newId, oldId) => {
+        console.log("Route ID changed:", newId); // Debugging statement
+        if (newId !== oldId) {
+          updateBooks();
         }
       },
       { immediate: true }
@@ -143,7 +151,7 @@ export default {
 
     onMounted(() => {
       fetchCategories();
-      fetchBooksByCategory(route.params.id);
+      updateBooks();
     });
 
     const sortedBooks = computed(() => {
@@ -184,7 +192,7 @@ export default {
   width: 300px;
   height: 800px;
   position: relative;
-  top: 135px;
+  top: -120px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -280,13 +288,14 @@ export default {
         border-radius: 10px;
         overflow: hidden;
         margin: 20px 10px;
-        flex-basis: calc(25% - 20px);
+        flex-basis: calc(30% - 20px);
         display: flex;
         flex-direction: column;
         align-items: center;
         position: relative;
         cursor: pointer;
-        height: 500px;
+        height: 570px;
+        width: 400px;
         .image-container {
           position: relative;
           width: 100%;
@@ -377,6 +386,9 @@ export default {
     }
 
     .list-view {
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
       .book {
         display: flex;
         background: #fff;
@@ -387,9 +399,10 @@ export default {
         position: relative;
         cursor: pointer;
         height: 280px;
+        width: 100%;
         .image-container {
           position: relative;
-          width: 40%;
+          width: 25%;
           height: 100%;
           background-color: #f8f9fa;
           display: flex;
@@ -440,8 +453,7 @@ export default {
         .book-details {
           padding: 15px;
           text-align: left;
-          flex-grow: 1;
-
+          width: 60%;
           .category {
             color: #666;
             font-size: 14px;
@@ -466,7 +478,7 @@ export default {
           }
           .detail {
             font-size: 12.5px;
-            width: 800px;
+            width: 500px;
             color: #999;
           }
           button {

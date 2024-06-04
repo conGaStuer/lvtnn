@@ -24,7 +24,7 @@
       <div :class="[view === 'grid' ? 'grid-view' : 'list-view']">
         <router-link
           class="book"
-          v-for="book in books"
+          v-for="book in sortedBooks"
           :key="book.MaSach"
           @mouseover="hover = book.MaSach"
           @mouseleave="hover = null"
@@ -68,7 +68,7 @@ export default {
   setup() {
     const view = ref("grid");
     const sortBy = ref("default");
-    const books = ref();
+    const books = ref([]);
 
     onMounted(() => {
       axios
@@ -85,25 +85,15 @@ export default {
           console.log("Error", err);
         });
     });
-    const parsePrice = (price) => {
-      // Remove all characters except numbers, ".", "+" or "-".
-      return price.replace(/[^0-9\-+\.]/g, "");
-    };
 
     const sortedBooks = computed(() => {
-      if (!books.value) return [];
+      let sorted = [...books.value];
       if (sortBy.value === "priceAsc") {
-        return [...books.value].sort(
-          (a, b) =>
-            parseFloat(parsePrice(a.DonGia)) - parseFloat(parsePrice(b.DonGia))
-        );
+        sorted.sort((a, b) => a.DonGia - b.DonGia);
       } else if (sortBy.value === "priceDesc") {
-        return [...books.value].sort(
-          (a, b) =>
-            parseFloat(parsePrice(b.DonGia)) - parseFloat(parsePrice(a.DonGia))
-        );
+        sorted.sort((a, b) => b.DonGia - a.DonGia);
       }
-      return books.value;
+      return sorted;
     });
 
     const setView = (type) => {
@@ -207,6 +197,7 @@ export default {
         align-items: center;
         position: relative;
         cursor: pointer;
+        height: 580px;
         .image-container {
           position: relative;
           width: 100%;
