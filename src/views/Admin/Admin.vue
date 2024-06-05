@@ -18,11 +18,25 @@
 <script setup>
 import { h, reactive, ref } from "vue";
 import User from "./User.vue";
+import Book from "./Book.vue";
+import Cate from "./Cate.vue";
+import Author from "./Author.vue";
+import Language from "./Language.vue";
+import Publisher from "./Publisher.vue";
+import Discount from "./Discount.vue";
+import DashBoard from "./DashBoard.vue";
+
 import {
   MailOutlined,
   CalendarOutlined,
   AppstoreOutlined,
   SettingOutlined,
+  HomeOutlined,
+  UserOutlined,
+  PieChartOutlined,
+  BarChartOutlined,
+  LineChartOutlined,
+  RightCircleOutlined,
 } from "@ant-design/icons-vue";
 
 const state = reactive({
@@ -43,30 +57,42 @@ function getItem(label, key, icon, children, type) {
 }
 
 const items = reactive([
-  getItem("Navigation One", "1", h(MailOutlined)),
-  getItem("Navigation Two", "2", h(CalendarOutlined)),
-  getItem("Navigation Two", "sub1", h(AppstoreOutlined), [
-    getItem("Option 3", "3"),
-    getItem("Option 4", "4"),
-    getItem("Submenu", "sub1-2", null, [
-      getItem("Option 5", "5"),
-      getItem("Option 6", "6"),
-    ]),
+  getItem("DashBoard", "1", h(HomeOutlined)),
+  getItem("Quản lý người dùng", "2", h(UserOutlined)),
+  getItem("Quản lý Sản Phẩm", "3", h(PieChartOutlined), [
+    getItem("Quản lý Sách", "sub1", h(RightCircleOutlined)),
+
+    getItem("Quản lý Danh Mục", "sub2", h(RightCircleOutlined)),
+    getItem("Quản lý Ngôn Ngữ", "sub3", h(RightCircleOutlined)),
+    getItem("Quản lý Nhà Xuất Bản", "sub4", h(RightCircleOutlined)),
+    getItem("Quản lý Tác Gỉa", "sub5", h(RightCircleOutlined)),
   ]),
-  getItem("Navigation Three", "sub2", h(SettingOutlined), [
-    getItem("Option 7", "7"),
-    getItem("Option 8", "8"),
-    getItem("Option 9", "9"),
-    getItem("Option 10", "10"),
-  ]),
+  getItem("Quản lý khuyến mãi", "4", h(BarChartOutlined)),
+
+  getItem("Quản lý đơn hàng", "5", h(LineChartOutlined)),
 ]);
 
-const currentComponent = ref(User); // Default component
+const currentComponent = ref(DashBoard); // Default component
 
 const handleMenuClick = (e) => {
   if (e.key === "2") {
     currentComponent.value = User;
+  } else if (e.key === "sub1") {
+    currentComponent.value = Book;
+  } else if (e.key === "sub2") {
+    currentComponent.value = Cate;
+  } else if (e.key === "sub3") {
+    currentComponent.value = Language;
+  } else if (e.key === "sub4") {
+    currentComponent.value = Publisher;
+  } else if (e.key === "sub5") {
+    currentComponent.value = Author;
+  } else if (e.key === "4") {
+    currentComponent.value = Discount;
+  } else if (e.key === "1") {
+    currentComponent.value = DashBoard;
   }
+
   // Add more conditions here for other navigation items
 };
 </script>

@@ -9,7 +9,7 @@
       <template v-if="column.key === 'name'">
         <span>
           <smile-outlined />
-          Name
+          Tên Người Dùng
         </span>
       </template>
     </template>
@@ -20,33 +20,18 @@
           {{ record.name }}
         </a>
       </template>
-      <template v-else-if="column.key === 'tags'">
+      <template v-else-if="column.key === 'tag'">
         <span>
-          <a-tag
-            v-for="tag in record.tags"
-            :key="tag"
-            :color="
-              tag === 'loser'
-                ? 'volcano'
-                : tag.length > 5
-                ? 'geekblue'
-                : 'green'
-            "
-          >
-            {{ tag.toUpperCase() }}
+          <a-tag>
+            {{ tag }}
           </a-tag>
         </span>
       </template>
       <template v-else-if="column.key === 'action'">
         <span>
-          <a>Invite 一 {{ record.name }}</a>
+          <a>Xóa</a>
           <a-divider type="vertical" />
-          <a>Delete</a>
-          <a-divider type="vertical" />
-          <a class="ant-dropdown-link">
-            More actions
-            <down-outlined />
-          </a>
+          <a class="ant-dropdown-link"> Thao tác <down-outlined /> </a>
         </span>
       </template>
     </template>
@@ -58,100 +43,100 @@ const data = [
   {
     key: "1",
     name: "John Brown",
-    age: 32,
-    address: "New York No. 1 Lake Park",
-    tags: ["nice", "developer"],
+    age: "0956464646",
+    address: "Phú Nhuận , Hồ Chí Minh",
+    tags: "xuankhuong1402@gmail.com",
   },
   {
     key: "2",
     name: "Jim Green",
-    age: 42,
-    address: "London No. 1 Lake Park",
-    tags: ["loser"],
+    age: "0956464646",
+    address: "Phú Nhuận , Hồ Chí Minh",
+    tags: "xuankhuong1403@gmail.com",
   },
   {
     key: "3",
     name: "Joe Black",
-    age: 32,
+    age: "0956464646",
     address: "Sidney No. 1 Lake Park",
-    tags: ["cool", "teacher"],
+    tags: "xuankhuong1404@gmail.com",
   },
   {
     key: "4",
     name: "John Brown",
-    age: 32,
-    address: "New York No. 1 Lake Park",
-    tags: ["nice", "developer"],
+    age: "0956464646",
+    address: "Phú Nhuận , Hồ Chí Minh",
+    tags: "xuankhuong1405@gmail.com",
   },
   {
     key: "5",
     name: "Jim Green",
-    age: 42,
-    address: "London No. 1 Lake Park",
-    tags: ["loser"],
+    age: "0956464646",
+    address: "Phú Nhuận , Hồ Chí Minh",
+    tags: "xuankhuong1406@gmail.com",
   },
   {
     key: "6",
     name: "Joe Black",
-    age: 32,
+    age: "0956464646",
     address: "Sidney No. 1 Lake Park",
-    tags: ["cool", "teacher"],
+    tags: "xuankhuong1407@gmail.com",
   },
   {
     key: "7",
     name: "John Brown",
-    age: 32,
-    address: "New York No. 1 Lake Park",
-    tags: ["nice", "developer"],
+    age: "0956464646",
+    address: "Phú Nhuận , Hồ Chí Minh",
+    tags: "xuankhuong1407@gmail.com",
   },
   {
     key: "8",
     name: "Jim Green",
-    age: 42,
-    address: "London No. 1 Lake Park",
-    tags: ["loser"],
+    age: "0956464646",
+    address: "Phú Nhuận , Hồ Chí Minh",
+    tags: "xuankhuong1407@gmail.com",
   },
   {
     key: "9",
     name: "Joe Black",
-    age: 32,
+    age: "0956464646",
     address: "Sidney No. 1 Lake Park",
-    tags: ["cool", "teacher"],
+    tags: "xuankhuong1407@gmail.com",
   },
   {
     key: "10",
     name: "John Brown",
-    age: 32,
-    address: "New York No. 1 Lake Park",
-    tags: ["nice", "developer"],
+    age: "0956464646",
+    address: "Phú Nhuận , Hồ Chí Minh",
+    tags: "xuankhuong1407@gmail.com",
   },
   {
     key: "11",
     name: "Jim Green",
-    age: 42,
-    address: "London No. 1 Lake Park",
-    tags: ["loser"],
+    age: "0956464646",
+    address: "Phú Nhuận , Hồ Chí Minh",
+    tags: "xuankhuong1407@gmail.com",
   },
   {
     key: "12",
     name: "Joe Black",
-    age: 32,
+    age: "0956464646",
     address: "Sidney No. 1 Lake Park",
-    tags: ["cool", "teacher"],
+    tags: "xuankhuong1407@gmail.com",
   },
   {
     key: "13",
     name: "John Brown",
     age: 32,
-    address: "New York No. 1 Lake Park",
-    tags: ["nice", "developer"],
+    address: "Phú Nhuận , Hồ Chí Minh",
+    tags: "xuankhuong1407@gmail.com",
   },
   {
     key: "15",
     name: "Jim Green",
     age: 42,
-    address: "London No. 1 Lake Park",
-    tags: ["loser"],
+    address: "Phú Nhuận , Hồ Chí Minh",
+    tags: "xuankhuong1407@gmail.com",
   },
 ];
 const columns = ref([
@@ -162,26 +147,22 @@ const columns = ref([
     width: 150,
   },
   {
-    title: "Age",
+    title: "Số điện thoại",
     dataIndex: "age",
     key: "age",
-    resizable: true,
-    width: 100,
-    minWidth: 100,
-    maxWidth: 200,
   },
   {
-    title: "Address",
+    title: "Địa chỉ",
     dataIndex: "address",
     key: "address",
   },
   {
-    title: "Tags",
+    title: "Email",
     key: "tags",
     dataIndex: "tags",
   },
   {
-    title: "Action",
+    title: "Sửa",
     key: "action",
   },
 ]);
