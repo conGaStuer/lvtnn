@@ -1,50 +1,40 @@
 <template>
   <a-table
     :columns="columns"
-    :data-source="data"
+    :data-source="groupedData"
     @resizeColumn="handleResizeColumn"
     :pagination="pagination"
     class="table"
   >
     <template #headerCell="{ column }">
-      <template v-if="column.key === 'name'">
+      <template v-if="column.key === 'maNN'">
         <span>
           <smile-outlined />
-          Mã Sách
+          Mã Ngôn Ngữ
         </span>
       </template>
-      <template v-else-if="column.key === 'bookName'">
-        <span> Tên Sách </span>
-      </template>
-      <template v-else-if="column.key === 'language'">
-        <span> Ngôn Ngữ </span>
-      </template>
-      <template v-else-if="column.key === 'image'">
-        <span> Hình Ảnh </span>
-      </template>
-      <template v-else-if="column.key === 'action'">
-        <span> Thao tác </span>
+      <template v-if="column.key === 'tenNN'">
+        <span> Tên Ngôn Ngữ </span>
       </template>
     </template>
 
     <template #bodyCell="{ column, record }">
-      <template v-if="column.key === 'name'">
-        <a>
-          {{ record.name }}
-        </a>
+      <template v-if="column.key === 'maNN'">
+        <span>
+          {{ record.MaNgonNgu }}
+        </span>
       </template>
-      <template v-else-if="column.key === 'bookName'">
-        {{ record.bookName }}
+      <template v-else-if="column.key === 'tenNN'">
+        <span>
+          {{ record.NgonNgu }}
+        </span>
       </template>
-      <template v-else-if="column.key === 'language'">
-        {{ record.language }}
-      </template>
-      <template v-else-if="column.key === 'image'">
-        <img
-          :src="record.image"
-          style="max-width: 90px; max-height: 95px"
-          alt="Image"
-        />
+      <template v-else-if="column.key === 'books'">
+        <ul>
+          <li v-for="book in record.Books" :key="book.MaSach">
+            Mã Sách: {{ book.MaSach }} - Tên Sách: {{ book.TenSach }}
+          </li>
+        </ul>
       </template>
       <template v-else-if="column.key === 'action'">
         <span>
@@ -65,103 +55,43 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
-const data = [
-  // Dữ liệu sách
-  {
-    key: "1",
-    name: 1,
-    bookName: "Tên Sách Thứ",
-    quantity: 10,
-    price: "25000 đồng",
-    image:
-      "https://m.media-amazon.com/images/I/614sazJczJL._AC_UF1000,1000_QL80_DpWeblab_.jpg",
-    language: "Tiếng Anh",
-  },
-  {
-    key: "1",
-    name: 1,
-    bookName: "Tên Sách Thứ",
-    quantity: 10,
-    price: "25000 đồng",
-    image:
-      "https://m.media-amazon.com/images/I/614sazJczJL._AC_UF1000,1000_QL80_DpWeblab_.jpg",
-    language: "Tiếng Anh",
-  },
-  {
-    key: "1",
-    name: 1,
-    bookName: "Tên Sách Thứ",
-    quantity: 10,
-    price: "25000 đồng",
-    image:
-      "https://m.media-amazon.com/images/I/614sazJczJL._AC_UF1000,1000_QL80_DpWeblab_.jpg",
-    language: "Tiếng Anh",
-  },
-  {
-    key: "1",
-    name: 1,
-    bookName: "Tên Sách Thứ",
-    quantity: 10,
-    price: "25000 đồng",
-    image:
-      "https://m.media-amazon.com/images/I/614sazJczJL._AC_UF1000,1000_QL80_DpWeblab_.jpg",
-    language: "Tiếng Anh",
-  },
-  {
-    key: "1",
-    name: 1,
-    bookName: "Tên Sách Thứ",
-    quantity: 10,
-    price: "25000 đồng",
-    image:
-      "https://m.media-amazon.com/images/I/614sazJczJL._AC_UF1000,1000_QL80_DpWeblab_.jpg",
-    language: "Tiếng Anh",
-  },
+import axios from "axios";
+import { onMounted, ref } from "vue";
 
-  {
-    key: "1",
-    name: 1,
-    bookName: "Tên Sách Thứ",
-    quantity: 10,
-    price: "25000 đồng",
-    image:
-      "https://m.media-amazon.com/images/I/614sazJczJL._AC_UF1000,1000_QL80_DpWeblab_.jpg",
-    language: "Tiếng Anh",
-  },
-  {
-    key: "1",
-    name: 1,
-    bookName: "Tên Sách Thứ",
-    quantity: 10,
-    price: "25000 đồng",
-    image:
-      "https://m.media-amazon.com/images/I/614sazJczJL._AC_UF1000,1000_QL80_DpWeblab_.jpg",
-    language: "Tiếng Anh",
-  },
-];
+const data = ref([]);
+const groupedData = ref([]);
+
+onMounted(() => {
+  axios
+    .get("http://localhost/LVTN/book-store/src/api/admin/getAllBooks.php")
+    .then((res) => {
+      data.value = res.data;
+      groupBooksByCategory();
+      console.log(groupedData.value);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
 const columns = ref([
   {
-    dataIndex: "name",
-    key: "name",
+    title: "Mã Ngôn Ngữ",
+    dataIndex: "maNN",
+    key: "maNN",
     width: 50,
   },
   {
-    title: "Tên Sách",
-    dataIndex: "bookName",
-    key: "bookName",
-    width: 300,
+    title: "Tên Ngôn Ngữ",
+    dataIndex: "tenNN",
+    key: "tenNN",
+    width: 270,
   },
   {
-    title: "Ngôn Ngữ",
-    dataIndex: "language",
-    key: "language",
-    width: 150,
-  },
-  {
-    title: "Hình Ảnh",
-    key: "image",
-    dataIndex: "image",
+    title: "Sách",
+    key: "books",
+    dataIndex: "books",
+    width: 800,
   },
   {
     title: "Thao tác",
@@ -169,23 +99,43 @@ const columns = ref([
     width: 160,
   },
 ]);
+
 function handleResizeColumn(w, col) {
   col.width = w;
 }
+
 const pagination = ref({
-  pageSize: 4,
-  pageSizeOptions: ["5", "10", "20", "50"],
-  showSizeChanger: true,
-  showQuickJumper: true,
-  showTotal: (total) => `Tổng cộng ${total} sách`,
+  pageSize: 2, // Number of items per page
+  pageSizeOptions: ["5", "10", "20", "50"], // Optional: Allow users to change page size
+  showSizeChanger: true, // Optional: Display the page size changer
+  showQuickJumper: true, // Optional: Display quick jumper
+  showTotal: (total) => `Tổng cộng ${total} ngôn ngữ`, // Optional: Display total number of items
 });
+
+function groupBooksByCategory() {
+  const groups = {};
+
+  data.value.forEach((book) => {
+    const { MaNgonNgu, NgonNgu, MaSach, TenSach } = book;
+    if (!groups[MaNgonNgu]) {
+      groups[MaNgonNgu] = {
+        MaNgonNgu,
+        NgonNgu,
+        Books: [],
+      };
+    }
+    groups[MaNgonNgu].Books.push({ MaSach, TenSach });
+  });
+
+  groupedData.value = Object.values(groups);
+}
 </script>
 
 <style scoped>
 .ant-table-row {
-  height: 135px;
+  height: 125px;
 }
-.ant-table {
+.ant-table-cell {
   text-align: center;
 }
 </style>

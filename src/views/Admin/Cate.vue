@@ -1,50 +1,40 @@
 <template>
   <a-table
     :columns="columns"
-    :data-source="data"
+    :data-source="groupedData"
     @resizeColumn="handleResizeColumn"
     :pagination="pagination"
     class="table"
   >
     <template #headerCell="{ column }">
-      <template v-if="column.key === 'name'">
+      <template v-if="column.key === 'maDM'">
         <span>
           <smile-outlined />
-          Mã Sách
+          Mã Danh Mục
         </span>
       </template>
-      <template v-else-if="column.key === 'bookName'">
-        <span> Tên Sách </span>
-      </template>
-      <template v-else-if="column.key === 'categoryName'">
+      <template v-if="column.key === 'tenDM'">
         <span> Tên Danh Mục </span>
-      </template>
-      <template v-else-if="column.key === 'image'">
-        <span> Hình Ảnh </span>
-      </template>
-      <template v-else-if="column.key === 'action'">
-        <span> Thao tác </span>
       </template>
     </template>
 
     <template #bodyCell="{ column, record }">
-      <template v-if="column.key === 'name'">
-        <a>
-          {{ record.name }}
-        </a>
+      <template v-if="column.key === 'maDM'">
+        <span>
+          {{ record.MaDanhMuc }}
+        </span>
       </template>
-      <template v-else-if="column.key === 'bookName'">
-        {{ record.bookName }}
+      <template v-else-if="column.key === 'tenDM'">
+        <span>
+          {{ record.DanhMuc }}
+        </span>
       </template>
-      <template v-else-if="column.key === 'categoryName'">
-        {{ record.categoryName }}
-      </template>
-      <template v-else-if="column.key === 'image'">
-        <img
-          :src="record.image"
-          style="max-width: 90px; max-height: 95px"
-          alt="Image"
-        />
+      <template v-else-if="column.key === 'books'">
+        <ul>
+          <li v-for="book in record.Books" :key="book.MaSach">
+            Mã Sách: {{ book.MaSach }} - Tên Sách: {{ book.TenSach }}
+          </li>
+        </ul>
       </template>
       <template v-else-if="column.key === 'action'">
         <span>
@@ -65,123 +55,43 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
-const data = [
-  {
-    key: "1",
-    name: 1,
-    bookName: "Tên Sách Thứ",
-    quantity: 10,
-    price: "25000 đồng",
-    image:
-      "https://m.media-amazon.com/images/I/614sazJczJL._AC_UF1000,1000_QL80_DpWeblab_.jpg",
-    categoryName: "Tên Danh Mục 1",
-  },
-  {
-    key: "1",
-    name: 1,
-    bookName: "Tên Sách Thứ",
-    quantity: 10,
-    price: "25000 đồng",
-    image:
-      "https://m.media-amazon.com/images/I/614sazJczJL._AC_UF1000,1000_QL80_DpWeblab_.jpg",
-    categoryName: "Tên Danh Mục 1",
-  },
-  {
-    key: "1",
-    name: 1,
-    bookName: "Tên Sách Thứ",
-    quantity: 10,
-    price: "25000 đồng",
-    image:
-      "https://m.media-amazon.com/images/I/614sazJczJL._AC_UF1000,1000_QL80_DpWeblab_.jpg",
-    categoryName: "Tên Danh Mục 1",
-  },
-  {
-    key: "1",
-    name: 1,
-    bookName: "Tên Sách Thứ",
-    quantity: 10,
-    price: "25000 đồng",
-    image:
-      "https://m.media-amazon.com/images/I/614sazJczJL._AC_UF1000,1000_QL80_DpWeblab_.jpg",
-    categoryName: "Tên Danh Mục 1",
-  },
-  {
-    key: "1",
-    name: 1,
-    bookName: "Tên Sách Thứ",
-    quantity: 10,
-    price: "25000 đồng",
-    image:
-      "https://m.media-amazon.com/images/I/614sazJczJL._AC_UF1000,1000_QL80_DpWeblab_.jpg",
-    categoryName: "Tên Danh Mục 1",
-  },
-  {
-    key: "1",
-    name: 1,
-    bookName: "Tên Sách Thứ",
-    quantity: 10,
-    price: "25000 đồng",
-    image:
-      "https://m.media-amazon.com/images/I/614sazJczJL._AC_UF1000,1000_QL80_DpWeblab_.jpg",
-    categoryName: "Tên Danh Mục 1",
-  },
-  {
-    key: "1",
-    name: 1,
-    bookName: "Tên Sách Thứ",
-    quantity: 10,
-    price: "25000 đồng",
-    image:
-      "https://m.media-amazon.com/images/I/614sazJczJL._AC_UF1000,1000_QL80_DpWeblab_.jpg",
-    categoryName: "Tên Danh Mục 1",
-  },
-  {
-    key: "1",
-    name: 1,
-    bookName: "Tên Sách Thứ",
-    quantity: 10,
-    price: "25000 đồng",
-    image:
-      "https://m.media-amazon.com/images/I/614sazJczJL._AC_UF1000,1000_QL80_DpWeblab_.jpg",
-    categoryName: "Tên Danh Mục 1",
-  },
-  {
-    key: "1",
-    name: 1,
-    bookName: "Tên Sách Thứ",
-    quantity: 10,
-    price: "25000 đồng",
-    image:
-      "https://m.media-amazon.com/images/I/614sazJczJL._AC_UF1000,1000_QL80_DpWeblab_.jpg",
-    categoryName: "Tên Danh Mục 1",
-  },
+import axios from "axios";
+import { onMounted, ref } from "vue";
 
-  // Các dòng dữ liệu khác
-];
+const data = ref([]);
+const groupedData = ref([]);
+
+onMounted(() => {
+  axios
+    .get("http://localhost/LVTN/book-store/src/api/admin/getAllBooks.php")
+    .then((res) => {
+      data.value = res.data;
+      groupBooksByCategory();
+      console.log(groupedData.value);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
 const columns = ref([
   {
-    dataIndex: "name",
-    key: "name",
+    title: "Mã Danh Mục",
+    dataIndex: "maDM",
+    key: "maDM",
     width: 50,
   },
   {
-    title: "Tên Sách",
-    dataIndex: "bookName",
-    key: "bookName",
-    width: 300,
-  },
-  {
     title: "Tên Danh Mục",
-    dataIndex: "categoryName",
-    key: "categoryName",
-    width: 150,
+    dataIndex: "tenDM",
+    key: "tenDM",
+    width: 270,
   },
   {
-    title: "Hình Ảnh",
-    key: "image",
-    dataIndex: "image",
+    title: "Sách",
+    key: "books",
+    dataIndex: "books",
+    width: 800,
   },
   {
     title: "Thao tác",
@@ -189,23 +99,43 @@ const columns = ref([
     width: 160,
   },
 ]);
+
 function handleResizeColumn(w, col) {
   col.width = w;
 }
+
 const pagination = ref({
-  pageSize: 4, // Số lượng mục trên mỗi trang
-  pageSizeOptions: ["5", "10", "20", "50"], // Tùy chọn: Cho phép người dùng thay đổi số lượng mục trên mỗi trang
-  showSizeChanger: true, // Tùy chọn: Hiển thị công cụ thay đổi số lượng mục trên mỗi trang
-  showQuickJumper: true, // Tùy chọn: Hiển thị công cụ nhảy nhanh
-  showTotal: (total) => `Tổng cộng ${total} sách`, // Tùy chọn: Hiển thị tổng số mục
+  pageSize: 3, // Number of items per page
+  pageSizeOptions: ["5", "10", "20", "50"], // Optional: Allow users to change page size
+  showSizeChanger: true, // Optional: Display the page size changer
+  showQuickJumper: true, // Optional: Display quick jumper
+  showTotal: (total) => `Tổng cộng ${total} danh mục`, // Optional: Display total number of items
 });
+
+function groupBooksByCategory() {
+  const groups = {};
+
+  data.value.forEach((book) => {
+    const { MaDanhMuc, DanhMuc, MaSach, TenSach } = book;
+    if (!groups[MaDanhMuc]) {
+      groups[MaDanhMuc] = {
+        MaDanhMuc,
+        DanhMuc,
+        Books: [],
+      };
+    }
+    groups[MaDanhMuc].Books.push({ MaSach, TenSach });
+  });
+
+  groupedData.value = Object.values(groups);
+}
 </script>
 
 <style scoped>
 .ant-table-row {
-  height: 135px;
+  height: 125px;
 }
-.ant-table {
+.ant-table-cell {
   text-align: center;
 }
 </style>

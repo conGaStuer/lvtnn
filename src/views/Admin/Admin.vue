@@ -101,6 +101,7 @@ const handleMenuClick = (e) => {
 .container {
   display: flex;
   height: 100vh;
+  overflow: hidden;
 }
 .menu {
   width: 256px;

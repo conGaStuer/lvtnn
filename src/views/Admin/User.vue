@@ -6,7 +6,7 @@
     class="table"
   >
     <template #headerCell="{ column }">
-      <template v-if="column.key === 'name'">
+      <template v-if="column.key === 'tenKH'">
         <span>
           <smile-outlined />
           Tên Người Dùng
@@ -15,16 +15,14 @@
     </template>
 
     <template #bodyCell="{ column, record }">
-      <template v-if="column.key === 'name'">
+      <template v-if="column.key === 'tenKH'">
         <a>
-          {{ record.name }}
+          {{ record.tenKH }}
         </a>
       </template>
-      <template v-else-if="column.key === 'tag'">
+      <template v-else-if="column.key === 'sdt'">
         <span>
-          <a-tag>
-            {{ tag }}
-          </a-tag>
+          {{ record.sdt }}
         </span>
       </template>
       <template v-else-if="column.key === 'action'">
@@ -38,128 +36,49 @@
   </a-table>
 </template>
 <script setup>
-import { ref } from "vue";
-const data = [
-  {
-    key: "1",
-    name: "John Brown",
-    age: "0956464646",
-    address: "Phú Nhuận , Hồ Chí Minh",
-    tags: "xuankhuong1402@gmail.com",
-  },
-  {
-    key: "2",
-    name: "Jim Green",
-    age: "0956464646",
-    address: "Phú Nhuận , Hồ Chí Minh",
-    tags: "xuankhuong1403@gmail.com",
-  },
-  {
-    key: "3",
-    name: "Joe Black",
-    age: "0956464646",
-    address: "Sidney No. 1 Lake Park",
-    tags: "xuankhuong1404@gmail.com",
-  },
-  {
-    key: "4",
-    name: "John Brown",
-    age: "0956464646",
-    address: "Phú Nhuận , Hồ Chí Minh",
-    tags: "xuankhuong1405@gmail.com",
-  },
-  {
-    key: "5",
-    name: "Jim Green",
-    age: "0956464646",
-    address: "Phú Nhuận , Hồ Chí Minh",
-    tags: "xuankhuong1406@gmail.com",
-  },
-  {
-    key: "6",
-    name: "Joe Black",
-    age: "0956464646",
-    address: "Sidney No. 1 Lake Park",
-    tags: "xuankhuong1407@gmail.com",
-  },
-  {
-    key: "7",
-    name: "John Brown",
-    age: "0956464646",
-    address: "Phú Nhuận , Hồ Chí Minh",
-    tags: "xuankhuong1407@gmail.com",
-  },
-  {
-    key: "8",
-    name: "Jim Green",
-    age: "0956464646",
-    address: "Phú Nhuận , Hồ Chí Minh",
-    tags: "xuankhuong1407@gmail.com",
-  },
-  {
-    key: "9",
-    name: "Joe Black",
-    age: "0956464646",
-    address: "Sidney No. 1 Lake Park",
-    tags: "xuankhuong1407@gmail.com",
-  },
-  {
-    key: "10",
-    name: "John Brown",
-    age: "0956464646",
-    address: "Phú Nhuận , Hồ Chí Minh",
-    tags: "xuankhuong1407@gmail.com",
-  },
-  {
-    key: "11",
-    name: "Jim Green",
-    age: "0956464646",
-    address: "Phú Nhuận , Hồ Chí Minh",
-    tags: "xuankhuong1407@gmail.com",
-  },
-  {
-    key: "12",
-    name: "Joe Black",
-    age: "0956464646",
-    address: "Sidney No. 1 Lake Park",
-    tags: "xuankhuong1407@gmail.com",
-  },
-  {
-    key: "13",
-    name: "John Brown",
-    age: 32,
-    address: "Phú Nhuận , Hồ Chí Minh",
-    tags: "xuankhuong1407@gmail.com",
-  },
-  {
-    key: "15",
-    name: "Jim Green",
-    age: 42,
-    address: "Phú Nhuận , Hồ Chí Minh",
-    tags: "xuankhuong1407@gmail.com",
-  },
-];
+import axios from "axios";
+import { onMounted, ref } from "vue";
+// {
+//     key: "1",
+//     name: "John Brown",
+//     age: "0956464646",
+//     address: "Phú Nhuận , Hồ Chí Minh",
+//     tags: "xuankhuong1402@gmail.com",
+//   },
+const data = ref();
+
+onMounted(() => {
+  axios
+    .get("http://localhost/LVTN/book-store/src/api/admin/getAllUser.php")
+    .then((res) => {
+      data.value = res.data;
+      console.log(data.value);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
 const columns = ref([
   {
-    dataIndex: "name",
-    key: "name",
+    dataIndex: "tenKH",
+    key: "tenKH",
     resizable: true,
     width: 150,
   },
   {
     title: "Số điện thoại",
-    dataIndex: "age",
-    key: "age",
+    dataIndex: "sdt",
+    key: "sdt",
   },
   {
     title: "Địa chỉ",
-    dataIndex: "address",
-    key: "address",
+    dataIndex: "diachi",
+    key: "diachi",
   },
   {
     title: "Email",
-    key: "tags",
-    dataIndex: "tags",
+    key: "email",
+    dataIndex: "email",
   },
   {
     title: "Sửa",

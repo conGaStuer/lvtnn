@@ -117,10 +117,10 @@ export default {
       }
     };
 
-    const fetchBooksByCategory = async (categoryId) => {
+    const fetchBooksByCategory = async (categoryName) => {
       try {
         const response = await axios.get(
-          `http://localhost/LVTN/book-store/src/api/getCategory.php?categoryId=${categoryId}`
+          `http://localhost/LVTN/book-store/src/api/getCategory.php?categoryName=${categoryName}`
         );
         if (response.data) {
           books.value = response.data;
@@ -131,15 +131,15 @@ export default {
     };
 
     const updateBooks = () => {
-      const categoryId = route.params.id;
-      console.log("Category ID: ", categoryId); // Debugging statement
-      if (categoryId) {
-        fetchBooksByCategory(categoryId);
+      const categoryName = route.params.name;
+      console.log("Category ID: ", categoryName); // Debugging statement
+      if (categoryName) {
+        fetchBooksByCategory(categoryName);
       }
     };
 
     watch(
-      () => route.params.id,
+      () => route.params.name,
       (newId, oldId) => {
         console.log("Route ID changed:", newId); // Debugging statement
         if (newId !== oldId) {
@@ -187,334 +187,334 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-}
-.list-cate {
-  width: 300px;
-  height: 800px;
-  position: relative;
-  top: -120px;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  p {
-    font-weight: bold;
-    font-size: 20px;
-  }
-  a {
-    text-decoration: none;
-    color: #333;
-  }
-  li {
-    list-style: none;
-    margin-bottom: 20px;
-    font-style: italic;
+  .list-cate {
+    width: 300px;
+    height: 800px;
     position: relative;
-    left: -40px;
-    font-size: 17px;
+    top: 0px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    p {
+      font-weight: bold;
+      font-size: 20px;
+    }
+    a {
+      text-decoration: none;
+      color: #333;
+    }
+    li {
+      list-style: none;
+      margin-bottom: 20px;
+      font-style: italic;
+      position: relative;
+      left: -40px;
+      font-size: 17px;
+    }
   }
-}
-.book-grid {
-  font-family: "Noto Sans";
-  padding: 20px;
-  a {
-    text-decoration: none;
-    color: #333;
-  }
-  .container {
-    max-width: 900px;
-    padding-top: 100px;
-    .header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 60px;
-      width: 98.5%;
-
-      .view-options {
-        button {
-          margin-right: 10px;
-          border: none;
-          width: 35px;
-          height: 35px;
-          cursor: pointer;
-          background-color: white;
-          border: 1px solid rgb(187, 180, 180);
-          font-weight: bold;
-          color: rgb(187, 180, 180);
-          &.active {
-            border: 1px solid #333;
-            color: #333;
-          }
-        }
-      }
-
-      .filter {
+  .book-grid {
+    font-family: "Noto Sans";
+    padding: 20px;
+    a {
+      text-decoration: none;
+      color: #333;
+    }
+    .container {
+      max-width: 900px;
+      padding-top: 100px;
+      .header {
         display: flex;
         align-items: center;
-        div {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          border: 0.5px solid rgb(187, 180, 180);
-          padding: 9px 25px;
-          cursor: pointer;
-          margin-right: 20px;
-          color: rgb(187, 180, 180);
+        justify-content: space-between;
+        margin-bottom: 60px;
+        width: 98.5%;
 
-          i {
+        .view-options {
+          button {
             margin-right: 10px;
-          }
-        }
-
-        select {
-          width: 215px;
-          font-family: "Noto Sans";
-          color: rgb(187, 180, 180);
-
-          padding: 10px;
-          border: 0.5px solid rgb(187, 180, 180);
-          cursor: pointer;
-        }
-      }
-    }
-
-    .grid-view {
-      display: flex;
-      flex-wrap: wrap;
-
-      width: 100%;
-      .book {
-        background: #fff;
-        border-radius: 10px;
-        overflow: hidden;
-        margin: 20px 10px;
-        flex-basis: calc(30% - 20px);
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        position: relative;
-        cursor: pointer;
-        height: 570px;
-        width: 400px;
-        .image-container {
-          position: relative;
-          width: 100%;
-          height: 65%;
-          background-color: #f8f9fa;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          border-radius: 8px;
-          border-bottom-left-radius: 0px;
-        }
-
-        img {
-          width: 70%;
-          height: 80%;
-          border-radius: 8px;
-          box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
-        }
-
-        .overlay {
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          background: rgba(#dd907b, 0.7);
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          gap: 10px;
-          height: 100%;
-        }
-
-        .overlay .icon {
-          font-size: 18px;
-          color: black;
-          cursor: pointer;
-          transition: all 0.3s ease-in-out;
-          width: 50px;
-          height: 50px;
-          background-color: #f0f0f0;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
-
-        .overlay .icon:hover {
-          background-color: black;
-          color: #fff;
-        }
-
-        .book-details {
-          padding: 15px;
-          text-align: left;
-          width: 100%;
-          height: 35%;
-          .category {
-            color: #666;
-            font-size: 14px;
-            margin-bottom: 5px;
-          }
-
-          h3 {
-            font-size: 18px;
-            margin: 5px 0;
-          }
-
-          .author {
-            color: #999;
-            font-size: 14px;
-            margin-bottom: 10px;
-          }
-
-          .price {
-            font-size: 16px;
-            font-weight: bold;
-            color: #f28b82;
-            position: relative;
-            top: -10px;
-          }
-          .detail {
-            display: none;
-          }
-          button {
-            display: none;
-          }
-        }
-      }
-    }
-
-    .list-view {
-      width: 100%;
-      display: flex;
-      flex-wrap: wrap;
-      .book {
-        display: flex;
-        background: #fff;
-        border-radius: 10px;
-        overflow: hidden;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        margin-bottom: 20px;
-        position: relative;
-        cursor: pointer;
-        height: 280px;
-        width: 100%;
-        .image-container {
-          position: relative;
-          width: 25%;
-          height: 100%;
-          background-color: #f8f9fa;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          border-radius: 8px;
-          border-bottom-left-radius: 0px;
-        }
-
-        img {
-          width: 70%;
-          height: 80%;
-          border-radius: 8px;
-          box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
-        }
-
-        .overlay {
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          background: rgba(#dd907b, 0.7);
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          gap: 10px;
-          height: 100%;
-        }
-
-        .overlay .icon {
-          font-size: 18px;
-          color: black;
-          cursor: pointer;
-          transition: all 0.3s ease-in-out;
-          width: 50px;
-          height: 50px;
-          background-color: #f0f0f0;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          display: none;
-        }
-
-        .overlay .icon:hover {
-          background-color: black;
-          color: #fff;
-        }
-        .book-details {
-          padding: 15px;
-          text-align: left;
-          width: 60%;
-          .category {
-            color: #666;
-            font-size: 14px;
-            margin-bottom: 5px;
-          }
-
-          h3 {
-            font-size: 18px;
-            margin: 5px 0;
-          }
-
-          .author {
-            color: #999;
-            font-size: 14px;
-            margin-bottom: 10px;
-          }
-
-          .price {
-            font-size: 16px;
-            font-weight: bold;
-            color: #e55a5a;
-          }
-          .detail {
-            font-size: 12.5px;
-            width: 500px;
-            color: #999;
-          }
-          button {
-            width: 40px;
-            height: 40px;
-            position: relative;
-            top: 5px;
-            background-color: black;
             border: none;
-            border-radius: 2px;
+            width: 35px;
+            height: 35px;
             cursor: pointer;
+            background-color: white;
+            border: 1px solid rgb(187, 180, 180);
+            font-weight: bold;
+            color: rgb(187, 180, 180);
+            &.active {
+              border: 1px solid #333;
+              color: #333;
+            }
+          }
+        }
+
+        .filter {
+          display: flex;
+          align-items: center;
+          div {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 0.5px solid rgb(187, 180, 180);
+            padding: 9px 25px;
+            cursor: pointer;
+            margin-right: 20px;
+            color: rgb(187, 180, 180);
+
             i {
-              color: white;
-              &::after {
-                content: "Xem giỏ hàng";
-                position: absolute;
-                top: -30px;
-                left: 0;
-                opacity: 0;
-                font-size: 9px;
-                width: 90px;
-                height: 20px;
-                background-color: black;
+              margin-right: 10px;
+            }
+          }
+
+          select {
+            width: 215px;
+            font-family: "Noto Sans";
+            color: rgb(187, 180, 180);
+
+            padding: 10px;
+            border: 0.5px solid rgb(187, 180, 180);
+            cursor: pointer;
+          }
+        }
+      }
+
+      .grid-view {
+        display: flex;
+        flex-wrap: wrap;
+
+        width: 100%;
+        .book {
+          background: #fff;
+          border-radius: 10px;
+          overflow: hidden;
+          margin: 20px 10px;
+          flex-basis: calc(30% - 20px);
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          position: relative;
+          cursor: pointer;
+          height: 570px;
+          width: 400px;
+          .image-container {
+            position: relative;
+            width: 100%;
+            height: 65%;
+            background-color: #f8f9fa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            border-bottom-left-radius: 0px;
+          }
+
+          img {
+            width: 70%;
+            height: 80%;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+          }
+
+          .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(#dd907b, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            height: 100%;
+          }
+
+          .overlay .icon {
+            font-size: 18px;
+            color: black;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+            width: 50px;
+            height: 50px;
+            background-color: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          }
+
+          .overlay .icon:hover {
+            background-color: black;
+            color: #fff;
+          }
+
+          .book-details {
+            padding: 15px;
+            text-align: left;
+            width: 100%;
+            height: 35%;
+            .category {
+              color: #666;
+              font-size: 14px;
+              margin-bottom: 5px;
+            }
+
+            h3 {
+              font-size: 18px;
+              margin: 5px 0;
+            }
+
+            .author {
+              color: #999;
+              font-size: 14px;
+              margin-bottom: 10px;
+            }
+
+            .price {
+              font-size: 16px;
+              font-weight: bold;
+              color: #f28b82;
+              position: relative;
+              top: -10px;
+            }
+            .detail {
+              display: none;
+            }
+            button {
+              display: none;
+            }
+          }
+        }
+      }
+
+      .list-view {
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        .book {
+          display: flex;
+          background: #fff;
+          border-radius: 10px;
+          overflow: hidden;
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+          margin-bottom: 20px;
+          position: relative;
+          cursor: pointer;
+          height: 280px;
+          width: 100%;
+          .image-container {
+            position: relative;
+            width: 25%;
+            height: 100%;
+            background-color: #f8f9fa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            border-bottom-left-radius: 0px;
+          }
+
+          img {
+            width: 70%;
+            height: 80%;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+          }
+
+          .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(#dd907b, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            height: 100%;
+          }
+
+          .overlay .icon {
+            font-size: 18px;
+            color: black;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+            width: 50px;
+            height: 50px;
+            background-color: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            display: none;
+          }
+
+          .overlay .icon:hover {
+            background-color: black;
+            color: #fff;
+          }
+          .book-details {
+            padding: 15px;
+            text-align: left;
+            width: 60%;
+            .category {
+              color: #666;
+              font-size: 14px;
+              margin-bottom: 5px;
+            }
+
+            h3 {
+              font-size: 18px;
+              margin: 5px 0;
+            }
+
+            .author {
+              color: #999;
+              font-size: 14px;
+              margin-bottom: 10px;
+            }
+
+            .price {
+              font-size: 16px;
+              font-weight: bold;
+              color: #e55a5a;
+            }
+            .detail {
+              font-size: 12.5px;
+              width: 500px;
+              color: #999;
+            }
+            button {
+              width: 40px;
+              height: 40px;
+              position: relative;
+              top: 5px;
+              background-color: black;
+              border: none;
+              border-radius: 2px;
+              cursor: pointer;
+              i {
                 color: white;
-                text-align: center;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                transition: all 0.3s ease-in-out;
-                border-radius: 2px;
-                font-family: "Noto Sans";
-              }
-              &:hover {
                 &::after {
+                  content: "Xem giỏ hàng";
+                  position: absolute;
+                  top: -30px;
+                  left: 0;
+                  opacity: 0;
+                  font-size: 9px;
+                  width: 90px;
+                  height: 20px;
+                  background-color: black;
+                  color: white;
+                  text-align: center;
                   display: flex;
-                  opacity: 1;
+                  align-items: center;
+                  justify-content: center;
+                  transition: all 0.3s ease-in-out;
+                  border-radius: 2px;
+                  font-family: "Noto Sans";
+                }
+                &:hover {
+                  &::after {
+                    display: flex;
+                    opacity: 1;
+                  }
                 }
               }
             }
@@ -523,14 +523,14 @@ export default {
       }
     }
   }
-}
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.5s;
-}
+  .fade-enter-active,
+  .fade-leave-active {
+    transition: opacity 0.5s;
+  }
 
-.fade-enter,
-.fade-leave-to {
-  opacity: 0;
+  .fade-enter,
+  .fade-leave-to {
+    opacity: 0;
+  }
 }
 </style>

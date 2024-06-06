@@ -7,42 +7,45 @@
     class="table"
   >
     <template #headerCell="{ column }">
-      <template v-if="column.key === 'name'">
+      <template v-if="column.key === 'maKM'">
         <span>
           <smile-outlined />
           Mã Khuyến Mãi
         </span>
       </template>
-      <template v-else-if="column.key === 'bookName'">
+      <template v-if="column.key === 'tenSach'">
         <span> Tên Sách </span>
       </template>
-      <template v-else-if="column.key === 'discountCode'">
+      <template v-if="column.key === 'maSach'">
         <span> Mã Sách Áp dụng </span>
       </template>
-      <template v-else-if="column.key === 'discountAmount'">
+      <template v-if="column.key === 'luongKM'">
         <span> Lượng Khuyến Mãi </span>
       </template>
-      <template v-else-if="column.key === 'action'">
+      <template v-if="column.key === 'action'">
         <span> Thao tác </span>
       </template>
     </template>
 
     <template #bodyCell="{ column, record }">
-      <template v-if="column.key === 'name'">
+      <template v-if="column.key === 'maKM'">
         <a>
-          {{ record.name }}
+          {{ record.MaKhuyenMai }}
         </a>
       </template>
-      <template v-else-if="column.key === 'bookName'">
-        {{ record.bookName }}
+      <template v-if="column.key === 'tenSach'">
+        <span v-for="(sach, index) in record.TenSach.split(', ')" :key="index">
+          * {{ sach }}
+          <br />
+        </span>
       </template>
-      <template v-else-if="column.key === 'discountCode'">
-        {{ record.discountCode }}
+      <template v-if="column.key === 'maSach'">
+        {{ record.MaSach }}
       </template>
-      <template v-else-if="column.key === 'discountAmount'">
-        {{ record.discountAmount }}%
+      <template v-if="column.key === 'luongKM'">
+        {{ record.LuongKhuyenMai }}%
       </template>
-      <template v-else-if="column.key === 'action'">
+      <template v-if="column.key === 'action'">
         <span>
           <a>Thêm</a>
           <a-divider type="vertical" />
@@ -61,43 +64,46 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import axios from "axios";
+import { onMounted, ref } from "vue";
 
-// Dữ liệu mẫu
-const data = [
-  {
-    key: "1",
-    name: 1,
-    bookName: "Tên Sách Thứ",
-    discountCode: "1,4,6,7",
-    discountAmount: 20,
-  },
-  // Các dòng dữ liệu khác
-];
+const data = ref([]);
 
-// Cấu trúc cột của bảng
+onMounted(() => {
+  axios
+    .get("http://localhost/LVTN/book-store/src/api/admin/getDiscount.php")
+    .then((res) => {
+      data.value = res.data;
+      console.log(data.value);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
 const columns = ref([
   {
-    dataIndex: "name",
-    key: "name",
+    title: "Mã Khuyến Mãi",
+    dataIndex: "maKM",
+    key: "maKM",
     width: 50,
   },
   {
     title: "Tên Sách",
-    dataIndex: "bookName",
-    key: "bookName",
+    dataIndex: "tenSach",
+    key: "tenSach",
     width: 300,
   },
   {
     title: "Mã Sách",
-    dataIndex: "discountCode",
-    key: "discountCode",
+    dataIndex: "maSach",
+    key: "maSach",
     width: 150,
   },
   {
     title: "Lượng Khuyến Mãi",
-    dataIndex: "discountAmount",
-    key: "discountAmount",
+    dataIndex: "luongKM",
+    key: "luongKM",
     width: 150,
   },
   {
@@ -107,18 +113,16 @@ const columns = ref([
   },
 ]);
 
-// Xử lý khi thay đổi kích thước cột
 function handleResizeColumn(w, col) {
   col.width = w;
 }
 
-// Cấu hình phân trang
 const pagination = ref({
-  pageSize: 4,
+  pageSize: 2,
   pageSizeOptions: ["5", "10", "20", "50"],
   showSizeChanger: true,
   showQuickJumper: true,
-  showTotal: (total) => `Tổng cộng ${total} sách`,
+  showTotal: (total) => `Tổng cộng ${total} khuyến mãi`,
 });
 </script>
 

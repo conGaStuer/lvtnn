@@ -1,9 +1,8 @@
 <?php
-
 include "config.php";
 
-if (isset($_GET['categoryId'])) {
-    $categoryId = $_GET['categoryId'];
+if (isset($_GET['categoryName'])) {
+    $categoryName = $_GET['categoryName'];
     $sql_get_category = "SELECT s.maSach AS MaSach, s.chiTiet AS ChiTiet, nxbs.tenNXB AS NhaXuatBan,
     s.tenSach AS TenSach ,s.hinhAnh AS HinhAnh, s.donGia AS DonGia, tg.tenTG AS TacGia,tg.maTG AS  MaTacGia, 
     nn.tenNN AS NgonNgu, dm.tenDM AS DanhMuc,dm.maDM AS MaDanhMuc
@@ -15,8 +14,8 @@ if (isset($_GET['categoryId'])) {
    INNER JOIN dm_sach AS dms ON s.maSach = dms.maSach
    INNER JOIN danh_muc AS dm ON dms.maDM = dm.maDM 
    INNER JOIN nha_xuat_ban AS nxbs ON s.maNXB = nxbs.maNXB
+   WHERE dm.tenDM = '$categoryName'";
 
-   WHERE dms.maDM = '$categoryId'";
     $books = [];
 
     $result = $conn->query($sql_get_category);
@@ -26,9 +25,11 @@ if (isset($_GET['categoryId'])) {
         }
         echo json_encode($books);
     } else {
-        json_encode(['Error' => "Invalid Book category"]);
-
+        echo json_encode(array("error" => "Không có sách nào thuộc danh mục này"));
     }
-    $conn->close();
+} else {
+    echo json_encode(array("error" => "Không có danh mục được chọn"));
 }
 
+$conn->close();
+?>
