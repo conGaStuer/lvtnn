@@ -20,7 +20,7 @@
       <div class="logo">
         <img src="@/assets/images/logo1.png" alt="BookChoix Logo" />
       </div>
-      <ul class="nav-links">
+      <ul class="nav-links" v-if="isSearch">
         <li class="nav-item">
           <a href="#">TRANG CHỦ </a>
         </li>
@@ -75,9 +75,21 @@
         </li>
         <router-link to="/contact">LIÊN HỆ</router-link>
       </ul>
-
+      <div v-else>
+        <form @submit.prevent="searchProduct" class="searchForm">
+          <input
+            type="text"
+            name=""
+            id=""
+            placeholder="Nhập tên sách, thể loại cần tìm kiếm..."
+            v-model="searchKeyWord"
+            @keyup.enter="searchProduct"
+          />
+          <i class="pi pi-times-circle" @click="showSearchBar"> </i>
+        </form>
+      </div>
       <div class="cart-search">
-        <a href="#" class="wishlist"
+        <a class="wishlist"
           ><i class="fa-solid fa-user" @mouseover="showUserDropdown"></i
         ></a>
         <transition name="fade">
@@ -87,14 +99,14 @@
             @mouseleave="hideUserDropdown"
           >
             <div>
-              <a href="#"
+              <a
                 >Xin chào,
                 {{ currentUser ? currentUser.taikhoan : "Khách hàng" }}!</a
               >
             </div>
 
-            <div><router-link to="/profile" href="#">Hồ sơ</router-link></div>
-            <div><a href="#">Đơn mua</a></div>
+            <div><router-link to="/profile">Hồ sơ</router-link></div>
+            <div><a>Đơn mua</a></div>
             <div>
               <a style="cursor: pointer" @click="handleLogout">{{
                 currentUser ? "Đăng xuất" : "Đăng nhập"
@@ -106,7 +118,9 @@
           <i class="fas fa-shopping-cart"></i>
           <span class="cart-count">0</span>
         </router-link>
-        <a href="#" class="search"><i class="fas fa-search"></i></a>
+        <a class="search" @click="showSearchBar"
+          ><i class="fas fa-search"></i
+        ></a>
       </div>
     </header>
   </div>
@@ -160,6 +174,7 @@
 import { ref, onMounted } from "vue";
 import axios from "axios";
 import { useRouter } from "vue-router";
+import SearchProductVue from "../Pages/SearchProduct.vue";
 export default {
   setup() {
     const showCart = ref(false);
@@ -235,7 +250,18 @@ export default {
         redirectIfLoggedIn();
       }
     });
-
+    const isSearch = ref(true);
+    const showSearchBar = () => {
+      isSearch.value = !isSearch.value;
+    };
+    const searchKeyWord = ref("");
+    const searchProduct = () => {
+      router.push({
+        name: "search",
+        params: { id: searchKeyWord.value },
+      });
+      console.log(searchKeyWord.value);
+    };
     // Trả về các biến và phương thức cần thiết cho component
     return {
       megaMenuVisible,
@@ -253,6 +279,10 @@ export default {
       showCart,
       closeCart,
       showSideCart,
+      isSearch,
+      showSearchBar,
+      searchProduct,
+      searchKeyWord,
     };
   },
 };

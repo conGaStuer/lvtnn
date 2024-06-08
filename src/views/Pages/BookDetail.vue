@@ -63,6 +63,16 @@
             >
           </span>
         </p>
+        <p class="publisher lang">
+          Ngôn ngữ :
+          <router-link
+            :to="{
+              name: 'Languages',
+              params: { id: book.MaNgonNgu, name: book.NgonNgu },
+            }"
+            >{{ book.NgonNgu }}</router-link
+          >
+        </p>
       </div>
     </div>
   </div>
@@ -83,8 +93,39 @@
       </button>
     </nav>
     <div v-if="selectedTab === 'description'">
-      <form action="">
-        <textarea name="" id="" cols="30" rows="10"></textarea>
+      <div class="comment" v-for="comment in comments" :key="comment.maSach">
+        <div
+          class="avatar"
+          :style="{
+            backgroundImage: `url('http://localhost/LVTN/book-store/src/api/${comment.hinh}')`,
+          }"
+        ></div>
+        <div class="comment-info">
+          <div class="comment-user">
+            <span class="taikhoan">{{ comment.taikhoan }}</span> -
+            <span class="time">{{ comment.ngayDG }}</span>
+          </div>
+          <div class="comment-detail">
+            <p>{{ comment.noidung }}</p>
+            <Rating v-model="comment.rating" :cancel="false" class="star" />
+            <span @click="repComment(comment.maDG)">Trả lời</span>
+            <form
+              @submit.prevent="handleComment(comment.maDG)"
+              v-if="isRep === comment.maDG"
+            >
+              <input type="text" name="" id="" v-model="userComment" />
+              <Rating v-model="value" :cancel="false" class="star star1" />
+
+              <button>Gửi</button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <form @submit.prevent="handleComment">
+        <input type="text" name="" id="" v-model="userComment" />
+        <Rating v-model="value" :cancel="false" class="star star1" />
+
         <button>Gửi</button>
       </form>
     </div>
@@ -164,14 +205,18 @@ import { useRoute } from "vue-router";
 import NavBar from "../UI_Components/NavBar.vue";
 import Route from "../UI_Components/Route.vue";
 import Footer from "../UI_Components/Footer.vue";
+import Rating from "primevue/rating";
 
 export default {
   components: {
     NavBar,
     Route,
     Footer,
+    Rating,
   },
   setup() {
+    const value = ref(null);
+
     const book = ref(null);
     const route = useRoute();
     const hover = null;
@@ -215,6 +260,7 @@ export default {
 
     onMounted(() => {
       getDetailBook(route.params.id);
+      getAllComment();
     });
 
     watch(route, (newRoute) => {
@@ -249,6 +295,59 @@ export default {
     };
     const currentUser = JSON.parse(localStorage.getItem("currentUser"));
     const userData = ref({ ...currentUser });
+    console.log(userData.value);
+
+    const userComment = ref();
+    const handleComment = () => {
+      axios
+        .post("http://localhost/LVTN/book-store/src/api/postComment.php", {
+          userId: userData.value.maND,
+          bookId: route.params.id,
+          content: userComment.value,
+          rating: value.value,
+        })
+        .then((res) => {
+          if (res.data === "Danh gia thanh cong") {
+            getAllComment();
+            // window.location.reload();
+            alert("Them thanh cong");
+            userComment.value = ""; // Clear the comment input after successful submission
+            value.value = null; // Reset giá trị rating sau khi gửi thành công
+          } else {
+            console.log("Sai");
+          }
+        })
+        .catch((err) => {
+          console.log("Error", err);
+        });
+    };
+    const comments = ref();
+    const getAllComment = () => {
+      const bookId = route.params.id;
+      axios
+        .get(
+          `http://localhost/LVTN/book-store/src/api/getAllComment.php?bookId=${bookId}`
+        )
+        .then((res) => {
+          if (res.data) {
+            comments.value = res.data;
+            console.log(comments.value);
+          } else {
+            console.log("Error");
+          }
+        })
+        .catch((err) => {
+          console.log("Error", err);
+        });
+    };
+    const visibleComments = ref(5);
+    const loadMoreComments = () => {
+      visibleComments.value += 5;
+    };
+    const isRep = ref(null);
+    const repComment = (commentId) => {
+      isRep.value = commentId;
+    };
     return {
       book,
       addToCart,
@@ -257,6 +356,15 @@ export default {
       relatedBooks,
       userData,
       currentUser,
+      value,
+      handleComment,
+      getAllComment,
+      comments,
+      userComment,
+      visibleComments,
+      loadMoreComments,
+      isRep,
+      repComment,
     };
   },
 };
@@ -264,6 +372,7 @@ export default {
 
 <style lang="scss" scoped>
 @import "@/assets/styles/bookdetail.scss";
+
 .featured-books {
   text-align: center;
   padding: 40px 20px;

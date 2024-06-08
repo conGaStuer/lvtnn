@@ -12,7 +12,6 @@
     "axios": "^1.7.2",
     "chart.js": "^4.4.3",
     "core-js": "^3.8.3",
-    "firebase": "^10.12.2",
     "gsap": "^3.12.5",
     "primeicons": "^7.0.0",
     "primevue": "^3.52.0",

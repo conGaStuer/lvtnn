@@ -35,6 +35,26 @@ const routes = [
       import(/* webpackChunkName: "about" */ "../views/Pages/Products.vue"),
   },
   {
+    path: "/notfound",
+    name: "notfound",
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () =>
+      import(/* webpackChunkName: "about" */ "../views/Pages/NotFound.vue"),
+  },
+  {
+    path: "/search/:id",
+    name: "search",
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () =>
+      import(
+        /* webpackChunkName: "about" */ "../views/Pages/SearchProduct.vue"
+      ),
+  },
+  {
     path: "/products/:id",
     name: "bookDetail",
     component: () =>
@@ -51,6 +71,12 @@ const routes = [
     name: "Publisher",
     component: () =>
       import(/* webpackChunkName: "about" */ "../views/Pages/Publisher.vue"),
+  },
+  {
+    path: "/languages/:id/:name",
+    name: "Languages",
+    component: () =>
+      import(/* webpackChunkName: "about" */ "../views/Pages/Languages.vue"),
   },
   {
     path: "/category/:name",

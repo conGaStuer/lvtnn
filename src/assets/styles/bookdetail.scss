@@ -38,7 +38,8 @@ $text-color: #3c374b;
         font-size: 29px;
       }
       .author,
-      .publisher {
+      .publisher,
+      .lang {
         font-size: 14px;
         font-weight: bold;
         margin: 0;
@@ -56,6 +57,10 @@ $text-color: #3c374b;
       .publisher {
         top: -8px;
       }
+      .lang {
+        position: relative;
+        top: 20px;
+      }
       .price {
         font-size: 20px;
         color: #f28b82;
@@ -71,12 +76,8 @@ $text-color: #3c374b;
         top: -10px;
         color: #606775;
         font-size: 15px;
-        form {
-          textarea {
-            width: 900px;
-          }
-        }
       }
+
       .actions {
         display: flex;
         align-items: center;
@@ -215,4 +216,66 @@ button {
 }
 .info-row:last-child {
   border-bottom: none;
+}
+.comment {
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  margin-top: 20px;
+
+  .avatar {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    left: 5px;
+    top: -20px;
+  }
+  .comment-info {
+    width: 92%;
+    height: 92%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    .taikhoan {
+      font-size: 14.5px;
+      font-weight: bold;
+    }
+    .time {
+      margin-left: 3.5px;
+      font-size: 12.5px;
+    }
+    .comment-detail {
+      font-size: 15px;
+      position: relative;
+      top: -8px;
+      .star {
+        margin-top: 30px;
+      }
+      span {
+        position: relative;
+        top: -15px;
+        left: 150px;
+        cursor: pointer;
+      }
+    }
+  }
+}
+form {
+  width: 100%;
+  height: 150px;
+  input {
+    width: 100%;
+    height: 100px;
+    text-indent: 20px;
+  }
+  .star1 {
+    top: 10px;
+  }
 }
