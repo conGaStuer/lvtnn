@@ -43,13 +43,9 @@
         {{ record.MaSach }}
       </template>
       <template v-if="column.key === 'luongKM'">
-        {{ record.LuongKhuyenMai }}%
+        {{ record.KhuyenMai }}%
       </template>
       <template v-if="column.key === 'action'">
-        <span>
-          <a>Thêm</a>
-          <a-divider type="vertical" />
-        </span>
         <span>
           <a>Xóa</a>
           <a-divider type="vertical" />
@@ -61,26 +57,47 @@
       </template>
     </template>
   </a-table>
+  <AddDiscountForm
+    :visible="isAddModalVisible"
+    @update:visible="isAddModalVisible = $event"
+    @book-added="fetchBooks"
+  />
+
+  <div class="them" @click="showAddModal">
+    <a>Thêm Khuyến Mãi</a>
+  </div>
 </template>
 
 <script setup>
 import axios from "axios";
 import { onMounted, ref } from "vue";
+import AddDiscountForm from "./AddDiscountForm.vue";
 
 const data = ref([]);
 
-onMounted(() => {
+const isAddModalVisible = ref(false);
+
+const fetchBooks = () => {
   axios
-    .get("http://localhost/LVTN/book-store/src/api/admin/getDiscount.php")
+    .get("http://localhost/LVTN/book-store/src/api/admin/getByDisc.php")
     .then((res) => {
       data.value = res.data;
+      groupBooksByCategory();
+
       console.log(data.value);
     })
     .catch((err) => {
       console.log(err);
     });
+};
+
+onMounted(() => {
+  fetchBooks();
 });
 
+const showAddModal = () => {
+  isAddModalVisible.value = true;
+};
 const columns = ref([
   {
     title: "Mã Khuyến Mãi",
@@ -118,7 +135,7 @@ function handleResizeColumn(w, col) {
 }
 
 const pagination = ref({
-  pageSize: 2,
+  pageSize: 9,
   pageSizeOptions: ["5", "10", "20", "50"],
   showSizeChanger: true,
   showQuickJumper: true,
@@ -132,5 +149,19 @@ const pagination = ref({
 }
 .ant-table {
   text-align: center;
+}
+.them {
+  position: relative;
+  top: 295px;
+  width: 160px;
+  height: 40px;
+  background-color: #001529;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+  font-size: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>

@@ -38,10 +38,6 @@
       </template>
       <template v-else-if="column.key === 'action'">
         <span>
-          <a>Thêm</a>
-          <a-divider type="vertical" />
-        </span>
-        <span>
           <a>Xóa</a>
           <a-divider type="vertical" />
         </span>
@@ -52,28 +48,46 @@
       </template>
     </template>
   </a-table>
+  <AddCateForm
+    :visible="isAddModalVisible"
+    @update:visible="isAddModalVisible = $event"
+    @book-added="fetchBooks"
+  />
+
+  <div class="them" @click="showAddModal">
+    <a>Thêm Danh Mục</a>
+  </div>
 </template>
 
 <script setup>
 import axios from "axios";
 import { onMounted, ref } from "vue";
-
+import AddCateForm from "./AddCateForm.vue";
 const data = ref([]);
 const groupedData = ref([]);
+const isAddModalVisible = ref(false);
 
-onMounted(() => {
+const fetchBooks = () => {
   axios
-    .get("http://localhost/LVTN/book-store/src/api/admin/getAllBooks.php")
+    .get("http://localhost/LVTN/book-store/src/api/admin/getByFeat.php")
     .then((res) => {
       data.value = res.data;
       groupBooksByCategory();
-      console.log(groupedData.value);
+
+      console.log(data.value);
     })
     .catch((err) => {
       console.log(err);
     });
+};
+
+onMounted(() => {
+  fetchBooks();
 });
 
+const showAddModal = () => {
+  isAddModalVisible.value = true;
+};
 const columns = ref([
   {
     title: "Mã Danh Mục",
@@ -137,5 +151,19 @@ function groupBooksByCategory() {
 }
 .ant-table-cell {
   text-align: center;
+}
+.them {
+  position: relative;
+  top: 295px;
+  width: 160px;
+  height: 40px;
+  background-color: #001529;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+  font-size: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>

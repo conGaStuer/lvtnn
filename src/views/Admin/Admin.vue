@@ -65,7 +65,7 @@ const items = reactive([
     getItem("Quản lý Danh Mục", "sub2", h(RightCircleOutlined)),
     getItem("Quản lý Ngôn Ngữ", "sub3", h(RightCircleOutlined)),
     getItem("Quản lý Nhà Xuất Bản", "sub4", h(RightCircleOutlined)),
-    getItem("Quản lý Tác Gỉa", "sub5", h(RightCircleOutlined)),
+    getItem("Quản lý Tác Giả", "sub5", h(RightCircleOutlined)),
   ]),
   getItem("Quản lý khuyến mãi", "4", h(BarChartOutlined)),
 

@@ -30,6 +30,8 @@
           @mouseleave="hover = null"
           :to="{ name: 'bookDetail', params: { id: book.MaSach } }"
         >
+          <div class="discount">{{ book.KhuyenMai }}%</div>
+
           <div class="image-container">
             <img :src="book.HinhAnh" :alt="book.TenSach" />
             <transition name="fade">
@@ -209,7 +211,23 @@ export default {
           border-radius: 8px;
           border-bottom-left-radius: 0px;
         }
-
+        .discount {
+          width: 80px;
+          height: 30px;
+          background-color: #f28b82;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          color: white;
+          font-weight: bold;
+          font-size: 12px;
+          border-top-right-radius: 4px;
+          border-bottom-right-radius: 4px;
+          position: relative;
+          z-index: 1;
+          top: 80px;
+          left: -100px;
+        }
         img {
           width: 70%;
           height: 80%;

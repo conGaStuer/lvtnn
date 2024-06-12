@@ -31,7 +31,9 @@
           >
         </p>
 
-        <p class="price"><span>30000</span> {{ book.DonGia }} đồng</p>
+        <p class="price">
+          <span>{{ book.DonGia }} đồng</span> {{ discountedPrice }} đồng
+        </p>
         <p class="description">{{ book.ChiTiet }}</p>
         <div class="actions">
           <div class="quantity">1</div>
@@ -107,7 +109,12 @@
           </div>
           <div class="comment-detail">
             <p>{{ comment.noidung }}</p>
-            <Rating v-model="comment.rating" :cancel="false" class="star" />
+            <Rating
+              v-model="comment.rating"
+              :cancel="false"
+              class="star"
+              disabled
+            />
             <span @click="repComment(comment.maDG)">Trả lời</span>
             <form
               @submit.prevent="handleComment(comment.maDG)"
@@ -230,6 +237,10 @@ export default {
             book.value = res.data;
             console.log(book.value);
             getRelatedBooks(book.value.DanhMuc, book.value.MaSach);
+            discountedPrice.value = calculateDiscountedPrice(
+              book.value.DonGia,
+              book.value.KhuyenMai
+            );
           } else {
             console.log("deo co data");
           }
@@ -348,6 +359,10 @@ export default {
     const repComment = (commentId) => {
       isRep.value = commentId;
     };
+    const discountedPrice = ref(0);
+    const calculateDiscountedPrice = (originalPrice, discount) => {
+      return originalPrice - (originalPrice * discount) / 100;
+    };
     return {
       book,
       addToCart,
@@ -365,6 +380,7 @@ export default {
       loadMoreComments,
       isRep,
       repComment,
+      discountedPrice,
     };
   },
 };

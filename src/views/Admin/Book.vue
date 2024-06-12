@@ -50,10 +50,6 @@
       </template>
       <template v-else-if="column.key === 'action'">
         <span>
-          <a>Thêm</a>
-          <a-divider type="vertical" />
-        </span>
-        <span>
           <a>Xóa</a>
           <a-divider type="vertical" />
         </span>
@@ -64,13 +60,26 @@
       </template>
     </template>
   </a-table>
+  <AddBookForm
+    :visible="isAddModalVisible"
+    @update:visible="isAddModalVisible = $event"
+    @book-added="fetchBooks"
+  />
+
+  <div class="them" @click="showAddModal">
+    <a>Thêm sách</a>
+  </div>
 </template>
+
 <script setup>
 import axios from "axios";
 import { onMounted, ref } from "vue";
+import AddBookForm from "./AddBookForm.vue"; // Adjust the path as necessary
 
-const data = ref();
-onMounted(() => {
+const data = ref([]);
+const isAddModalVisible = ref(false);
+
+const fetchBooks = () => {
   axios
     .get("http://localhost/LVTN/book-store/src/api/admin/getAllBooks.php")
     .then((res) => {
@@ -80,7 +89,12 @@ onMounted(() => {
     .catch((err) => {
       console.log(err);
     });
+};
+
+onMounted(() => {
+  fetchBooks();
 });
+
 const columns = ref([
   {
     dataIndex: "name",
@@ -122,22 +136,43 @@ const columns = ref([
     width: 160,
   },
 ]);
+
 function handleResizeColumn(w, col) {
   col.width = w;
 }
+
 const pagination = ref({
-  pageSize: 4, // Number of items per page
-  pageSizeOptions: ["5", "10", "20", "50"], // Optional: Allow users to change page size
-  showSizeChanger: true, // Optional: Display the page size changer
-  showQuickJumper: true, // Optional: Display quick jumper
-  showTotal: (total) => `Tổng cộng ${total} sách`, // Optional: Display total number of items
+  pageSize: 4,
+  pageSizeOptions: ["5", "10", "20", "50"],
+  showSizeChanger: true,
+  showQuickJumper: true,
+  showTotal: (total) => `Tổng cộng ${total} sách`,
 });
+
+const showAddModal = () => {
+  isAddModalVisible.value = true;
+};
 </script>
+
 <style scoped>
 .ant-table-row {
   height: 135px;
 }
 .ant-table-cell {
   text-align: center;
+}
+.them {
+  position: relative;
+  top: 295px;
+  width: 160px;
+  height: 40px;
+  background-color: #001529;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+  font-size: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>

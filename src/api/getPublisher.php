@@ -5,7 +5,8 @@ include "config.php";
 if (isset($_GET['publisherId'])) {
     $publisherId = $_GET['publisherId'];
     $sql_get_publisher = "SELECT s.maSach AS MaSach, s.chiTiet AS ChiTiet, nxbs.tenNXB AS NhaXuatBan,
-    s.tenSach AS TenSach ,s.hinhAnh AS HinhAnh, s.donGia AS DonGia, tg.tenTG AS TacGia,tg.maTG AS  MaTacGia, nn.tenNN AS NgonNgu, dm.tenDM AS DanhMuc
+    s.tenSach AS TenSach ,s.hinhAnh AS HinhAnh, s.donGia AS DonGia, tg.tenTG AS TacGia,tg.maTG AS  MaTacGia, 
+    nn.tenNN AS NgonNgu, dm.tenDM AS DanhMuc
    FROM sach AS s
    INNER JOIN tg_sach AS ts ON s.maSach = ts.maSach
    INNER JOIN tac_gia AS tg ON ts.maTG = tg.maTG

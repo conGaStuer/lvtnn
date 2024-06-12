@@ -36,19 +36,23 @@
             >
               <div class="column">
                 <h3>SÁCH VĂN PHÒNG</h3>
-                <a href="#">Kinh Doanh</a>
-                <a href="#">Bách Khoa</a>
-                <a href="#">Lối Sống</a>
-                <a href="#">Thực Phẩm & Nấu Ăn</a>
-                <a href="#">Giả Tưởng</a>
+                <router-link
+                  v-for="category in categories"
+                  :key="category.DanhMuc"
+                  :to="{ name: 'Category', params: { name: category.DanhMuc } }"
+                >
+                  {{ category.DanhMuc }}
+                </router-link>
               </div>
               <div class="column">
-                <h3>SÁCH HOT</h3>
-                <a href="#">Kiến Trúc</a>
-                <a href="#">Tiểu Sử</a>
-                <a href="#">Âm Nhạc</a>
-                <a href="#">Động Vật Hoang Dã</a>
-                <a href="#">Nấu Ăn</a>
+                <h3>SÁCH VĂN PHÒNG</h3>
+                <router-link
+                  v-for="category in categories"
+                  :key="category.DanhMuc"
+                  :to="{ name: 'Category', params: { name: category.DanhMuc } }"
+                >
+                  {{ category.DanhMuc }}
+                </router-link>
               </div>
               <div class="column">
                 <h3>TRANG</h3>
@@ -174,7 +178,6 @@
 import { ref, onMounted } from "vue";
 import axios from "axios";
 import { useRouter } from "vue-router";
-import SearchProductVue from "../Pages/SearchProduct.vue";
 export default {
   setup() {
     const showCart = ref(false);
@@ -249,6 +252,7 @@ export default {
       if (router.currentRoute.value.path === "/login") {
         redirectIfLoggedIn();
       }
+      fetchCategories();
     });
     const isSearch = ref(true);
     const showSearchBar = () => {
@@ -261,6 +265,17 @@ export default {
         params: { id: searchKeyWord.value },
       });
       console.log(searchKeyWord.value);
+    };
+    const categories = ref([]);
+    const fetchCategories = () => {
+      axios
+        .get("http://localhost/LVTN/book-store/src/api/get5cate1.php")
+        .then((response) => {
+          categories.value = response.data;
+        })
+        .catch((error) => {
+          console.error("Error fetching categories:", error);
+        });
     };
     // Trả về các biến và phương thức cần thiết cho component
     return {
@@ -283,6 +298,7 @@ export default {
       showSearchBar,
       searchProduct,
       searchKeyWord,
+      categories,
     };
   },
 };
