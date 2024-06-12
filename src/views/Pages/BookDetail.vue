@@ -281,22 +281,13 @@ export default {
     const selectedTab = ref("description");
     const addToCart = () => {
       alert("Thêm vào giỏ hàng thành công");
-      const formData = new FormData();
-      formData.append("MaSach", book.value.MaSach);
-      // Thêm các trường dữ liệu khác tương tự ở đây
 
-      // Thêm thông tin người dùng vào FormData
-      formData.append("userId", currentUser.maND);
       axios
-        .post(
-          "http://localhost/LVTN/book-store/src/api/addtocart.php",
-          formData,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-          }
-        )
+        .post("http://localhost/LVTN/book-store/src/api/addtocart.php", {
+          userId: currentUser.maND,
+          maSach: book.value.MaSach,
+          donGia: book.value.DonGia,
+        })
         .then((res) => {
           console.log("Manga added to cart: ", res.data);
         })

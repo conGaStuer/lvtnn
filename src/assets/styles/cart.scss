@@ -25,9 +25,14 @@
 
   .product-list {
     flex: 1;
+    a {
+      text-decoration: none;
+      color: #000;
+    }
     .product-item {
       display: flex;
       align-items: center;
+      justify-content: space-between;
       border: 1px solid #eaeaea;
       padding: 10px 20px;
       margin-bottom: 30px;
@@ -35,23 +40,28 @@
       border-radius: 10px;
       box-shadow: rgba(149, 157, 165, 0.4) 0px 8px 54px;
       cursor: pointer;
+
       img {
         width: 200px;
         height: 240px;
         border-radius: 8px;
-        margin-right: 20px;
       }
 
       .product-details {
-        height: 140px;
+        height: 170px;
+        width: 500px;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-        h4 {
-          font-size: 18px;
-          margin: 0;
-        }
 
+        h4 {
+          font-size: 20px;
+          margin: 0;
+          font-weight: bold;
+        }
+        .name {
+          font-size: 16px;
+        }
         p {
           font-size: 12px;
           margin: 5px 0;
@@ -63,26 +73,25 @@
         }
       }
 
-      .product-price,
-      .total-price {
-        flex: 1;
-        position: relative;
-        left: 80px;
-
+      .product-price {
+        width: 100px;
         p {
           font-size: 16px;
           font-weight: bold;
         }
       }
       .total-price {
-        left: 120px;
+        width: 100px;
+        p {
+          font-size: 16px;
+          font-weight: bold;
+        }
       }
 
       .product-quantity {
         display: flex;
         align-items: center;
-        position: relative;
-        left: 50px;
+        width: 100px;
         button {
           border: 1px solid #aca8a8;
           width: 21px;
@@ -95,6 +104,41 @@
         span {
           padding: 0 10px;
         }
+      }
+    }
+  }
+  .info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border: 1px solid #eaeaea;
+    padding: 10px 20px;
+    margin-bottom: 30px;
+    height: 60px;
+    border-radius: 10px;
+    box-shadow: rgba(149, 157, 165, 0.4) 0px 8px 54px;
+    cursor: pointer;
+    font-weight: bold;
+    div {
+      &:nth-child(1) {
+        position: relative;
+        left: 60px;
+      }
+      &:nth-child(2) {
+        position: relative;
+        left: -30px;
+      }
+      &:nth-child(3) {
+        position: relative;
+        left: 230px;
+      }
+      &:nth-child(4) {
+        position: relative;
+        left: 120px;
+      }
+      &:nth-child(5) {
+        position: relative;
+        left: -30px;
       }
     }
   }
