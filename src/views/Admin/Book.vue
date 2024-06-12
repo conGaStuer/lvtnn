@@ -50,11 +50,11 @@
       </template>
       <template v-else-if="column.key === 'action'">
         <span>
-          <a>Xóa</a>
+          <a @click="handleDelete(record)">Xóa</a>
           <a-divider type="vertical" />
         </span>
         <span>
-          <a>Sửa</a>
+          <a @click="showEditModal(record)">Sửa</a>
           <a-divider type="vertical" />
         </span>
       </template>
@@ -65,19 +65,28 @@
     @update:visible="isAddModalVisible = $event"
     @book-added="fetchBooks"
   />
-
+  <EditBookForm
+    :visible="isEditModalVisible"
+    :bookData="selectedBook"
+    @update:visible="isEditModalVisible = $event"
+    @book-updated="fetchBooks"
+  />
   <div class="them" @click="showAddModal">
     <a>Thêm sách</a>
   </div>
 </template>
 
 <script setup>
+import { message } from "ant-design-vue";
 import axios from "axios";
 import { onMounted, ref } from "vue";
-import AddBookForm from "./AddBookForm.vue"; // Adjust the path as necessary
+import AddBookForm from "./AddForm/AddBookForm.vue"; // Adjust the path as necessary
+import EditBookForm from "./EditForm/EditBookForm.vue"; // Adjust the path as necessary
 
 const data = ref([]);
 const isAddModalVisible = ref(false);
+const isEditModalVisible = ref(false);
+const selectedBook = ref({});
 
 const fetchBooks = () => {
   axios
@@ -94,7 +103,22 @@ const fetchBooks = () => {
 onMounted(() => {
   fetchBooks();
 });
+const handleDelete = (record) => {
+  const maSach = record.MaSach;
 
+  axios
+    .post("http://localhost/LVTN/book-store/src/api/admin/deleteBook.php", {
+      MaSach: maSach,
+    })
+    .then((res) => {
+      message.success("Xóa sách thành công");
+      fetchBooks(); // Gọi lại hàm fetchBooks để cập nhật dữ liệu
+    })
+    .catch((err) => {
+      message.error("Xóa thất bại");
+      console.log(err);
+    });
+};
 const columns = ref([
   {
     dataIndex: "name",
@@ -151,6 +175,10 @@ const pagination = ref({
 
 const showAddModal = () => {
   isAddModalVisible.value = true;
+};
+const showEditModal = (record) => {
+  selectedBook.value = { ...record };
+  isEditModalVisible.value = true;
 };
 </script>
 

@@ -62,7 +62,7 @@
 <script setup>
 import axios from "axios";
 import { onMounted, ref } from "vue";
-import AddLanguageForm from "./AddLanguageForm.vue";
+import AddLanguageForm from "./AddForm/AddLanguageForm.vue";
 
 const data = ref([]);
 const groupedData = ref([]);

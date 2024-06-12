@@ -71,7 +71,7 @@
 <script setup>
 import axios from "axios";
 import { onMounted, ref } from "vue";
-import AddDiscountForm from "./AddDiscountForm.vue";
+import AddDiscountForm from "./AddForm/AddDiscountForm.vue";
 
 const data = ref([]);
 

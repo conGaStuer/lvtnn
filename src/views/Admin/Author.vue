@@ -62,7 +62,7 @@
 <script setup>
 import axios from "axios";
 import { onMounted, ref } from "vue";
-import AddAuthorForm from "./AddAuthorForm.vue";
+import AddAuthorForm from "./AddForm/AddAuthorForm.vue";
 
 const data = ref([]);
 const groupedData = ref([]);

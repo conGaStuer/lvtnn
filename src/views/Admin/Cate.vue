@@ -62,7 +62,7 @@
 <script setup>
 import axios from "axios";
 import { onMounted, ref } from "vue";
-import AddCateForm from "./AddCateForm.vue";
+import AddCateForm from "./AddForm/AddCateForm.vue";
 const data = ref([]);
 const groupedData = ref([]);
 const isAddModalVisible = ref(false);
