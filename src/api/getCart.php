@@ -4,7 +4,7 @@ include "config.php";
 $userId = $_GET["userId"];
 
 $sql_get = "SELECT s.maSach AS MaSach, s.chiTiet AS ChiTiet,
- s.tenSach AS TenSach ,s.hinhAnh AS HinhAnh, s.donGia AS DonGia, 
+ s.tenSach AS TenSach ,s.hinhAnh AS HinhAnh, ctdh.dongia AS DonGia, 
  ctdh.soLuong AS SoLuong,
  km.luongKM AS KhuyenMai,
  nxbs.tenNXB AS NhaXuatBan ,

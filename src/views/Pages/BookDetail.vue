@@ -36,7 +36,7 @@
         </p>
         <p class="description">{{ book.ChiTiet }}</p>
         <div class="actions">
-          <div class="quantity">1</div>
+          <input type="number" class="quantity" v-model="quantity" />
           <button @click="addToCart">THÊM VÀO GIỎ</button>
         </div>
         <div class="metas">
@@ -222,6 +222,8 @@ export default {
     Rating,
   },
   setup() {
+    const quantity = ref(1);
+
     const value = ref(null);
 
     const book = ref(null);
@@ -286,10 +288,12 @@ export default {
         .post("http://localhost/LVTN/book-store/src/api/addtocart.php", {
           userId: currentUser.maND,
           maSach: book.value.MaSach,
-          donGia: book.value.DonGia,
+          donGia: discountedPrice.value,
+          soLuong: quantity.value,
         })
         .then((res) => {
           console.log("Manga added to cart: ", res.data);
+          window.location.reload();
         })
         .catch((err) => {
           console.log("Error ", err);
@@ -372,6 +376,7 @@ export default {
       isRep,
       repComment,
       discountedPrice,
+      quantity,
     };
   },
 };

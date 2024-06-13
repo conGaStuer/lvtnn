@@ -15,38 +15,42 @@
           <div>Số Lượng</div>
           <div>Thành tiền</div>
         </div>
-        <router-link
-          :to="{ name: 'bookDetail', params: { id: item.MaSach } }"
-          class="product-item"
-          v-for="item in cartItems"
-          :key="item.MaSach"
-        >
-          <img :src="item.HinhAnh" alt="product-image" />
-          <div class="product-details">
-            <p class="name">{{ item.TenSach }}</p>
-            <h4>{{ item.DanhMuc }}</h4>
-            <p>
-              Tác giả : <span>{{ item.TacGia }}</span>
-            </p>
-            <p>
-              Nhà xuất bản : <span>{{ item.NhaXuatBan }}</span>
-            </p>
-            <p>
-              Ngôn Ngữ : <span>{{ item.NgonNgu }}</span>
-            </p>
+        <div v-if="cartItems.length">
+          <div
+            class="product-item"
+            v-for="item in cartItems"
+            :key="item.MaSach"
+          >
+            <img :src="item.HinhAnh" alt="product-image" />
+            <router-link
+              :to="{ name: 'bookDetail', params: { id: item.MaSach } }"
+              class="product-details"
+            >
+              <p class="name">{{ item.TenSach }}</p>
+              <h4>{{ item.DanhMuc }}</h4>
+              <p>
+                Tác giả : <span>{{ item.TacGia }}</span>
+              </p>
+              <p>
+                Nhà xuất bản : <span>{{ item.NhaXuatBan }}</span>
+              </p>
+              <p>
+                Ngôn Ngữ : <span>{{ item.NgonNgu }}</span>
+              </p>
+            </router-link>
+            <div class="product-price">
+              <p>{{ item.DonGia }}</p>
+            </div>
+            <div class="product-quantity">
+              <button @click="decrementQuantity(item)">-</button>
+              <span>{{ item.SoLuong }}</span>
+              <button @click="incrementQuantity(item)">+</button>
+            </div>
+            <div class="total-price">
+              <p>{{ item.DonGia * item.SoLuong }}</p>
+            </div>
           </div>
-          <div class="product-price">
-            <p>{{ item.DonGia }}</p>
-          </div>
-          <div class="product-quantity">
-            <button>-</button>
-            <span>{{ item.SoLuong }}</span>
-            <button>+</button>
-          </div>
-          <div class="total-price">
-            <p>{{ item.DonGia * item.SoLuong }}</p>
-          </div>
-        </router-link>
+        </div>
       </div>
     </div>
   </div>
@@ -71,6 +75,31 @@ export default {
     const cartlength = computed(() => {
       return cartItems.value.length;
     });
+    const incrementQuantity = (item) => {
+      updateQuantity(item, Number(item.SoLuong) + 1);
+    };
+
+    const decrementQuantity = (item) => {
+      if (item.SoLuong > 1) {
+        updateQuantity(item, item.SoLuong - 1);
+      }
+    };
+
+    const updateQuantity = (item, newQuantity) => {
+      axios
+        .post("http://localhost/LVTN/book-store/src/api/editQuantity.php", {
+          maSach: item.MaSach,
+          soLuong: newQuantity,
+        })
+        .then((response) => {
+          if (response.data.message === "Quantity updated successfully.") {
+            item.SoLuong = newQuantity;
+          }
+        })
+        .catch((error) => {
+          console.error("Error updating quantity:", error);
+        });
+    };
     onMounted(() => {
       axios
         .get(
@@ -87,7 +116,14 @@ export default {
           console.log("Error", err);
         });
     });
-    return { currentUser, userData, cartItems, cartlength };
+    return {
+      currentUser,
+      userData,
+      cartItems,
+      cartlength,
+      incrementQuantity,
+      decrementQuantity,
+    };
   },
 };
 </script>

@@ -43,7 +43,9 @@
                 <div v-if="hover === book.MaSach" class="overlay">
                   <div class="icon"><i class="pi pi-eye"></i></div>
                   <div class="icon"><i class="pi pi-heart"></i></div>
-                  <div class="icon"><i class="pi pi-shopping-cart"></i></div>
+                  <router-link to="/cart"
+                    ><div class="icon"><i class="pi pi-shopping-cart"></i></div
+                  ></router-link>
                 </div>
               </transition>
             </div>
@@ -53,7 +55,9 @@
               <p class="author">Tác giả: {{ book.TacGia }}</p>
               <p class="price">{{ book.DonGia }} đồng</p>
               <p class="detail">{{ book.ChiTiet }}</p>
-              <button><i class="pi pi-shopping-cart"></i></button>
+              <router-link to="/cart">
+                <button><i class="pi pi-shopping-cart"></i></button>
+              </router-link>
             </div>
           </router-link>
         </div>
@@ -477,14 +481,13 @@ export default {
             }
             .detail {
               font-size: 12.5px;
-              width: 500px;
+              width: 520px;
               color: #999;
             }
             button {
               width: 40px;
               height: 40px;
-              position: relative;
-              top: 5px;
+
               background-color: black;
               border: none;
               border-radius: 2px;

@@ -9,6 +9,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $maND = $data['userId'];
     $maSach = $data['maSach'];
     $donGia = $data['donGia'];
+    $soLuong = $data['soLuong'];
     // Thêm vào bảng đơn đặt hàng (don_dat_hang)
     $sqlDonHang = "INSERT INTO don_dat_hang (ngaydat, maND, trangthai) VALUES (CURDATE(), '$maND', 'giohang')";
     $resultDonHang = $conn->query($sqlDonHang);
@@ -25,13 +26,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $result = $conn->query($sql_check);
 
         if ($result->num_rows > 0) {
-            $sql_update = "UPDATE chi_tiet_don_hang SET soluong = soluong + 1 where masach= '$maSach'";
+            $sql_update = "UPDATE chi_tiet_don_hang SET soluong = soluong + '$soLuong' where masach= '$maSach'";
             $result_update = $conn->query($sql_update);
         } else {
             $note = ''; // Thay '' bằng ghi chú nếu có
 
             $sqlChiTietDonHang = "INSERT INTO chi_tiet_don_hang (masach, madon, soluong, dongia, note) 
-        VALUES ('$maSach', '$madon', '1', '$donGia', '$note')";
+        VALUES ('$maSach', '$madon', '$soLuong', '$donGia', '$note')";
             $stmtChiTietDonHang = $conn->query($sqlChiTietDonHang);
 
         }

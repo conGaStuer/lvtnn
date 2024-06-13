@@ -120,7 +120,7 @@
         </transition>
         <router-link to="/cart" class="cart" @click="showSideCart">
           <i class="fas fa-shopping-cart"></i>
-          <span class="cart-count">0</span>
+          <span class="cart-count">{{ cartlength ? cartlength : 0 }} </span>
         </router-link>
         <a class="search" @click="showSearchBar"
           ><i class="fas fa-search"></i
@@ -175,7 +175,7 @@
 </template>
 
 <script>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed } from "vue";
 import axios from "axios";
 import { useRouter } from "vue-router";
 export default {
@@ -253,6 +253,20 @@ export default {
         redirectIfLoggedIn();
       }
       fetchCategories();
+      axios
+        .get(
+          `http://localhost/LVTN/book-store/src/api/getCart.php?userId=${userId}`
+        )
+        .then((res) => {
+          if (res.data) {
+            cartItems.value = res.data;
+          } else {
+            console.log("Khong co san pham");
+          }
+        })
+        .catch((err) => {
+          console.log("Error", err);
+        });
     });
     const isSearch = ref(true);
     const showSearchBar = () => {
@@ -277,6 +291,13 @@ export default {
           console.error("Error fetching categories:", error);
         });
     };
+    const userId = currentUser.maND;
+
+    const cartItems = ref([]);
+
+    const cartlength = computed(() => {
+      return cartItems.value.length;
+    });
     // Trả về các biến và phương thức cần thiết cho component
     return {
       megaMenuVisible,
@@ -299,6 +320,9 @@ export default {
       searchProduct,
       searchKeyWord,
       categories,
+      cartlength,
+      cartItems,
+      userId,
     };
   },
 };

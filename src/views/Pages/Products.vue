@@ -38,7 +38,9 @@
               <div v-if="hover === book.MaSach" class="overlay">
                 <div class="icon"><i class="pi pi-eye"></i></div>
                 <div class="icon"><i class="pi pi-heart"></i></div>
-                <div class="icon"><i class="pi pi-shopping-cart"></i></div>
+                <router-link to="/cart"
+                  ><div class="icon"><i class="pi pi-shopping-cart"></i></div
+                ></router-link>
               </div>
             </transition>
           </div>
@@ -46,9 +48,14 @@
             <span class="category">{{ book.DanhMuc }}</span>
             <h3>{{ book.TenSach }}</h3>
             <p class="author">Tác giả: {{ book.TacGia }}</p>
-            <p class="price">{{ book.DonGia }} đồng</p>
+            <p class="price">
+              <span>{{ book.DonGia }} đồng </span>
+              {{ book.DonGia - (book.DonGia * book.KhuyenMai) / 100 }} đồng
+            </p>
             <p class="detail">{{ book.ChiTiet }}</p>
-            <button><i class="pi pi-shopping-cart"></i></button>
+            <router-link to="/cart"
+              ><button><i class="pi pi-shopping-cart"></i></button
+            ></router-link>
           </div>
         </router-link>
       </div>
@@ -294,6 +301,13 @@ export default {
             color: #f28b82;
             position: relative;
             top: -10px;
+            display: flex;
+            justify-content: space-between;
+            span {
+              color: #999;
+              text-decoration: line-through;
+              margin-right: 10px;
+            }
           }
           .detail {
             display: none;
@@ -316,6 +330,22 @@ export default {
         position: relative;
         cursor: pointer;
         height: 280px;
+        .discount {
+          width: 80px;
+          height: 30px;
+          background-color: #f28b82;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          color: white;
+          font-weight: bold;
+          font-size: 12px;
+          border-top-right-radius: 4px;
+          border-bottom-right-radius: 4px;
+          position: absolute;
+          top: 40px;
+          z-index: 1;
+        }
         .image-container {
           position: relative;
           width: 21.5%;
@@ -392,6 +422,12 @@ export default {
             font-size: 16px;
             font-weight: bold;
             color: #e55a5a;
+
+            span {
+              color: #999;
+              text-decoration: line-through;
+              margin-right: 20px;
+            }
           }
           .detail {
             font-size: 12.5px;
