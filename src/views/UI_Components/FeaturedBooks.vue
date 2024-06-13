@@ -7,7 +7,8 @@
         <p>Best rated by our customers</p>
       </div>
       <div class="book-list">
-        <div
+        <router-link
+          to="/products"
           class="book"
           v-for="book in books"
           :key="book.id"
@@ -30,7 +31,7 @@
             <p class="author">Tác giả: {{ book.author }}</p>
             <p class="price">{{ book.price }}</p>
           </div>
-        </div>
+        </router-link>
       </div>
     </div>
   </section>
@@ -117,7 +118,10 @@ export default {
       display: flex;
       justify-content: space-between;
       flex-wrap: wrap;
-
+      a {
+        text-decoration: none;
+        color: #666;
+      }
       .book {
         background: #fff;
         border-radius: 10px;

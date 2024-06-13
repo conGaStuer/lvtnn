@@ -70,6 +70,10 @@ $text-color: #dde2e0;
       width: 90%;
       height: 75%;
       gap: 30px;
+      a {
+        text-decoration: none;
+        color: #333;
+      }
       .category {
         background-size: cover;
         background-position: center;

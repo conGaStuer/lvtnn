@@ -45,7 +45,10 @@
         <span class="category">{{ book.DanhMuc }}</span>
         <h3>{{ book.TenSach }}</h3>
         <p class="author">Nhà xuất bản: {{ book.NhaXuatBan }}</p>
-        <p class="price">{{ book.DonGia }} đồng</p>
+        <p class="price">
+          <span>{{ book.DonGia }} đồng </span>
+          {{ book.DonGia - (book.DonGia * book.KhuyenMai) / 100 }} đồng
+        </p>
         <p class="detail">{{ book.ChiTiet }}</p>
         <button><i class="pi pi-shopping-cart"></i></button>
       </div>

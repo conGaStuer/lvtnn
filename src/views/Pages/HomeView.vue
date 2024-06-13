@@ -29,7 +29,8 @@
         <p>Chọn những cuốn sách yêu thích của bạn</p>
 
         <div class="categories">
-          <div
+          <router-link
+            to="/products"
             class="category"
             v-for="(category, index) in categories"
             :key="index"
@@ -44,7 +45,7 @@
               <span class="cate_name">{{ category.name }}</span>
               <span class="browse">--------- XEM NGAY</span>
             </div>
-          </div>
+          </router-link>
         </div>
       </div>
       <!-- New Arrivals Section -->

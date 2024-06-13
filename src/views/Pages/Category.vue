@@ -53,7 +53,10 @@
               <span class="category">{{ book.DanhMuc }}</span>
               <h3>{{ book.TenSach }}</h3>
               <p class="author">Tác giả: {{ book.TacGia }}</p>
-              <p class="price">{{ book.DonGia }} đồng</p>
+              <p class="price">
+                <span>{{ book.DonGia }} đồng </span>
+                {{ book.DonGia - (book.DonGia * book.KhuyenMai) / 100 }} đồng
+              </p>
               <p class="detail">{{ book.ChiTiet }}</p>
               <router-link to="/cart">
                 <button><i class="pi pi-shopping-cart"></i></button>
@@ -377,6 +380,13 @@ export default {
               color: #f28b82;
               position: relative;
               top: -10px;
+              display: flex;
+              justify-content: space-between;
+              span {
+                color: #999;
+                text-decoration: line-through;
+                margin-right: 10px;
+              }
             }
             .detail {
               display: none;
@@ -478,6 +488,12 @@ export default {
               font-size: 16px;
               font-weight: bold;
               color: #e55a5a;
+
+              span {
+                color: #999;
+                text-decoration: line-through;
+                margin-right: 20px;
+              }
             }
             .detail {
               font-size: 12.5px;

@@ -139,6 +139,13 @@ $text-color: #3c374b;
         color: #f28b82;
         position: relative;
         top: -10px;
+        display: flex;
+        justify-content: space-between;
+        span {
+          color: #999;
+          text-decoration: line-through;
+          margin-right: 10px;
+        }
       }
       .detail {
         display: none;

@@ -21,6 +21,7 @@
             v-for="item in cartItems"
             :key="item.MaSach"
           >
+            <input type="checkbox" name="" id="" class="checkbox" />
             <img :src="item.HinhAnh" alt="product-image" />
             <router-link
               :to="{ name: 'bookDetail', params: { id: item.MaSach } }"
@@ -49,6 +50,7 @@
             <div class="total-price">
               <p>{{ item.DonGia * item.SoLuong }}</p>
             </div>
+            <i class="pi pi-times" @click="deleteItem(item)"></i>
           </div>
         </div>
       </div>
@@ -84,22 +86,62 @@ export default {
         updateQuantity(item, item.SoLuong - 1);
       }
     };
-
-    const updateQuantity = (item, newQuantity) => {
+    const deleteItem = (item) => {
       axios
-        .post("http://localhost/LVTN/book-store/src/api/editQuantity.php", {
+        .post("http://localhost/LVTN/book-store/src/api/deleteCart.php", {
           maSach: item.MaSach,
-          soLuong: newQuantity,
+          soLuong: item.SoLuong,
+          maSach: item.MaSach,
         })
         .then((response) => {
-          if (response.data.message === "Quantity updated successfully.") {
-            item.SoLuong = newQuantity;
+          if (response.data) {
+            const index = cartItems.value.findIndex(
+              (cartItem) => cartItem.MaSach === item.MaSach
+            );
+            if (index !== -1) {
+              cartItems.value.splice(index, 1);
+            }
           }
         })
         .catch((error) => {
-          console.error("Error updating quantity:", error);
+          console.error("Error deleting item:", error);
         });
     };
+    const updateQuantity = (item, newQuantity) => {
+      axios
+        .post("http://localhost/LVTN/book-store/src/api/checkStock1.php", {
+          maSach: item.MaSach,
+          soLuong: newQuantity,
+        })
+        .then((res) => {
+          if (res.data.status === "success") {
+            axios
+              .post(
+                "http://localhost/LVTN/book-store/src/api/editQuantity.php",
+                {
+                  maSach: item.MaSach,
+                  soLuong: newQuantity,
+                }
+              )
+              .then((response) => {
+                if (
+                  response.data.message === "Quantity updated successfully."
+                ) {
+                  item.SoLuong = newQuantity;
+                }
+              })
+              .catch((error) => {
+                console.error("Error updating quantity:", error);
+              });
+          } else {
+            alert(res.data.message);
+          }
+        })
+        .catch((error) => {
+          console.error("Error checking stock:", error);
+        });
+    };
+
     onMounted(() => {
       axios
         .get(
@@ -123,6 +165,7 @@ export default {
       cartlength,
       incrementQuantity,
       decrementQuantity,
+      deleteItem,
     };
   },
 };

@@ -75,6 +75,9 @@
             >{{ book.NgonNgu }}</router-link
           >
         </p>
+        <p class="publisher lang stock">
+          Số lượng còn trong kho : {{ book.SoLuong }}
+        </p>
       </div>
     </div>
   </div>
@@ -195,7 +198,14 @@
             <span class="categoryy">{{ relatedBook.DanhMuc }}</span>
             <h3>{{ relatedBook.TenSach }}</h3>
             <p class="authorr">Tác giả: {{ relatedBook.TacGia }}</p>
-            <p class="pricee">{{ relatedBook.DonGia }}</p>
+            <p class="pricee">
+              <span>{{ relatedBook.DonGia }} đồng </span>
+              {{
+                relatedBook.DonGia -
+                (relatedBook.DonGia * relatedBook.KhuyenMai) / 100
+              }}
+              đồng
+            </p>
           </div>
         </router-link>
       </div>
@@ -208,11 +218,12 @@
 <script>
 import { onMounted, ref, watch } from "vue";
 import axios from "axios";
-import { useRoute } from "vue-router";
+import { onBeforeRouteUpdate, useRoute } from "vue-router";
 import NavBar from "../UI_Components/NavBar.vue";
 import Route from "../UI_Components/Route.vue";
 import Footer from "../UI_Components/Footer.vue";
 import Rating from "primevue/rating";
+import { message } from "ant-design-vue";
 
 export default {
   components: {
@@ -270,7 +281,9 @@ export default {
           console.log("Lỗi", err);
         });
     };
-
+    onBeforeRouteUpdate(() => {
+      window.scrollTo(0, 0);
+    });
     onMounted(() => {
       getDetailBook(route.params.id);
       getAllComment();
@@ -282,23 +295,38 @@ export default {
 
     const selectedTab = ref("description");
     const addToCart = () => {
-      alert("Thêm vào giỏ hàng thành công");
-
       axios
-        .post("http://localhost/LVTN/book-store/src/api/addtocart.php", {
-          userId: currentUser.maND,
+        .post("http://localhost/LVTN/book-store/src/api/checkStock.php", {
           maSach: book.value.MaSach,
-          donGia: discountedPrice.value,
           soLuong: quantity.value,
         })
         .then((res) => {
-          console.log("Manga added to cart: ", res.data);
-          window.location.reload();
+          if (res.data.status === "success") {
+            axios
+              .post("http://localhost/LVTN/book-store/src/api/addtocart.php", {
+                userId: currentUser.maND,
+                maSach: book.value.MaSach,
+                donGia: discountedPrice.value,
+                soLuong: quantity.value,
+              })
+              .then((res) => {
+                console.log("Sách đã được thêm vào giỏ hàng: ", res.data);
+                message.success("Sách đã được thêm vào giỏ hàng");
+                window.location.reload();
+              })
+              .catch((err) => {
+                console.log("Lỗi: ", err);
+                message.error("Sản phẩm này tạm thời hết hàng");
+              });
+          } else {
+            message.error("Số lượng sách không đủ trong kho");
+          }
         })
         .catch((err) => {
-          console.log("Error ", err);
+          console.log("Lỗi kiểm tra số lượng: ", err);
         });
     };
+
     const currentUser = JSON.parse(localStorage.getItem("currentUser"));
     const userData = ref({ ...currentUser });
     console.log(userData.value);
@@ -433,6 +461,7 @@ export default {
         align-items: center;
         position: relative;
         cursor: pointer;
+        height: 500px;
         text-decoration: none;
         .image-container {
           position: relative;
@@ -510,9 +539,13 @@ export default {
           .pricee {
             font-size: 16px;
             font-weight: bold;
-            color: #f28b82;
-            position: relative;
-            top: -10px;
+            color: #e55a5a;
+
+            span {
+              color: #999;
+              text-decoration: line-through;
+              margin-right: 20px;
+            }
           }
         }
       }

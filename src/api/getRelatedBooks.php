@@ -25,7 +25,8 @@ if (isset($_GET['category']) && isset($_GET['id'])) {
         // Truy vấn sách liên quan dựa trên danh mục của sách hiện tại
         $sql_get_related = "SELECT s.maSach AS MaSach, s.chiTiet AS ChiTiet, nxbs.tenNXB AS NhaXuatBan,
                             s.tenSach AS TenSach, s.hinhAnh AS HinhAnh, s.donGia AS DonGia, tg.tenTG AS TacGia,
-                            nn.tenNN AS NgonNgu, GROUP_CONCAT(DISTINCT dm.tenDM) AS DanhMuc
+                            nn.tenNN AS NgonNgu, GROUP_CONCAT(DISTINCT dm.tenDM) AS DanhMuc,
+    km.luongKM AS KhuyenMai
                             FROM sach AS s
                             INNER JOIN tg_sach AS ts ON s.maSach = ts.maSach
                             INNER JOIN tac_gia AS tg ON ts.maTG = tg.maTG
@@ -34,6 +35,8 @@ if (isset($_GET['category']) && isset($_GET['id'])) {
                             INNER JOIN dm_sach AS dms ON s.maSach = dms.maSach
                             INNER JOIN danh_muc AS dm ON dms.maDM = dm.maDM 
                             INNER JOIN nha_xuat_ban AS nxbs ON s.maNXB = nxbs.maNXB
+                               INNER JOIN khuyen_mai AS km ON s.maKM = km.maKM
+
                             WHERE dm.tenDM IN ($category_string) AND s.maSach != '$currentBookId'
                             GROUP BY s.maSach
                             LIMIT 4";

@@ -8,6 +8,7 @@ if (isset($_GET['id'])) {
     $sql_get = "SELECT s.maSach AS MaSach, s.chiTiet AS ChiTiet, nxbs.tenNXB AS NhaXuatBan, nxbs.maNXB AS MaNhaXuatBan,
     s.tenSach AS TenSach, s.hinhAnh AS HinhAnh, s.donGia AS DonGia, tg.tenTG AS TacGia, tg.maTG AS MaTacGia, nn.tenNN AS NgonNgu, 
     nn.maNN AS MaNgonNgu,  km.luongKM AS KhuyenMai,
+    s.soLuong AS SoLuong,
     GROUP_CONCAT(DISTINCT dm.tenDM) AS DanhMuc, GROUP_CONCAT(DISTINCT dm.maDM) AS MaDanhMuc
     FROM sach AS s
     INNER JOIN tg_sach AS ts ON s.maSach = ts.maSach
