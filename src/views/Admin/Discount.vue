@@ -45,14 +45,11 @@
       <template v-if="column.key === 'luongKM'">
         {{ record.KhuyenMai }}%
       </template>
-      <template v-if="column.key === 'action'">
+      <template v-else-if="column.key === 'action'">
         <span>
-          <a>Xóa</a>
+          <a @click="showEditModal(record)">Sửa</a>
           <a-divider type="vertical" />
-        </span>
-        <span>
-          <a>Sửa</a>
-          <a-divider type="vertical" />
+          <a @click="deleteCategory(record.MaDanhMuc)">Xóa</a>
         </span>
       </template>
     </template>
@@ -62,7 +59,12 @@
     @update:visible="isAddModalVisible = $event"
     @book-added="fetchBooks"
   />
-
+  <EditDiscountForm
+    :visible="isEditModalVisible"
+    :bookData="selectedBook"
+    @update:visible="isEditModalVisible = $event"
+    @book-updated="fetchBooks"
+  />
   <div class="them" @click="showAddModal">
     <a>Thêm Khuyến Mãi</a>
   </div>
@@ -72,6 +74,7 @@
 import axios from "axios";
 import { onMounted, ref } from "vue";
 import AddDiscountForm from "./AddForm/AddDiscountForm.vue";
+import EditDiscountForm from "./EditForm/EditDiscountForm.vue";
 
 const data = ref([]);
 
@@ -97,6 +100,29 @@ onMounted(() => {
 
 const showAddModal = () => {
   isAddModalVisible.value = true;
+};
+const isEditModalVisible = ref(false);
+const selectedBook = ref({});
+const showEditModal = (record) => {
+  selectedBook.value = { ...record };
+  isEditModalVisible.value = true;
+};
+
+const deleteCategory = (maDM) => {
+  axios
+    .post("http://localhost/LVTN/book-store/src/api/admin/deleteCate.php", {
+      MaDanhMuc: maDM,
+    })
+    .then((res) => {
+      if (res.data === "Xoa Thanh Cong") {
+        fetchBooks();
+      } else {
+        console.log("Delete failed");
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 };
 const columns = ref([
   {

@@ -20,14 +20,10 @@
 
     <template #bodyCell="{ column, record }">
       <template v-if="column.key === 'maDM'">
-        <span>
-          {{ record.MaDanhMuc }}
-        </span>
+        <span>{{ record.MaDanhMuc }}</span>
       </template>
       <template v-else-if="column.key === 'tenDM'">
-        <span>
-          {{ record.DanhMuc }}
-        </span>
+        <span>{{ record.DanhMuc }}</span>
       </template>
       <template v-else-if="column.key === 'books'">
         <ul>
@@ -38,12 +34,9 @@
       </template>
       <template v-else-if="column.key === 'action'">
         <span>
-          <a>Xóa</a>
+          <a @click="showEditModal(record)">Sửa</a>
           <a-divider type="vertical" />
-        </span>
-        <span>
-          <a>Sửa</a>
-          <a-divider type="vertical" />
+          <a @click="deleteCategory(record.MaDanhMuc)">Xóa</a>
         </span>
       </template>
     </template>
@@ -53,7 +46,12 @@
     @update:visible="isAddModalVisible = $event"
     @book-added="fetchBooks"
   />
-
+  <EditCateForm
+    :visible="isEditModalVisible"
+    :bookData="selectedBook"
+    @update:visible="isEditModalVisible = $event"
+    @book-updated="fetchBooks"
+  />
   <div class="them" @click="showAddModal">
     <a>Thêm Danh Mục</a>
   </div>
@@ -63,6 +61,8 @@
 import axios from "axios";
 import { onMounted, ref } from "vue";
 import AddCateForm from "./AddForm/AddCateForm.vue";
+import EditCateForm from "./EditForm/EditCateForm.vue";
+
 const data = ref([]);
 const groupedData = ref([]);
 const isAddModalVisible = ref(false);
@@ -73,8 +73,6 @@ const fetchBooks = () => {
     .then((res) => {
       data.value = res.data;
       groupBooksByCategory();
-
-      console.log(data.value);
     })
     .catch((err) => {
       console.log(err);
@@ -88,6 +86,30 @@ onMounted(() => {
 const showAddModal = () => {
   isAddModalVisible.value = true;
 };
+
+const isEditModalVisible = ref(false);
+const selectedBook = ref({});
+const showEditModal = (record) => {
+  selectedBook.value = { ...record };
+  isEditModalVisible.value = true;
+};
+const deleteCategory = (maDM) => {
+  axios
+    .post("http://localhost/LVTN/book-store/src/api/admin/deleteCate.php", {
+      maDM: maDM,
+    })
+    .then((res) => {
+      if (res.data.status === "success") {
+        fetchBooks();
+      } else {
+        console.log("Delete failed: " + res.data.message);
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
 const columns = ref([
   {
     title: "Mã Danh Mục",
@@ -119,11 +141,11 @@ function handleResizeColumn(w, col) {
 }
 
 const pagination = ref({
-  pageSize: 3, // Number of items per page
-  pageSizeOptions: ["5", "10", "20", "50"], // Optional: Allow users to change page size
-  showSizeChanger: true, // Optional: Display the page size changer
-  showQuickJumper: true, // Optional: Display quick jumper
-  showTotal: (total) => `Tổng cộng ${total} danh mục`, // Optional: Display total number of items
+  pageSize: 3,
+  pageSizeOptions: ["5", "10", "20", "50"],
+  showSizeChanger: true,
+  showQuickJumper: true,
+  showTotal: (total) => `Tổng cộng ${total} danh mục`,
 });
 
 function groupBooksByCategory() {

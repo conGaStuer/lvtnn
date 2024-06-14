@@ -38,12 +38,9 @@
       </template>
       <template v-else-if="column.key === 'action'">
         <span>
-          <a>Xóa</a>
+          <a @click="showEditModal(record)">Sửa</a>
           <a-divider type="vertical" />
-        </span>
-        <span>
-          <a>Sửa</a>
-          <a-divider type="vertical" />
+          <a @click="deleteCategory(record.MaTacGia)">Xóa</a>
         </span>
       </template>
     </template>
@@ -52,6 +49,12 @@
     :visible="isAddModalVisible"
     @update:visible="isAddModalVisible = $event"
     @book-added="fetchBooks"
+  />
+  <EditAuthorForm
+    :visible="isEditModalVisible"
+    :bookData="selectedBook"
+    @update:visible="isEditModalVisible = $event"
+    @book-updated="fetchBooks"
   />
 
   <div class="them" @click="showAddModal">
@@ -63,6 +66,7 @@
 import axios from "axios";
 import { onMounted, ref } from "vue";
 import AddAuthorForm from "./AddForm/AddAuthorForm.vue";
+import EditAuthorForm from "./EditForm/EditAuthorForm.vue";
 
 const data = ref([]);
 const groupedData = ref([]);
@@ -90,7 +94,29 @@ onMounted(() => {
 const showAddModal = () => {
   isAddModalVisible.value = true;
 };
+const isEditModalVisible = ref(false);
+const selectedBook = ref({});
+const showEditModal = (record) => {
+  selectedBook.value = { ...record };
+  isEditModalVisible.value = true;
+};
 
+const deleteCategory = (maTG) => {
+  axios
+    .post("http://localhost/LVTN/book-store/src/api/admin/deleteAuthor.php", {
+      maTG: maTG,
+    })
+    .then((res) => {
+      if (res.data.status === "success") {
+        fetchBooks();
+      } else {
+        console.log("Delete failed: " + res.data.message);
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
 const columns = ref([
   {
     title: "Mã Tác Giả",

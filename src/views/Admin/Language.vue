@@ -38,12 +38,9 @@
       </template>
       <template v-else-if="column.key === 'action'">
         <span>
-          <a>Xóa</a>
+          <a @click="showEditModal(record)">Sửa</a>
           <a-divider type="vertical" />
-        </span>
-        <span>
-          <a>Sửa</a>
-          <a-divider type="vertical" />
+          <a @click="deleteCategory(record.MaNgonNgu)">Xóa</a>
         </span>
       </template>
     </template>
@@ -53,7 +50,12 @@
     @update:visible="isAddModalVisible = $event"
     @book-added="fetchBooks"
   />
-
+  <EditLanguageForm
+    :visible="isEditModalVisible"
+    :bookData="selectedBook"
+    @update:visible="isEditModalVisible = $event"
+    @book-updated="fetchBooks"
+  />
   <div class="them" @click="showAddModal">
     <a>Thêm Ngôn Ngữ</a>
   </div>
@@ -63,10 +65,13 @@
 import axios from "axios";
 import { onMounted, ref } from "vue";
 import AddLanguageForm from "./AddForm/AddLanguageForm.vue";
+import EditLanguageForm from "./EditForm/EditLanguageForm.vue";
 
 const data = ref([]);
 const groupedData = ref([]);
 const isAddModalVisible = ref(false);
+const selectedBook = ref({});
+
 const fetchBooks = () => {
   axios
     .get("http://localhost/LVTN/book-store/src/api/admin/getByLans.php")
@@ -84,9 +89,31 @@ const fetchBooks = () => {
 onMounted(() => {
   fetchBooks();
 });
+const isEditModalVisible = ref(false);
 
 const showAddModal = () => {
   isAddModalVisible.value = true;
+};
+const showEditModal = (record) => {
+  selectedBook.value = { ...record };
+  isEditModalVisible.value = true;
+};
+
+const deleteCategory = (maNN) => {
+  axios
+    .post("http://localhost/LVTN/book-store/src/api/admin/deleteLanguage.php", {
+      maNN: maNN,
+    })
+    .then((res) => {
+      if (res.data.status === "success") {
+        fetchBooks();
+      } else {
+        console.log("Delete failed: " + res.data.message);
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 };
 const columns = ref([
   {
