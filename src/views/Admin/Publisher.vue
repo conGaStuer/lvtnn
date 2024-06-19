@@ -38,9 +38,12 @@
       </template>
       <template v-else-if="column.key === 'action'">
         <span>
-          <a @click="showEditModal(record)">Sửa</a>
+          <a>Xóa</a>
           <a-divider type="vertical" />
-          <a @click="deletePublisher(record.MaNhaXuatBan)">Xóa</a>
+        </span>
+        <span>
+          <a>Sửa</a>
+          <a-divider type="vertical" />
         </span>
       </template>
     </template>
@@ -50,12 +53,7 @@
     @update:visible="isAddModalVisible = $event"
     @book-added="fetchBooks"
   />
-  <EditPublisherForm
-    :visible="isEditModalVisible"
-    :bookData="selectedBook"
-    @update:visible="isEditModalVisible = $event"
-    @book-updated="fetchBooks"
-  />
+
   <div class="them" @click="showAddModal">
     <a>Thêm Nhà Xuất Bản</a>
   </div>
@@ -65,7 +63,6 @@
 import axios from "axios";
 import { onMounted, ref } from "vue";
 import AddPublisherForm from "./AddForm/AddPublisherForm.vue";
-import EditPublisherForm from "./EditForm/EditPublisherForm.vue";
 
 const data = ref([]);
 const groupedData = ref([]);
@@ -91,32 +88,6 @@ onMounted(() => {
 
 const showAddModal = () => {
   isAddModalVisible.value = true;
-};
-const isEditModalVisible = ref(false);
-const selectedBook = ref({});
-const showEditModal = (record) => {
-  selectedBook.value = { ...record };
-  isEditModalVisible.value = true;
-};
-
-const deletePublisher = (maNXB) => {
-  axios
-    .post(
-      "http://localhost/LVTN/book-store/src/api/admin/deletePublisher.php",
-      { maNXB: maNXB }
-    )
-    .then((res) => {
-      if (res.data.status === "success") {
-        console.log("Delete successful");
-        // Optionally, trigger a function to refresh data
-        fetchBooks();
-      } else {
-        console.log("Delete failed: " + res.data.message);
-      }
-    })
-    .catch((err) => {
-      console.error("Error deleting publisher:", err);
-    });
 };
 
 const columns = ref([

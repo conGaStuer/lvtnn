@@ -6,7 +6,7 @@
     @ok="addBook"
   >
     <a-form layout="vertical">
-      <a-form-item label="Lượng Khuyến Mãi">
+      <a-form-item label="Tên Khuyến Mãi">
         <a-input v-model:value="book.LuongKM" />
       </a-form-item>
     </a-form>
