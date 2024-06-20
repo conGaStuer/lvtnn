@@ -25,9 +25,12 @@ import Language from "./Language.vue";
 import Publisher from "./Publisher.vue";
 import Discount from "./Discount.vue";
 import DashBoard from "./DashBoard.vue";
-import Order from "./Order.vue";
-import Statistics from "./Statistics.vue"; // Import the Statistics component
+
 import {
+  MailOutlined,
+  CalendarOutlined,
+  AppstoreOutlined,
+  SettingOutlined,
   HomeOutlined,
   UserOutlined,
   PieChartOutlined,
@@ -58,14 +61,15 @@ const items = reactive([
   getItem("Quản lý người dùng", "2", h(UserOutlined)),
   getItem("Quản lý Sản Phẩm", "3", h(PieChartOutlined), [
     getItem("Quản lý Sách", "sub1", h(RightCircleOutlined)),
+
     getItem("Quản lý Danh Mục", "sub2", h(RightCircleOutlined)),
     getItem("Quản lý Ngôn Ngữ", "sub3", h(RightCircleOutlined)),
     getItem("Quản lý Nhà Xuất Bản", "sub4", h(RightCircleOutlined)),
     getItem("Quản lý Tác Giả", "sub5", h(RightCircleOutlined)),
   ]),
   getItem("Quản lý khuyến mãi", "4", h(BarChartOutlined)),
+
   getItem("Quản lý đơn hàng", "5", h(LineChartOutlined)),
-  getItem("Thống kê đơn hàng", "6", h(LineChartOutlined)), // Add the statistics item
 ]);
 
 const currentComponent = ref(DashBoard); // Default component
@@ -87,11 +91,9 @@ const handleMenuClick = (e) => {
     currentComponent.value = Discount;
   } else if (e.key === "1") {
     currentComponent.value = DashBoard;
-  } else if (e.key === "5") {
-    currentComponent.value = Order;
-  } else if (e.key === "6") {
-    currentComponent.value = Statistics; // Handle Statistics
   }
+
+  // Add more conditions here for other navigation items
 };
 </script>
 
@@ -104,7 +106,7 @@ const handleMenuClick = (e) => {
 .menu {
   width: 256px;
   height: 100vh;
-  overflow: hidden;
+  overflow: hiiden;
 }
 .content {
   flex-grow: 1;
