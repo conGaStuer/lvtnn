@@ -178,19 +178,30 @@ const displayStatus = (status) => {
   border: 1px solid #ddd;
   padding: 10px;
   border-radius: 5px;
-  background-color: white;
 }
 
 .order-header {
   margin-bottom: 10px;
-  width: 100%;
-  text-indent: 10px;
+}
+
+.order-items {
+  display: flex;
+  flex-direction: column;
 }
 
 .order-item {
   display: flex;
   align-items: center;
   margin-bottom: 10px;
+}
+
+.info,
+.product-details,
+.product-price,
+.product-quantity,
+.total-price,
+.product-status {
+  flex: 1;
 }
 
 .product-details {

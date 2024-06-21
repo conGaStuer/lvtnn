@@ -8,16 +8,10 @@ $status = $data['status'];
 
 // Truy vấn danh sách đơn hàng
 $sql_get_orders = "
-SELECT ddh.maDon AS MaDon, ddh.trangthai AS TrangThai, ddh.ngayDat AS NgayDat, 
-GROUP_CONCAT(COALESCE(s.maSach, '')) AS MaSach, 
-GROUP_CONCAT(COALESCE(s.tenSach, '')) AS TenSach, 
-GROUP_CONCAT(COALESCE(s.hinhAnh, '')) AS HinhAnh,
-GROUP_CONCAT(COALESCE(s.donGia, 0)) AS DonGia, 
-GROUP_CONCAT(COALESCE(ctdh.SoLuong, 0)) AS SoLuong, 
-GROUP_CONCAT(COALESCE(ctdh.DonGia, 0)) AS GiaDonHang,
-GROUP_CONCAT(COALESCE(tg.tenTG, '')) AS TacGia, 
-GROUP_CONCAT(COALESCE(nn.tenNN, '')) AS NgonNgu, 
-GROUP_CONCAT(COALESCE(dm.tenDM, '')) AS DanhMuc
+SELECT ddh.maDon AS MaDon, ddh.trangthai AS TrangThai, ddh.ngayDat AS NgayDat, ddh.tongTien AS TongTien,
+GROUP_CONCAT(s.maSach) AS MaSach, GROUP_CONCAT(s.tenSach) AS TenSach, GROUP_CONCAT(s.hinhAnh) AS HinhAnh,
+GROUP_CONCAT(s.donGia) AS DonGia, GROUP_CONCAT(ctdh.SoLuong) AS SoLuong, GROUP_CONCAT(ctdh.DonGia) AS GiaDonHang,
+GROUP_CONCAT(tg.tenTG) AS TacGia, GROUP_CONCAT(nn.tenNN) AS NgonNgu, GROUP_CONCAT(dm.tenDM) AS DanhMuc
 FROM don_dat_hang ddh
 INNER JOIN chi_tiet_don_hang ctdh ON ddh.madon = ctdh.madon
 INNER JOIN sach s ON ctdh.MaSach = s.maSach

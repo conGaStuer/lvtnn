@@ -178,7 +178,6 @@ const displayStatus = (status) => {
   border: 1px solid #ddd;
   padding: 10px;
   border-radius: 5px;
-  background-color: white;
 }
 
 .order-header {

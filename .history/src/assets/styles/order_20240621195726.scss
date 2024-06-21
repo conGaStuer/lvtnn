@@ -6,8 +6,6 @@
   font-family: "Noto Sans";
 
   .title {
-    margin-bottom: 40px;
-
     h1 {
       font-size: 24px;
       margin: 0;
@@ -17,13 +15,13 @@
       font-size: 16px;
       margin: 0;
     }
+    margin-bottom: 40px;
   }
 
   .order-container {
     display: flex;
     flex-direction: column;
     gap: 20px;
-
     .info {
       display: flex;
       align-items: center;
@@ -35,7 +33,6 @@
       border-radius: 10px;
       box-shadow: rgba(149, 157, 165, 0.4) 0px 8px 54px;
       font-weight: bold;
-
       div {
         &:nth-child(1) {
           position: relative;
@@ -47,19 +44,19 @@
         }
         &:nth-child(3) {
           position: relative;
-          left: 210px;
+          left: 190px;
         }
         &:nth-child(4) {
           position: relative;
-          left: 110px;
+          left: 80px;
         }
         &:nth-child(5) {
           position: relative;
-          left: 40px;
+          left: 10px;
         }
         &:nth-child(6) {
           position: relative;
-          left: -40px;
+          left: -60px;
         }
       }
     }
@@ -137,34 +134,18 @@
           font-weight: bold;
         }
       }
-
-      .product-status {
-        width: 120px;
-        position: relative;
-        a {
-          text-decoration: none;
-          color: #f28b82;
-        }
-      }
-
-      button {
-        padding: 15px;
-        background-color: #f28b82;
-        color: #fff;
-        border-radius: 10px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        border: none;
-        font-weight: bold;
-        font-size: 12px;
-        margin-top: 10px;
-        cursor: pointer;
-
-        &:hover {
-          color: black;
-        }
-      }
+    }
+    .product-status {
+      width: 200px;
+    }
+    button {
+      padding: 10px;
+      background-color: #000;
+      color: #fff;
+      border-radius: 10px;
+      border: none;
+      font-weight: bold;
+      cursor: pointer;
     }
   }
 }

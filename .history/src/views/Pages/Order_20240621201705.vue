@@ -178,13 +178,12 @@ const displayStatus = (status) => {
   border: 1px solid #ddd;
   padding: 10px;
   border-radius: 5px;
-  background-color: white;
 }
 
 .order-header {
   margin-bottom: 10px;
-  width: 100%;
-  text-indent: 10px;
+  width: 90%;
+  background-color: white;
 }
 
 .order-item {

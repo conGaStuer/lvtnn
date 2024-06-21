@@ -8,7 +8,7 @@ $status = $data['status'];
 
 // Truy vấn danh sách đơn hàng
 $sql_get_orders = "
-SELECT ddh.maDon AS MaDon, ddh.trangthai AS TrangThai, ddh.ngayDat AS NgayDat, 
+SELECT ddh.maDon AS MaDon, ddh.trangthai AS TrangThai, ddh.ngayDat AS NgayDat, ddh.tongTien AS TongTien,
 GROUP_CONCAT(COALESCE(s.maSach, '')) AS MaSach, 
 GROUP_CONCAT(COALESCE(s.tenSach, '')) AS TenSach, 
 GROUP_CONCAT(COALESCE(s.hinhAnh, '')) AS HinhAnh,

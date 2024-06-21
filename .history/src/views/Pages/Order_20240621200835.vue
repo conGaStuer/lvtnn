@@ -104,25 +104,25 @@ const fetchOrders = () => {
 };
 
 const parseOrderItems = (order) => {
-  const maSachArray = order.MaSach ? order.MaSach.split(",") : [];
-  const tenSachArray = order.TenSach ? order.TenSach.split(",") : [];
-  const hinhAnhArray = order.HinhAnh ? order.HinhAnh.split(",") : [];
-  const donGiaArray = order.DonGia ? order.DonGia.split(",") : [];
-  const soLuongArray = order.SoLuong ? order.SoLuong.split(",") : [];
-  const tacGiaArray = order.TacGia ? order.TacGia.split(",") : [];
-  const ngonNguArray = order.NgonNgu ? order.NgonNgu.split(",") : [];
-  const danhMucArray = order.DanhMuc ? order.DanhMuc.split(",") : [];
+  const maSachArray = order.MaSach.split(",");
+  const tenSachArray = order.TenSach.split(",");
+  const hinhAnhArray = order.HinhAnh.split(",");
+  const donGiaArray = order.DonGia.split(",");
+  const soLuongArray = order.SoLuong.split(",");
+  const tacGiaArray = order.TacGia.split(",");
+  const ngonNguArray = order.NgonNgu.split(",");
+  const danhMucArray = order.DanhMuc.split(",");
 
   return maSachArray.map((maSach, index) => {
     return {
       MaSach: maSach,
-      TenSach: tenSachArray[index] || "",
-      HinhAnh: hinhAnhArray[index] || "",
-      DonGia: donGiaArray[index] || 0,
-      SoLuong: soLuongArray[index] || 0,
-      TacGia: tacGiaArray[index] || "",
-      NgonNgu: ngonNguArray[index] || "",
-      DanhMuc: danhMucArray[index] || "",
+      TenSach: tenSachArray[index],
+      HinhAnh: hinhAnhArray[index],
+      DonGia: donGiaArray[index],
+      SoLuong: soLuongArray[index],
+      TacGia: tacGiaArray[index],
+      NgonNgu: ngonNguArray[index],
+      DanhMuc: danhMucArray[index],
     };
   });
 };
@@ -178,19 +178,30 @@ const displayStatus = (status) => {
   border: 1px solid #ddd;
   padding: 10px;
   border-radius: 5px;
-  background-color: white;
 }
 
 .order-header {
   margin-bottom: 10px;
-  width: 100%;
-  text-indent: 10px;
+}
+
+.order-items {
+  display: flex;
+  flex-direction: column;
 }
 
 .order-item {
   display: flex;
   align-items: center;
   margin-bottom: 10px;
+}
+
+.info,
+.product-details,
+.product-price,
+.product-quantity,
+.total-price,
+.product-status {
+  flex: 1;
 }
 
 .product-details {
