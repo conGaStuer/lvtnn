@@ -40,16 +40,17 @@
               </p>
             </div>
             <div class="product-price">
-              <p>
-                {{ item.GiaDonHang }}
-              </p>
+              <p>{{ item.DonGia - (item.DonGia * item.KhuyenMai) / 100 }}</p>
             </div>
             <div class="product-quantity">
               <span>{{ item.SoLuong }}</span>
             </div>
             <div class="total-price">
               <p>
-                {{ item.GiaDonHang * item.SoLuong }}
+                {{
+                  (item.DonGia - (item.DonGia * item.KhuyenMai) / 100) *
+                  item.SoLuong
+                }}
               </p>
             </div>
             <div class="product-status">
@@ -111,22 +112,64 @@ const fetchOrders = () => {
 };
 
 const parseOrderItems = (order) => {
-  const items = []; // Process order details
+  const items = [];
 
-  for (let i = 0; i < order.MaSach.length; i++) {
+  if (
+    !order ||
+    !order.MaSach ||
+    !order.TenSach ||
+    !order.HinhAnh ||
+    !order.DonGia ||
+    !order.SoLuong ||
+    !order.TacGia ||
+    !order.NgonNgu ||
+    !order.DanhMuc ||
+    !order.KhuyenMai
+  ) {
+    console.error("Invalid order object:", order);
+    return items;
+  }
+
+  const maSachArray = Array.isArray(order.MaSach)
+    ? order.MaSach
+    : order.MaSach.split(",");
+
+  for (let i = 0; i < maSachArray.length; i++) {
     const item = {
-      MaSach: order.MaSach[i],
-      TenSach: order.TenSach[i],
-      HinhAnh: order.HinhAnh[i],
-      DonGia: parseInt(order.DonGia[i]),
-      GiaDonHang: parseInt(order.GiaDonHang[i]),
-
-      SoLuong: parseInt(order.SoLuong[i]),
-      TacGia: order.TacGia[i],
-      NgonNgu: order.NgonNgu[i],
-      DanhMuc: order.DanhMuc[i],
-      NhaXuatBan: order.NhaXuatBan[i],
-      KhuyenMai: order.KhuyenMai[i],
+      MaSach: maSachArray[i].trim(),
+      TenSach: (Array.isArray(order.TenSach)
+        ? order.TenSach[i]
+        : order.TenSach
+      ).trim(),
+      HinhAnh: (Array.isArray(order.HinhAnh)
+        ? order.HinhAnh[i]
+        : order.HinhAnh
+      ).trim(),
+      DonGia: parseFloat(
+        Array.isArray(order.DonGia) ? order.DonGia[i] : order.DonGia
+      ),
+      SoLuong: parseInt(
+        Array.isArray(order.SoLuong) ? order.SoLuong[i] : order.SoLuong
+      ),
+      TacGia: (Array.isArray(order.TacGia)
+        ? order.TacGia[i]
+        : order.TacGia
+      ).trim(),
+      NgonNgu: (Array.isArray(order.NgonNgu)
+        ? order.NgonNgu[i]
+        : order.NgonNgu
+      ).trim(),
+      DanhMuc: (Array.isArray(order.DanhMuc)
+        ? order.DanhMuc[i]
+        : order.DanhMuc
+      ).trim(),
+      NhaXuatBan: (Array.isArray(order.NhaXuatBan)
+        ? order.NhaXuatBan[i]
+        : order.NhaXuatBan
+      ).trim(),
+      KhuyenMai: parseFloat(
+        Array.isArray(order.KhuyenMai) ? order.KhuyenMai[i] : order.KhuyenMai
+      ),
     };
 
     items.push(item);

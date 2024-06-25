@@ -55,14 +55,6 @@ if ($result->num_rows > 0) {
         $row['DanhMuc'] = explode(',', $row['DanhMuc']);
         $row['KhuyenMai'] = explode(',', $row['KhuyenMai']);
 
-        // Trim whitespace from array values
-        $row['MaSach'] = array_map('trim', $row['MaSach']);
-        $row['TenSach'] = array_map('trim', $row['TenSach']);
-        $row['HinhAnh'] = array_map('trim', $row['HinhAnh']);
-        $row['TacGia'] = array_map('trim', $row['TacGia']);
-        $row['NgonNgu'] = array_map('trim', $row['NgonNgu']);
-        $row['DanhMuc'] = array_map('trim', $row['DanhMuc']);
-
         // Convert numeric strings to integers where necessary
         $row['SoLuong'] = array_map('intval', $row['SoLuong']);
         $row['GiaDonHang'] = array_map('intval', $row['GiaDonHang']);

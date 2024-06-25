@@ -40,16 +40,17 @@
               </p>
             </div>
             <div class="product-price">
-              <p>
-                {{ item.GiaDonHang }}
-              </p>
+              <p>{{ item.DonGia - (item.DonGia * item.KhuyenMai) / 100 }}</p>
             </div>
             <div class="product-quantity">
               <span>{{ item.SoLuong }}</span>
             </div>
             <div class="total-price">
               <p>
-                {{ item.GiaDonHang * item.SoLuong }}
+                {{
+                  (item.DonGia - (item.DonGia * item.KhuyenMai) / 100) *
+                  item.SoLuong
+                }}
               </p>
             </div>
             <div class="product-status">
@@ -109,32 +110,70 @@ const fetchOrders = () => {
       console.error("Error fetching orders:", error);
     });
 };
-
 const parseOrderItems = (order) => {
-  const items = []; // Process order details
+  const items = [];
 
-  for (let i = 0; i < order.MaSach.length; i++) {
+  // Kiểm tra các thuộc tính là mảng hoặc chuỗi
+  const maSachArray = Array.isArray(order.MaSach)
+    ? order.MaSach
+    : order.MaSach.split(",");
+  const tenSachArray = Array.isArray(order.TenSach)
+    ? order.TenSach
+    : order.TenSach.split(",");
+  const hinhAnhArray = Array.isArray(order.HinhAnh)
+    ? order.HinhAnh
+    : order.HinhAnh.split(",");
+  const donGiaArray = Array.isArray(order.DonGia)
+    ? order.DonGia
+    : order.DonGia.split(",");
+  const soLuongArray = Array.isArray(order.SoLuong)
+    ? order.SoLuong
+    : order.SoLuong.split(",");
+  const tacGiaArray = Array.isArray(order.TacGia)
+    ? order.TacGia
+    : order.TacGia.split(",");
+  const ngonNguArray = Array.isArray(order.NgonNgu)
+    ? order.NgonNgu
+    : order.NgonNgu.split(",");
+  const danhMucArray = Array.isArray(order.DanhMuc)
+    ? order.DanhMuc
+    : order.DanhMuc.split(",");
+  const nhaXuatBanArray = Array.isArray(order.NhaXuatBan)
+    ? order.NhaXuatBan
+    : order.NhaXuatBan.split(",");
+  const khuyenMaiArray = Array.isArray(order.KhuyenMai)
+    ? order.KhuyenMai
+    : order.KhuyenMai.split(",");
+
+  // Lặp qua mảng maSachArray và tạo các đối tượng item
+  for (let i = 0; i < maSachArray.length; i++) {
     const item = {
-      MaSach: order.MaSach[i],
-      TenSach: order.TenSach[i],
-      HinhAnh: order.HinhAnh[i],
-      DonGia: parseInt(order.DonGia[i]),
-      GiaDonHang: parseInt(order.GiaDonHang[i]),
-
-      SoLuong: parseInt(order.SoLuong[i]),
-      TacGia: order.TacGia[i],
-      NgonNgu: order.NgonNgu[i],
-      DanhMuc: order.DanhMuc[i],
-      NhaXuatBan: order.NhaXuatBan[i],
-      KhuyenMai: order.KhuyenMai[i],
+      MaSach: maSachArray[i],
+      TenSach: tenSachArray[i],
+      HinhAnh: hinhAnhArray[i],
+      DonGia: donGiaArray[i],
+      SoLuong: soLuongArray[i],
+      TacGia: tacGiaArray[i],
+      NgonNgu: ngonNguArray[i],
+      DanhMuc: danhMucArray[i],
+      NhaXuatBan: nhaXuatBanArray[i],
+      KhuyenMai: khuyenMaiArray[i],
     };
 
-    items.push(item);
+    // Kiểm tra và thêm item vào mảng items
+    if (
+      item.TenSach &&
+      item.HinhAnh &&
+      !isNaN(item.DonGia) &&
+      !isNaN(item.SoLuong) &&
+      !isNaN(item.KhuyenMai)
+    ) {
+      items.push(item);
+    }
   }
 
   return items;
 };
-
 const confirmDelivery = (order) => {
   axios
     .post("http://localhost/LVTN/book-store/src/api/updateOrderStatus.php", {

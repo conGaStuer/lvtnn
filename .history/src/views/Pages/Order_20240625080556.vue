@@ -40,16 +40,17 @@
               </p>
             </div>
             <div class="product-price">
-              <p>
-                {{ item.GiaDonHang }}
-              </p>
+              <p>{{ item.DonGia - (item.DonGia * item.KhuyenMai) / 100 }}</p>
             </div>
             <div class="product-quantity">
               <span>{{ item.SoLuong }}</span>
             </div>
             <div class="total-price">
               <p>
-                {{ item.GiaDonHang * item.SoLuong }}
+                {{
+                  (item.DonGia - (item.DonGia * item.KhuyenMai) / 100) *
+                  item.SoLuong
+                }}
               </p>
             </div>
             <div class="product-status">
@@ -111,25 +112,51 @@ const fetchOrders = () => {
 };
 
 const parseOrderItems = (order) => {
-  const items = []; // Process order details
+  const items = [];
 
-  for (let i = 0; i < order.MaSach.length; i++) {
+  // Kiểm tra order.MaSach là mảng hoặc chuỗi
+  let maSachArray = [];
+  if (Array.isArray(order.MaSach)) {
+    maSachArray = order.MaSach;
+  } else if (typeof order.MaSach === "string") {
+    maSachArray = order.MaSach.split(",");
+  } else {
+    console.error("Invalid format for order.MaSach:", order.MaSach);
+    return items; // Hoặc xử lý lỗi tùy theo yêu cầu của bạn
+  }
+
+  // Lặp qua mảng maSachArray để tạo các đối tượng item
+  for (let i = 0; i < maSachArray.length; i++) {
     const item = {
-      MaSach: order.MaSach[i],
-      TenSach: order.TenSach[i],
-      HinhAnh: order.HinhAnh[i],
-      DonGia: parseInt(order.DonGia[i]),
-      GiaDonHang: parseInt(order.GiaDonHang[i]),
-
-      SoLuong: parseInt(order.SoLuong[i]),
-      TacGia: order.TacGia[i],
-      NgonNgu: order.NgonNgu[i],
-      DanhMuc: order.DanhMuc[i],
-      NhaXuatBan: order.NhaXuatBan[i],
-      KhuyenMai: order.KhuyenMai[i],
+      MaSach: maSachArray[i]?.trim(), // Sử dụng optional chaining
+      TenSach: order.TenSach?.[i]?.trim(),
+      HinhAnh: order.HinhAnh?.[i]?.trim(),
+      DonGia: parseFloat(order.DonGia?.[i]),
+      SoLuong: parseInt(order.SoLuong?.[i]),
+      TacGia: order.TacGia?.[i]?.trim(),
+      NgonNgu: order.NgonNgu?.[i]?.trim(),
+      DanhMuc: order.DanhMuc?.[i]?.trim(),
+      NhaXuatBan: order.NhaXuatBan?.[i]?.trim(),
+      KhuyenMai: parseFloat(order.KhuyenMai?.[i]),
     };
 
-    items.push(item);
+    // Kiểm tra xem tất cả các giá trị cần thiết có tồn tại không
+    if (
+      item.MaSach &&
+      item.TenSach &&
+      item.HinhAnh &&
+      !isNaN(item.DonGia) &&
+      !isNaN(item.SoLuong) &&
+      item.TacGia &&
+      item.NgonNgu &&
+      item.DanhMuc &&
+      item.NhaXuatBan &&
+      !isNaN(item.KhuyenMai)
+    ) {
+      items.push(item);
+    } else {
+      console.error("Invalid item data:", item);
+    }
   }
 
   return items;
@@ -148,6 +175,7 @@ const confirmDelivery = (order) => {
       console.error("Error confirming delivery:", error);
     });
 };
+
 const router = useRouter();
 const process = (order) => {
   console.log(order.MaDon);
@@ -162,6 +190,7 @@ const process = (order) => {
       console.error("Error confirming delivery:", error);
     });
 };
+
 const printInvoice = (maDon) => {
   window.open(
     `http://localhost/LVTN/book-store/src/api/printInvoice.php?maDon=${maDon}`,

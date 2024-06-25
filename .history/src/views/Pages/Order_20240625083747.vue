@@ -41,7 +41,7 @@
             </div>
             <div class="product-price">
               <p>
-                {{ item.GiaDonHang }}
+                {{ item.GiaDonHang - (item.GiaDonHang * item.KhuyenMai) / 100 }}
               </p>
             </div>
             <div class="product-quantity">
@@ -49,7 +49,10 @@
             </div>
             <div class="total-price">
               <p>
-                {{ item.GiaDonHang * item.SoLuong }}
+                {{
+                  (item.DonGia - (item.DonGia * item.KhuyenMai) / 100) *
+                  item.SoLuong
+                }}
               </p>
             </div>
             <div class="product-status">
@@ -119,8 +122,6 @@ const parseOrderItems = (order) => {
       TenSach: order.TenSach[i],
       HinhAnh: order.HinhAnh[i],
       DonGia: parseInt(order.DonGia[i]),
-      GiaDonHang: parseInt(order.GiaDonHang[i]),
-
       SoLuong: parseInt(order.SoLuong[i]),
       TacGia: order.TacGia[i],
       NgonNgu: order.NgonNgu[i],

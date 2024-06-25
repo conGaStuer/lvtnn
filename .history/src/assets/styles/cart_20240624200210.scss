@@ -229,7 +229,7 @@
 }
 .place1,
 .place2 {
-  width: 200px;
+  width: 120px;
   height: 40px;
   background-color: #f28b82;
   color: white;
@@ -238,11 +238,8 @@
   box-shadow: rgba(149, 157, 165, 0.4) 0px 8px 54px;
   border-radius: 10px;
   cursor: pointer;
-  &:hover {
-    background-color: #000;
-  }
 }
 .place2 {
   position: relative;
-  left: 20px;
+  top: 2px;
 }

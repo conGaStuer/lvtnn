@@ -40,16 +40,17 @@
               </p>
             </div>
             <div class="product-price">
-              <p>
-                {{ item.GiaDonHang }}
-              </p>
+              <p>{{ item.DonGia - (item.DonGia * item.KhuyenMai) / 100 }}</p>
             </div>
             <div class="product-quantity">
               <span>{{ item.SoLuong }}</span>
             </div>
             <div class="total-price">
               <p>
-                {{ item.GiaDonHang * item.SoLuong }}
+                {{
+                  (item.DonGia - (item.DonGia * item.KhuyenMai) / 100) *
+                  item.SoLuong
+                }}
               </p>
             </div>
             <div class="product-status">
@@ -109,7 +110,6 @@ const fetchOrders = () => {
       console.error("Error fetching orders:", error);
     });
 };
-
 const parseOrderItems = (order) => {
   const items = []; // Process order details
 
@@ -118,15 +118,13 @@ const parseOrderItems = (order) => {
       MaSach: order.MaSach[i],
       TenSach: order.TenSach[i],
       HinhAnh: order.HinhAnh[i],
-      DonGia: parseInt(order.DonGia[i]),
-      GiaDonHang: parseInt(order.GiaDonHang[i]),
-
+      DonGia: parseFloat(order.DonGia[i]),
       SoLuong: parseInt(order.SoLuong[i]),
       TacGia: order.TacGia[i],
       NgonNgu: order.NgonNgu[i],
       DanhMuc: order.DanhMuc[i],
       NhaXuatBan: order.NhaXuatBan[i],
-      KhuyenMai: order.KhuyenMai[i],
+      KhuyenMai: parseFloat(order.KhuyenMai[i]),
     };
 
     items.push(item);

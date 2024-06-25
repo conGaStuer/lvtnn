@@ -40,16 +40,17 @@
               </p>
             </div>
             <div class="product-price">
-              <p>
-                {{ item.GiaDonHang }}
-              </p>
+              <p>{{ item.DonGia - (item.DonGia * item.KhuyenMai) / 100 }}</p>
             </div>
             <div class="product-quantity">
               <span>{{ item.SoLuong }}</span>
             </div>
             <div class="total-price">
               <p>
-                {{ item.GiaDonHang * item.SoLuong }}
+                {{
+                  (item.DonGia - (item.DonGia * item.KhuyenMai) / 100) *
+                  item.SoLuong
+                }}
               </p>
             </div>
             <div class="product-status">
@@ -111,30 +112,38 @@ const fetchOrders = () => {
 };
 
 const parseOrderItems = (order) => {
-  const items = []; // Process order details
+  const items = [];
 
-  for (let i = 0; i < order.MaSach.length; i++) {
-    const item = {
-      MaSach: order.MaSach[i],
-      TenSach: order.TenSach[i],
-      HinhAnh: order.HinhAnh[i],
-      DonGia: parseInt(order.DonGia[i]),
-      GiaDonHang: parseInt(order.GiaDonHang[i]),
+  // Split comma-separated strings into arrays
+  const maSachArray = order.MaSach.split(",");
+  const tenSachArray = order.TenSach.split(",");
+  const hinhAnhArray = order.HinhAnh.split(",");
+  const donGiaArray = order.DonGia.split(",");
+  const soLuongArray = order.SoLuong.split(",");
+  const tacGiaArray = order.TacGia.split(",");
+  const ngonNguArray = order.NgonNgu.split(",");
+  const danhMucArray = order.DanhMuc.split(",");
+  const khuyenMaiArray = order.KhuyenMai.split(",");
+  const nhaXuatBanArray = order.NhaXuatBan.split(",");
 
-      SoLuong: parseInt(order.SoLuong[i]),
-      TacGia: order.TacGia[i],
-      NgonNgu: order.NgonNgu[i],
-      DanhMuc: order.DanhMuc[i],
-      NhaXuatBan: order.NhaXuatBan[i],
-      KhuyenMai: order.KhuyenMai[i],
-    };
-
-    items.push(item);
+  // Iterate through each item in the order and create objects
+  for (let i = 0; i < maSachArray.length; i++) {
+    items.push({
+      MaSach: maSachArray[i],
+      TenSach: tenSachArray[i],
+      HinhAnh: hinhAnhArray[i],
+      DonGia: parseFloat(donGiaArray[i]), // Ensure numeric type if necessary
+      SoLuong: parseInt(soLuongArray[i]), // Ensure integer type if necessary
+      TacGia: tacGiaArray[i],
+      NgonNgu: ngonNguArray[i],
+      DanhMuc: danhMucArray[i],
+      NhaXuatBan: nhaXuatBanArray[i],
+      KhuyenMai: parseFloat(khuyenMaiArray[i]), // Ensure numeric type if necessary
+    });
   }
 
   return items;
 };
-
 const confirmDelivery = (order) => {
   axios
     .post("http://localhost/LVTN/book-store/src/api/updateOrderStatus.php", {

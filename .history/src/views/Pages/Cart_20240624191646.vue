@@ -56,10 +56,10 @@
             </div>
             <i class="pi pi-times" @click="deleteItem(item)"></i>
           </div>
-          <button class="place1" @click="placeOrder('COD')">
+          <button class="place" @click="placeOrder('COD')">
             Đặt hàng (COD)
           </button>
-          <button class="place2" @click="placeOrder('ZaloPay')">
+          <button class="place" @click="placeOrder('ZaloPay')">
             Đặt hàng (ZaloPay)
           </button>
         </div>

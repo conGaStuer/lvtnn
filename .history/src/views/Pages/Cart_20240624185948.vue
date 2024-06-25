@@ -56,12 +56,7 @@
             </div>
             <i class="pi pi-times" @click="deleteItem(item)"></i>
           </div>
-          <button class="place1" @click="placeOrder('COD')">
-            Đặt hàng (COD)
-          </button>
-          <button class="place2" @click="placeOrder('ZaloPay')">
-            Đặt hàng (ZaloPay)
-          </button>
+          <button class="place" @click="placeOrder">Đặt hàng</button>
         </div>
       </div>
     </div>
@@ -73,6 +68,7 @@ import { ref, onMounted, computed } from "vue";
 import axios from "axios";
 import NavBar from "@/views/UI_Components/NavBar.vue";
 import Footer from "@/views/UI_Components/Footer.vue";
+import router from "@/router";
 import { useRouter } from "vue-router";
 
 export default {
@@ -90,6 +86,7 @@ export default {
 
     const incrementQuantity = (item) =>
       updateQuantity(item, Number(item.SoLuong) + 1);
+
     const decrementQuantity = (item) => {
       if (item.SoLuong > 1) updateQuantity(item, item.SoLuong - 1);
     };
@@ -128,11 +125,8 @@ export default {
                 }
               )
               .then((response) => {
-                if (
-                  response.data.message === "Quantity updated successfully."
-                ) {
+                if (response.data.message === "Quantity updated successfully.")
                   item.SoLuong = newQuantity;
-                }
               })
               .catch((error) =>
                 console.error("Error updating quantity:", error)
@@ -156,7 +150,7 @@ export default {
         .catch((err) => console.log("Error", err));
     };
 
-    const placeOrder = (paymentMethod) => {
+    const placeOrder = () => {
       if (selectedItems.value.length === 0) {
         alert("Vui lòng chọn ít nhất 1 sản phẩm để đặt hàng!!");
         return;
@@ -167,10 +161,10 @@ export default {
       const orderData = {
         userId: userId,
         items: selectedCartItems,
-        paymentMethod: paymentMethod,
+        paymentMethod: paymentMethod.value,
       };
 
-      if (paymentMethod === "COD") {
+      if (paymentMethod.value === "COD") {
         axios
           .post(
             "http://localhost/LVTN/book-store/src/api/addOrder.php",
@@ -186,7 +180,7 @@ export default {
             }
           })
           .catch((err) => console.log("Error", err));
-      } else if (paymentMethod === "ZaloPay") {
+      } else if (paymentMethod.value === "ZaloPay") {
         axios
           .post(
             "http://localhost/LVTN/book-store/src/api/createZaloPayOrder.php",
