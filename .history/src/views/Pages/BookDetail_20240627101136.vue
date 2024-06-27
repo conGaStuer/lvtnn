@@ -98,87 +98,46 @@
       </button>
     </nav>
     <div v-if="selectedTab === 'description'">
-      <div v-if="selectedTab === 'description'">
-        <div v-if="comments && comments.length">
-          <div class="comment" v-for="comment in comments" :key="comment.maDG">
-            <!-- Display only root comments (parent_id === null) -->
-            <div v-if="comment.parent_id === null" class="comment-item">
-              <div
-                class="avatar"
-                :style="{
-                  backgroundImage: `url('http://localhost/LVTN/book-store/src/api/${comment.hinh}')`,
-                }"
-              ></div>
-              <div class="comment-info">
-                <div class="comment-user">
-                  {{ comment.taikhoan }} - {{ comment.ngayDG }}
-                </div>
-                <div class="comment-detail">
-                  <p>{{ comment.noidung }}</p>
-                  <Rating
-                    v-model="comment.rating"
-                    :cancel="false"
-                    class="star"
-                    disabled
-                  />
-                  <span v-if="isEmployee" @click="repComment(comment.maDG)"
-                    >Trả lời</span
-                  >
-                  <span v-if="isEmployee" @click="deleteComment(comment.maDG)"
-                    >Xóa</span
-                  >
-                  <div v-if="isRep === comment.maDG" class="reply-section">
-                    <form @submit.prevent="handleComment(comment.maDG)">
-                      <input
-                        type="text"
-                        v-model="userComment"
-                        placeholder="Reply to comment"
-                      />
-                      <Rating v-model="value" :cancel="false" class="star" />
-                      <button>Gửi</button>
-                    </form>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <!-- Display replies for each root comment -->
-            <div
-              v-if="comment.replies && comment.replies.length"
-              class="replyArray"
-            >
-              <div
-                class="reply"
-                v-for="reply in comment.replies"
-                :key="reply.maDG"
-              >
-                <div
-                  class="avatar"
-                  :style="{ backgroundImage: `url('${reply.hinh}')` }"
-                ></div>
-                <div class="reply-info">
-                  <div class="reply-user">
-                    {{ reply.taikhoan }} - {{ reply.ngayDG }}
-                  </div>
-                  <div class="reply-detail">
-                    <p>{{ reply.noidung }}</p>
-                    <Rating
-                      v-model="reply.rating"
-                      :cancel="false"
-                      class="star"
-                      disabled
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
+      <div class="comment" v-for="comment in comments" :key="comment.maDG">
+        <div
+          class="avatar"
+          :style="{
+            backgroundImage: `url('http://localhost/LVTN/book-store/src/api/${comment.hinh}')`,
+          }"
+        ></div>
+        <div class="comment-info">
+          <div class="comment-user">
+            <span class="taikhoan">{{ comment.taikhoan }}</span> -
+            <span class="time">{{ comment.ngayDG }}</span>
           </div>
-        </div>
-        <div v-else>
-          <p>No comments yet.</p>
+          <div class="comment-detail">
+            <p>{{ comment.noidung }}</p>
+            <Rating
+              v-model="comment.rating"
+              :cancel="false"
+              class="star"
+              disabled
+            />
+            <span v-if="isEmployee" @click="repComment(comment.maDG)"
+              >Trả lời</span
+            >
+            <span v-if="isEmployee" @click="deleteComment(comment.maDG)"
+              >Xóa</span
+            >
+            <form
+              @submit.prevent="handleComment(comment.maDG)"
+              v-if="isRep === comment.maDG"
+            >
+              <input type="text" v-model="userComment" />
+              <Rating v-model="value" :cancel="false" class="star star1" />
+
+              <button>Gửi</button>
+            </form>
+          </div>
         </div>
       </div>
 
-      <form @submit.prevent="handleComment1">
+      <form @submit.prevent="handleComment">
         <input type="text" v-model="userComment" />
         <Rating v-model="value" :cancel="false" class="star star1" />
 
@@ -262,7 +221,7 @@
 </template>
 
 <script>
-import { onMounted, ref, watch, computed } from "vue";
+import { onMounted, ref, watch } from "vue";
 import axios from "axios";
 import { onBeforeRouteUpdate, useRoute } from "vue-router";
 import NavBar from "../UI_Components/NavBar.vue";
@@ -280,11 +239,12 @@ export default {
   },
   setup() {
     const quantity = ref(1);
+
     const value = ref(null);
+
     const book = ref(null);
     const route = useRoute();
     const hover = null;
-    const isRep = ref(null);
     const getDetailBook = (bookId) => {
       axios
         .get(
@@ -293,13 +253,14 @@ export default {
         .then((res) => {
           if (res.data) {
             book.value = res.data;
+            console.log(book.value);
             getRelatedBooks(book.value.DanhMuc, book.value.MaSach);
             discountedPrice.value = calculateDiscountedPrice(
               book.value.DonGia,
               book.value.KhuyenMai
             );
           } else {
-            console.log("No data available");
+            console.log("deo co data");
           }
         })
         .catch((err) => {
@@ -318,22 +279,19 @@ export default {
           if (res.data) {
             relatedBooks.value = res.data;
           } else {
-            console.log("No related data available");
+            console.log("Không có dữ liệu liên quan");
           }
         })
         .catch((err) => {
-          console.log("Error", err);
+          console.log("Lỗi", err);
         });
     };
-
     onBeforeRouteUpdate(() => {
       window.scrollTo(0, 0);
     });
-
     onMounted(() => {
       getDetailBook(route.params.id);
       getAllComment();
-      console.log(userData.value);
     });
 
     watch(route, (newRoute) => {
@@ -341,7 +299,6 @@ export default {
     });
 
     const selectedTab = ref("description");
-
     const addToCart = () => {
       axios
         .post("http://localhost/LVTN/book-store/src/api/checkStock.php", {
@@ -358,80 +315,51 @@ export default {
                 soLuong: quantity.value,
               })
               .then((res) => {
-                console.log("Book added to cart: ", res.data);
-                message.success("Book added to cart");
+                console.log("Sách đã được thêm vào giỏ hàng: ", res.data);
+                message.success("Sách đã được thêm vào giỏ hàng");
                 window.location.reload();
               })
               .catch((err) => {
-                console.log("Error: ", err);
-                message.error("This product is temporarily out of stock");
+                console.log("Lỗi: ", err);
+                message.error("Sản phẩm này tạm thời hết hàng");
               });
           } else {
-            message.error("The quantity of books is not enough in stock");
+            message.error("Số lượng sách không đủ trong kho");
           }
         })
         .catch((err) => {
-          console.log("Stock checking error: ", err);
+          console.log("Lỗi kiểm tra số lượng: ", err);
         });
     };
 
     const currentUser = JSON.parse(localStorage.getItem("currentUser"));
     const userData = ref({ ...currentUser });
+    console.log(userData.value);
 
-    const userComment = ref("");
-
-    const handleComment = (replyTo) => {
-      const content = userComment.value; // Access as userComment.value
-      const ratingValue = value.value;
-      const bookId = route.params.id;
-
+    const userComment = ref();
+    const handleComment = () => {
       axios
-        .post(`http://localhost/LVTN/book-store/src/api/postComment.php`, {
-          MaSach: bookId,
-          MaKH: currentUser.maND,
-          noidung: content,
-          rating: ratingValue,
-          replyTo: replyTo,
+        .post("http://localhost/LVTN/book-store/src/api/postComment.php", {
+          userId: userData.value.maND,
+          bookId: route.params.id,
+          content: userComment.value,
+          rating: value.value,
         })
-        .then((response) => {
-          message.success("Bình luận của bạn đã được gửi");
-          userComment.value = "";
-          isRep.value = null; // Reset isRep after successful submission
-
-          getAllComment();
+        .then((res) => {
+          if (res.data === "Danh gia thanh cong") {
+            getAllComment();
+            // window.location.reload();
+            alert("Them thanh cong");
+            userComment.value = ""; // Clear the comment input after successful submission
+            value.value = null; // Reset giá trị rating sau khi gửi thành công
+          } else {
+            console.log("Sai");
+          }
         })
-        .catch((error) => {
-          console.error(error);
+        .catch((err) => {
+          console.log("Error", err);
         });
     };
-    const toggleReply = (commentId) => {
-      // Toggle reply section by setting isRep to null or commentId
-      isRep.value = isRep.value === commentId ? null : commentId;
-    };
-
-    const handleComment1 = (replyTo) => {
-      // Ensure replyTo is passed as an argument
-      const content = userComment.value;
-      const ratingValue = value.value;
-      const bookId = route.params.id;
-
-      axios
-        .post(`http://localhost/LVTN/book-store/src/api/postComment.php`, {
-          MaSach: bookId,
-          MaKH: currentUser.maND,
-          noidung: content,
-          rating: ratingValue,
-          replyTo: replyTo.value, // Use replyTo.value assuming it's a ref or variable
-        })
-        .then((response) => {
-          message.success("Bình luận của bạn đã được gửi");
-          getAllComment();
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    };
-
     const comments = ref();
     const getAllComment = () => {
       const bookId = route.params.id;
@@ -442,6 +370,7 @@ export default {
         .then((res) => {
           if (res.data) {
             comments.value = res.data;
+            console.log(comments.value);
           } else {
             console.log("Error");
           }
@@ -450,69 +379,37 @@ export default {
           console.log("Error", err);
         });
     };
-    const deleteComment = (commentId) => {
-      axios
-        .post("http://localhost/LVTN/book-store/src/api/deleteComment.php", {
-          commentId: commentId,
-        })
-        .then((response) => {
-          // Handle success, e.g., remove the comment from the UI
-          getAllComment(); // Refresh comments after deletion
-          message.success("Comment deleted successfully");
-        })
-        .catch((error) => {
-          console.error("Error deleting comment:", error);
-          message.error("Failed to delete comment");
-        });
-    };
     const visibleComments = ref(5);
     const loadMoreComments = () => {
       visibleComments.value += 5;
     };
-
+    const isRep = ref(null);
     const repComment = (commentId) => {
-      if (currentUser.maVaiTro === "2" || currentUser.maVaiTro === "1") {
-        isRep.value = commentId;
-      }
+      isRep.value = commentId;
     };
-
-    const isEmployee = computed(() => {
-      return currentUser.maVaiTro === "2";
-    });
-
-    const isEmployeeOrCustomer = computed(() => {
-      return currentUser.maVaiTro === "2" || currentUser.maVaiTro === "1";
-    });
-
     const discountedPrice = ref(0);
     const calculateDiscountedPrice = (originalPrice, discount) => {
       return originalPrice - (originalPrice * discount) / 100;
     };
-
     return {
       book,
       addToCart,
       selectedTab,
-      toggleReply,
       hover,
       relatedBooks,
       userData,
       currentUser,
       value,
       handleComment,
-      handleComment1,
       getAllComment,
       comments,
+      userComment,
       visibleComments,
       loadMoreComments,
       isRep,
       repComment,
       discountedPrice,
       quantity,
-      isEmployee,
-      isEmployeeOrCustomer,
-      userComment,
-      deleteComment,
     };
   },
 };

@@ -450,21 +450,7 @@ export default {
           console.log("Error", err);
         });
     };
-    const deleteComment = (commentId) => {
-      axios
-        .post("http://localhost/LVTN/book-store/src/api/deleteComment.php", {
-          commentId: commentId,
-        })
-        .then((response) => {
-          // Handle success, e.g., remove the comment from the UI
-          getAllComment(); // Refresh comments after deletion
-          message.success("Comment deleted successfully");
-        })
-        .catch((error) => {
-          console.error("Error deleting comment:", error);
-          message.error("Failed to delete comment");
-        });
-    };
+
     const visibleComments = ref(5);
     const loadMoreComments = () => {
       visibleComments.value += 5;
@@ -512,7 +498,6 @@ export default {
       isEmployee,
       isEmployeeOrCustomer,
       userComment,
-      deleteComment,
     };
   },
 };

@@ -121,13 +121,14 @@
                     class="star"
                     disabled
                   />
-                  <span v-if="isEmployee" @click="repComment(comment.maDG)"
-                    >Trả lời</span
+                  <div v-if="isEmployee.value">
+                    <span @click="repComment(comment.maDG)">Trả lời</span>
+                    <span @click="deleteComment(comment.maDG)">Xóa</span>
+                  </div>
+                  <div
+                    v-if="isRep.value === comment.maDG"
+                    class="reply-section"
                   >
-                  <span v-if="isEmployee" @click="deleteComment(comment.maDG)"
-                    >Xóa</span
-                  >
-                  <div v-if="isRep === comment.maDG" class="reply-section">
                     <form @submit.prevent="handleComment(comment.maDG)">
                       <input
                         type="text"
@@ -396,19 +397,12 @@ export default {
         .then((response) => {
           message.success("Bình luận của bạn đã được gửi");
           userComment.value = "";
-          isRep.value = null; // Reset isRep after successful submission
-
           getAllComment();
         })
         .catch((error) => {
           console.error(error);
         });
     };
-    const toggleReply = (commentId) => {
-      // Toggle reply section by setting isRep to null or commentId
-      isRep.value = isRep.value === commentId ? null : commentId;
-    };
-
     const handleComment1 = (replyTo) => {
       // Ensure replyTo is passed as an argument
       const content = userComment.value;
@@ -450,21 +444,7 @@ export default {
           console.log("Error", err);
         });
     };
-    const deleteComment = (commentId) => {
-      axios
-        .post("http://localhost/LVTN/book-store/src/api/deleteComment.php", {
-          commentId: commentId,
-        })
-        .then((response) => {
-          // Handle success, e.g., remove the comment from the UI
-          getAllComment(); // Refresh comments after deletion
-          message.success("Comment deleted successfully");
-        })
-        .catch((error) => {
-          console.error("Error deleting comment:", error);
-          message.error("Failed to delete comment");
-        });
-    };
+
     const visibleComments = ref(5);
     const loadMoreComments = () => {
       visibleComments.value += 5;
@@ -493,7 +473,6 @@ export default {
       book,
       addToCart,
       selectedTab,
-      toggleReply,
       hover,
       relatedBooks,
       userData,
@@ -512,7 +491,6 @@ export default {
       isEmployee,
       isEmployeeOrCustomer,
       userComment,
-      deleteComment,
     };
   },
 };

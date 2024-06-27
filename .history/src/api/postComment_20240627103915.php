@@ -30,24 +30,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $book_exists = $result_book->fetch_row()[0];
 
     if ($user_exists > 0 && $book_exists > 0) {
-        if ($replyTo) {
-            // Insert employee response
-            $sql_response = "INSERT INTO danh_gia(maND, noidung, ngayDG, maSach, rating, reply_to, is_staff) 
-                            VALUES ('$maND', '$noidung', NOW(), '$maSach', '$rating', '$replyTo', '1')"; // Set is_staff = 1 for employee response
-            if ($conn->query($sql_response) === TRUE) {
-                echo json_encode("Employee response added successfully");
-            } else {
-                echo json_encode("Error adding employee response: " . $conn->error);
-            }
+        $sql_comment = "INSERT INTO danh_gia(maND, noidung, ngayDG, maSach, rating, reply_to, is_staff) 
+                        VALUES ('$maND', '$noidung', NOW(), '$maSach', '$rating', " . ($replyTo ? "'$replyTo'" : "NULL") . ", '$isStaff')";
+
+        if ($conn->query($sql_comment) === TRUE) {
+            echo json_encode("Danh gia thanh cong");
         } else {
-            // Insert customer review
-            $sql_comment = "INSERT INTO danh_gia(maND, noidung, ngayDG, maSach, rating, reply_to, is_staff) 
-                            VALUES ('$maND', '$noidung', NOW(), '$maSach', '$rating', NULL, '0')"; // Set is_staff = 0 for customer review
-            if ($conn->query($sql_comment) === TRUE) {
-                echo json_encode("Customer review added successfully");
-            } else {
-                echo json_encode("Error adding customer review: " . $conn->error);
-            }
+            echo json_encode("Danh gia khong thanh cong: " . $conn->error);
         }
     } else {
         if ($user_exists == 0) {

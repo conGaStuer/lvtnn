@@ -512,7 +512,6 @@ export default {
       isEmployee,
       isEmployeeOrCustomer,
       userComment,
-      deleteComment,
     };
   },
 };

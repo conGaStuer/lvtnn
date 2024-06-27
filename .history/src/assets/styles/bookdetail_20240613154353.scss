@@ -230,102 +230,54 @@ button {
 }
 .comment {
   width: 100%;
+  height: auto;
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: 20px;
-  .comment-item {
-    width: 90%;
+  margin-top: 20px;
+
+  .avatar {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    left: 5px;
+    top: -20px;
+  }
+  .comment-info {
+    width: 92%;
+    height: 92%;
     display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 
-    margin-top: 20px;
-    span {
-      margin-right: 20px;
+    .taikhoan {
+      font-size: 14.5px;
+      font-weight: bold;
+    }
+    .time {
+      margin-left: 3.5px;
+      font-size: 12.5px;
+    }
+    .comment-detail {
+      font-size: 15px;
       position: relative;
-      top: 10px;
-      cursor: pointer;
+      top: -8px;
+      .star {
+        margin-top: 30px;
+      }
+      span {
+        position: relative;
+        top: -15px;
+        left: 150px;
+        cursor: pointer;
+      }
     }
   }
-  .replyArray {
-    position: relative;
-    left: 130px;
-    top: 20px;
-    width: 50%;
-    margin-bottom: 50px;
-    .reply {
-      display: flex;
-    }
-  }
 }
-
-.avatar {
-  width: 45px;
-  height: 45px;
-  border-radius: 50%;
-  background-size: cover;
-  background-position: center;
-  margin-right: 20px;
-}
-
-.comment-info {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-}
-
-.comment-user {
-  font-weight: bold;
-  color: #333;
-  font-size: 14px;
-  margin-bottom: 5px;
-}
-
-.comment-detail {
-  font-size: 14px;
-  margin-top: 5px;
-}
-
-.star {
-  margin-top: 5px;
-  margin-bottom: 5px;
-}
-
-.reply-section {
-  margin-top: 10px;
-  padding-top: 10px;
-  border-top: 1px solid #ccc;
-}
-
-.reply-section form {
-  display: flex;
-  flex-direction: column;
-
-  align-items: flex-start;
-  margin-top: 10px;
-  .star {
-    position: relative;
-
-    top: 10px;
-  }
-}
-
-.reply-section form input {
-  flex: 1;
-  height: 30px;
-  margin-right: 10px;
-  padding: 5px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-.reply-section form button {
-  padding: 5px 10px;
-  background-color: #f28b82;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
 form {
   width: 100%;
   height: 150px;
@@ -337,6 +289,6 @@ form {
     text-indent: 20px;
   }
   .star1 {
-    top: 20px;
+    top: 10px;
   }
 }
