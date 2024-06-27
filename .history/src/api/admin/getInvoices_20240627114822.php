@@ -25,20 +25,21 @@ $sql_get_invoices = "
     FROM don_dat_hang ddh
     INNER JOIN chi_tiet_don_hang ctdh ON ddh.madon = ctdh.madon
     INNER JOIN sach s ON ctdh.MaSach = s.maSach
-    INNER JOIN nguoi_dung u ON ddh.maND = u.maND";
+    INNER JOIN nguoi_dung u ON ddh.maND = u.maND
+    WHERE ddh.trangthai = 'giaohangthanhcong'"; // Filter by 'giaohangthanhcong' status initially
 
-// Apply additional filters based on filterType
+// Apply date filters based on filterType
 switch ($filterType) {
     case 'day':
         if ($filterValue) {
-            $sql_get_invoices .= " WHERE DATE(ddh.ngayDat) = ?";
+            $sql_get_invoices .= " AND DATE(ddh.ngayDat) = ?";
         }
         break;
     case 'week':
-        $sql_get_invoices .= " WHERE YEARWEEK(ddh.ngayDat, 1) = YEARWEEK(NOW(), 1)";
+        $sql_get_invoices .= " AND YEARWEEK(ddh.ngayDat, 1) = YEARWEEK(NOW(), 1)";
         break;
     case 'month':
-        $sql_get_invoices .= " WHERE MONTH(ddh.ngayDat) = MONTH(NOW()) AND YEAR(ddh.ngayDat) = YEAR(NOW())";
+        $sql_get_invoices .= " AND MONTH(ddh.ngayDat) = MONTH(NOW()) AND YEAR(ddh.ngayDat) = YEAR(NOW())";
         break;
     default:
         // 'all' - no additional filtering needed
@@ -52,7 +53,7 @@ $sql_get_invoices .= "
 
 $stmt = $conn->prepare($sql_get_invoices);
 
-// Bind parameters for date filters, if applicable
+// Bind parameters for date filters
 if ($filterType === 'day' && $filterValue) {
     $stmt->bind_param("s", $filterValue);
 }
@@ -71,7 +72,7 @@ if ($result) {
 
             $invoices[] = $row;
         }
-        echo json_encode($invoices);
+        echo json_encode($invoices); // Output JSON array of invoices
     } else {
         echo json_encode([]); // No invoices found
     }

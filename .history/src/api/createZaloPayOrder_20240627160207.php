@@ -21,9 +21,9 @@ if (!isset($data['userId']) || !isset($data['items'])) {
 
 $userId = $data['userId'];
 $items = json_encode($data['items']);
-
 $transID = rand(0, 1000000);
 $amount = 0;
+
 foreach ($data['items'] as $item) {
     $amount += $item['DonGia'] * $item['SoLuong'];
 }
@@ -42,7 +42,6 @@ $order = [
 
 $data_string = $order["app_id"] . "|" . $order["app_trans_id"] . "|" . $order["app_user"] . "|" . $order["amount"]
     . "|" . $order["app_time"] . "|" . $order["embed_data"] . "|" . $order["item"];
-
 $order["mac"] = hash_hmac("sha256", $data_string, $config["key1"]);
 
 $context = stream_context_create([
@@ -57,10 +56,35 @@ $response = file_get_contents($config["endpoint"], false, $context);
 $result = json_decode($response, true);
 
 if ($result['return_code'] == 1) {
-    echo json_encode([
-        'status' => 'success',
-        'payment_url' => $result['order_url']
+    $callback_data = [
+        'app_trans_id' => $order["app_trans_id"],
+        'app_user' => $userId,
+        'amount' => $amount,
+        'items' => $data['items']
+    ];
+
+    $callback_context = stream_context_create([
+        "http" => [
+            "header" => "Content-type: application/json\r\n",
+            "method" => "POST",
+            "content" => json_encode($callback_data)
+        ]
     ]);
+
+    $callback_url = 'http://localhost/LVTN/book-store/src/api/zaloPayCallback.php';
+    $callback_response = file_get_contents($callback_url, false, $callback_context);
+
+    if ($callback_response === false) {
+        echo json_encode([
+            'status' => 'error',
+            'message' => 'Failed to call callback'
+        ]);
+    } else {
+        echo json_encode([
+            'status' => 'success',
+            'payment_url' => $result['order_url']
+        ]);
+    }
 } else {
     echo json_encode([
         'status' => 'error',

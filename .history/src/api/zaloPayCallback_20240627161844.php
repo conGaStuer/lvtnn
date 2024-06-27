@@ -19,11 +19,12 @@ try {
         // Process callback data
         $datajson = json_decode($postdatajson["data"], true);
         $app_trans_id = $datajson["app_trans_id"];
-
         $userId = $datajson["app_user"];
         $amount = $datajson["amount"];
         $items = $datajson["items"];
 
+        // Open database connection (assuming $conn is your database connection)
+        $conn->begin_transaction();
 
         try {
             // Create new order
@@ -47,20 +48,21 @@ try {
                 $soLuong = $item['SoLuong'];
                 $donGia = $item['DonGia'];
 
-                $sql_insert_item = "INSERT INTO chi_tiet_don_hang (madon, masach, soluong, dongia) 
-                VALUES ('$orderId', '$maSach', '$soLuong', '$donGia')";
+                $sql_insert_item = "INSERT INTO chi_tiet_don_hang (madon, masach, soluong, dongia) VALUES ('$orderId', '$maSach', '$soLuong', '$donGia')";
                 if ($conn->query($sql_insert_item) !== TRUE) {
                     throw new Exception("Failed to add item to order");
                 }
             }
 
-
+            // Commit transaction if everything is successful
+            $conn->commit();
 
             // Return success message
             $result["return_code"] = 1;
             $result["return_message"] = "Success";
         } catch (Exception $e) {
             // Rollback transaction on failure
+            $conn->rollback();
             $result["return_code"] = 0;
             $result["return_message"] = $e->getMessage();
         }

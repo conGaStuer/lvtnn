@@ -173,7 +173,7 @@ onMounted(() => {
 }
 
 .invoice-list {
-  height: 40vh;
+  height: 60vh;
   margin-top: 20px;
   position: relative;
   top: -20px;
@@ -181,8 +181,5 @@ onMounted(() => {
 
 .action-btn {
   margin-right: 8px;
-}
-.ant-table-wrapper {
-  height: 40vh;
 }
 </style>

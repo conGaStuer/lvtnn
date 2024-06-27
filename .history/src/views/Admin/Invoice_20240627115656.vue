@@ -48,8 +48,8 @@
           <p><strong>Số điện thoại:</strong> {{ record.SDT }}</p>
           <p><strong>Ngày đặt:</strong> {{ record.NgayDat }}</p>
           <p><strong>Tổng tiền:</strong> {{ record.TongTien }}</p>
-          <p><strong>Mã sách:</strong> {{ record.MaSach }}</p>
-          <p><strong>Tên sách:</strong> {{ record.TenSach }}</p>
+          <p><strong>Mã sách:</strong> {{ record.MaSach.join(", ") }}</p>
+          <p><strong>Tên sách:</strong> {{ record.TenSach.join(", ") }}</p>
           <a-button
             :href="`http://localhost/LVTN/book-store/src/api/printInvoice.php?maDon=${record.MaDon}`"
             target="_blank"

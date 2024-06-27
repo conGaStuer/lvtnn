@@ -182,7 +182,4 @@ onMounted(() => {
 .action-btn {
   margin-right: 8px;
 }
-.ant-table-wrapper {
-  height: 40vh;
-}
 </style>

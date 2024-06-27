@@ -46,10 +46,7 @@
           <p><strong>Tên người dùng:</strong> {{ record.TenNguoiDung }}</p>
           <p><strong>Mã người dùng:</strong> {{ record.MaND }}</p>
           <p><strong>Số điện thoại:</strong> {{ record.SDT }}</p>
-          <p><strong>Ngày đặt:</strong> {{ record.NgayDat }}</p>
-          <p><strong>Tổng tiền:</strong> {{ record.TongTien }}</p>
-          <p><strong>Mã sách:</strong> {{ record.MaSach }}</p>
-          <p><strong>Tên sách:</strong> {{ record.TenSach }}</p>
+
           <a-button
             :href="`http://localhost/LVTN/book-store/src/api/printInvoice.php?maDon=${record.MaDon}`"
             target="_blank"
@@ -89,10 +86,7 @@ const columns = ref([
   { title: "Tên người dùng", dataIndex: "TenNguoiDung", key: "TenNguoiDung" },
   { title: "Mã người dùng", dataIndex: "MaND", key: "MaND" },
   { title: "Số điện thoại", dataIndex: "SDT", key: "SDT" },
-  { title: "Ngày đặt", dataIndex: "NgayDat", key: "NgayDat" },
-  { title: "Tổng tiền", dataIndex: "TongTien", key: "TongTien" },
-  { title: "Mã sách", dataIndex: "MaSach", key: "MaSach" },
-  { title: "Tên sách", dataIndex: "TenSach", key: "TenSach" },
+
   {
     title: "Thao tác",
     dataIndex: "action",

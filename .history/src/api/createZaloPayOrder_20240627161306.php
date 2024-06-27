@@ -56,15 +56,7 @@ $context = stream_context_create([
 $response = file_get_contents($config["endpoint"], false, $context);
 $result = json_decode($response, true);
 
-if ($result['return_code'] == 1) {
-    echo json_encode([
-        'status' => 'success',
-        'payment_url' => $result['order_url']
-    ]);
-} else {
-    echo json_encode([
-        'status' => 'error',
-        'message' => $result['return_message']
-    ]);
+foreach ($result as $key => $value) {
+    echo "$key: $value<br>";
 }
 ?>

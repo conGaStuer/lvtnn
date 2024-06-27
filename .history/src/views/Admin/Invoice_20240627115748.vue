@@ -34,7 +34,7 @@
       </a-space>
     </div>
     <a-table
-      :columns="columns"
+      :columns="filteredColumns"
       :data-source="invoices"
       :pagination="pagination"
       class="invoice-list"
@@ -48,8 +48,8 @@
           <p><strong>Số điện thoại:</strong> {{ record.SDT }}</p>
           <p><strong>Ngày đặt:</strong> {{ record.NgayDat }}</p>
           <p><strong>Tổng tiền:</strong> {{ record.TongTien }}</p>
-          <p><strong>Mã sách:</strong> {{ record.MaSach }}</p>
-          <p><strong>Tên sách:</strong> {{ record.TenSach }}</p>
+          <p><strong>Mã sách:</strong> {{ record.MaSach.join(", ") }}</p>
+          <p><strong>Tên sách:</strong> {{ record.TenSach.join(", ") }}</p>
           <a-button
             :href="`http://localhost/LVTN/book-store/src/api/printInvoice.php?maDon=${record.MaDon}`"
             target="_blank"
@@ -93,12 +93,6 @@ const columns = ref([
   { title: "Tổng tiền", dataIndex: "TongTien", key: "TongTien" },
   { title: "Mã sách", dataIndex: "MaSach", key: "MaSach" },
   { title: "Tên sách", dataIndex: "TenSach", key: "TenSach" },
-  {
-    title: "Thao tác",
-    dataIndex: "action",
-    key: "action",
-    slots: { customRender: "expanded-rowRender" },
-  },
 ]);
 
 const pagination = ref({
@@ -155,6 +149,11 @@ const handleMonthFilterChange = () => {
 onMounted(() => {
   fetchInvoices();
 });
+
+// Filter out the 'action' column for display
+const filteredColumns = columns.value.filter(
+  (column) => column.key !== "action"
+);
 </script>
 
 <style scoped>
