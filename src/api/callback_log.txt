@@ -1,0 +1,8 @@
+2024-06-25 09:25:26 - Received callback: 
+2024-06-25 09:25:26 - Error: Invalid callback data
+2024-06-25 09:25:26 - Received callback: {"userId":"1","items":[{"MaSach":"66","ChiTiet":"Le Petit Prince là cuốn sách của Antoine de Saint-Exupéry, kể về cuộc hành trình của một hoàng tử nhỏ từ hành tinh này đến hành tinh khác.","TenSach":"Le Petit Prince","HinhAnh":"https://m.media-amazon.com/images/I/61NGp-UxolL._AC_UF1000,1000_QL80_.jpg","DonGia":"900","SoLuong":"1","KhuyenMai":"10","NhaXuatBan":"Steam","MaDanhMuc":"9","MaTacGia":"11","MaNgonNgu":"6","MaNhaXuatBan":"7","MaKhuyenMai":"2","TacGia":"Bernhard Schlink, Harper Lee","NgonNgu":"Tiếng Nhật","DanhMuc":"Âm nhạc, Thiết kế nội thất"}],"paymentMethod":"ZaloPay"}
+2024-06-25 09:25:26 - Error: Invalid callback data
+2024-06-25 09:25:39 - Received callback: 
+2024-06-25 09:25:39 - Error: Invalid callback data
+2024-06-25 09:25:39 - Received callback: {"userId":"1","items":[{"MaSach":"66","ChiTiet":"Le Petit Prince là cuốn sách của Antoine de Saint-Exupéry, kể về cuộc hành trình của một hoàng tử nhỏ từ hành tinh này đến hành tinh khác.","TenSach":"Le Petit Prince","HinhAnh":"https://m.media-amazon.com/images/I/61NGp-UxolL._AC_UF1000,1000_QL80_.jpg","DonGia":"900","SoLuong":"1","KhuyenMai":"10","NhaXuatBan":"Steam","MaDanhMuc":"9","MaTacGia":"11","MaNgonNgu":"6","MaNhaXuatBan":"7","MaKhuyenMai":"2","TacGia":"Bernhard Schlink, Harper Lee","NgonNgu":"Tiếng Nhật","DanhMuc":"Âm nhạc, Thiết kế nội thất"}],"paymentMethod":"ZaloPay"}
+2024-06-25 09:25:39 - Error: Invalid callback data
