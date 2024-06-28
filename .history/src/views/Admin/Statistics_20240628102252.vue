@@ -77,7 +77,6 @@ const fetchInvoices = () => {
     })
     .then((response) => {
       stats.value = response.data;
-      filterValue = "";
     })
     .catch((error) => {
       console.error("Error fetching invoices:", error);

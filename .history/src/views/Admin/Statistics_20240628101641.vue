@@ -35,16 +35,24 @@
       </div>
       <div class="stat-item">
         <h2>Tổng doanh thu (Trước thanh toán)</h2>
-        <p>{{ stats.total_revenue | currency }}</p>
+        <p>{{ stats.total_revenue || currency }}</p>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, watch } from "vue";
 import axios from "axios";
-import { Select, DatePicker, Space, message } from "ant-design-vue";
+import {
+  Table,
+  Select,
+  DatePicker,
+  Space,
+  Card,
+  Button,
+  message,
+} from "ant-design-vue";
 import moment from "moment";
 
 const { Option } = Select;
@@ -77,7 +85,6 @@ const fetchInvoices = () => {
     })
     .then((response) => {
       stats.value = response.data;
-      filterValue = "";
     })
     .catch((error) => {
       console.error("Error fetching invoices:", error);

@@ -35,7 +35,7 @@
       </div>
       <div class="stat-item">
         <h2>Tổng doanh thu (Trước thanh toán)</h2>
-        <p>{{ stats.total_revenue | currency }}</p>
+        <p>{{ stats.total_revenue || currency }}</p>
       </div>
     </div>
   </div>
@@ -44,26 +44,33 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import axios from "axios";
-import { Select, DatePicker, Space, message } from "ant-design-vue";
+import {
+  Table,
+  Select,
+  DatePicker,
+  Space,
+  Card,
+  Button,
+  message,
+} from "ant-design-vue";
 import moment from "moment";
 
 const { Option } = Select;
 const { RangePicker, WeekPicker, MonthPicker } = DatePicker;
-
 const stats = ref({
   total_orders: 0,
   total_revenue: 0,
 });
 
 const filterType = ref("all");
-const filterDate = ref(null);
-const filterWeek = ref(null);
-const filterMonth = ref(null);
+const filterDate = ref("");
+const filterWeek = ref("");
+const filterMonth = ref("");
 
 const fetchInvoices = () => {
-  let filterValue = null;
+  let filterValue;
   if (filterType.value === "day" && filterDate.value) {
-    filterValue = moment(filterDate.value).format("YYYY-MM-DD");
+    filterValue = moment(filterDate.value).format("DD-MM-YYYY");
   } else if (filterType.value === "week" && filterWeek.value) {
     filterValue = moment(filterWeek.value).startOf("week").format("YYYY-MM-DD");
   } else if (filterType.value === "month" && filterMonth.value) {
@@ -77,7 +84,6 @@ const fetchInvoices = () => {
     })
     .then((response) => {
       stats.value = response.data;
-      filterValue = "";
     })
     .catch((error) => {
       console.error("Error fetching invoices:", error);
@@ -86,9 +92,6 @@ const fetchInvoices = () => {
 };
 
 const handleFilterChange = () => {
-  filterDate.value = null;
-  filterWeek.value = null;
-  filterMonth.value = null;
   fetchInvoices();
 };
 

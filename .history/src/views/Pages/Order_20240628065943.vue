@@ -121,7 +121,7 @@ const parseOrderItems = (order) => {
       DonGia: parseInt(order.DonGia[i]),
       GiaDonHang: parseInt(order.GiaDonHang[i]),
 
-      SoLuong: order.SoLuong[i],
+      SoLuong: order.SoLuong[],
       TacGia: order.TacGia[i],
       NgonNgu: order.NgonNgu[i],
       DanhMuc: order.DanhMuc[i],

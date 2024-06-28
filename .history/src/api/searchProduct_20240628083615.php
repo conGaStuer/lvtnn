@@ -20,8 +20,7 @@ if (isset($_GET['keyword'])) {
    INNER JOIN khuyen_mai AS km ON s.maKM = km.maKM
 
    WHERE  s.tenSach LIKE '%$keyword%' or dm.tenDM  LIKE '%$keyword%' or nn.tenNN  LIKE '%$keyword%' or tg.tenTG LIKE '%$keyword%'
-    or
-   s.chiTiet LIKE '%$keyword%'
+   s.chiTiet LIKE '%$keyword'
    ";
     $books = [];
     $result = $conn->query($sql);

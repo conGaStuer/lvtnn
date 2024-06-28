@@ -19,10 +19,7 @@ if (isset($_GET['keyword'])) {
    INNER JOIN nha_xuat_ban AS nxbs ON s.maNXB = nxbs.maNXB
    INNER JOIN khuyen_mai AS km ON s.maKM = km.maKM
 
-   WHERE  s.tenSach LIKE '%$keyword%' or dm.tenDM  LIKE '%$keyword%' or nn.tenNN  LIKE '%$keyword%' or tg.tenTG LIKE '%$keyword%'
-    or
-   s.chiTiet LIKE '%$keyword%'
-   ";
+   WHERE  s.tenSach LIKE '%$keyword%' or dm.tenDM  LIKE '%$keyword%' or nn.tenNN  LIKE '%$keyword%' or tg.tenTG LIKE '%$keyword%'";
     $books = [];
     $result = $conn->query($sql);
     if ($result->num_rows > 0) {
