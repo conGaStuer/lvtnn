@@ -53,7 +53,7 @@
               {{ book.DonGia - (book.DonGia * book.KhuyenMai) / 100 }} đồng
             </p>
             <p class="detail">{{ book.ChiTiet }}</p>
-            <router-link to="/cart" disabled="currentUser.maND"
+            <router-link to="/cart"
               ><button><i class="pi pi-shopping-cart"></i></button
             ></router-link>
           </div>
@@ -117,7 +117,6 @@ export default {
       setView,
       books,
       hover,
-      currentUser,
     };
   },
 };

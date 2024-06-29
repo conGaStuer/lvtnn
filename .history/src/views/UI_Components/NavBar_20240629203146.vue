@@ -111,14 +111,14 @@
 
             <div><router-link to="/profile">Hồ sơ</router-link></div>
             <div>
-              <a style="cursor: pointer" @click="handleLogout">{{
-                currentUser.maND ? "Đăng xuất" : "Đăng nhập"
-              }}</a>
-            </div>
-            <div>
               <router-link to="/order" v-if="currentUser.maVaiTro === '1'"
                 >Đơn mua</router-link
               >
+            </div>
+            <div>
+              <a style="cursor: pointer" @click="handleLogout">{{
+                currentUser.maND ? "Đăng xuất" : "Đăng nhập"
+              }}</a>
             </div>
           </div>
         </transition>

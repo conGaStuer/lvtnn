@@ -37,7 +37,9 @@
         <p class="description">{{ book.ChiTiet }}</p>
         <div class="actions">
           <input type="number" class="quantity" v-model="quantity" />
-          <button @click="addToCart">THÊM VÀO GIỎ</button>
+          <button @click="addToCart" :disabled="currentUser.maND">
+            THÊM VÀO GIỎ
+          </button>
         </div>
         <div class="metas">
           <p class="meta">

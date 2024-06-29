@@ -62,7 +62,6 @@
   </a-table>
 </template>
 <script setup>
-import { message } from "ant-design-vue";
 import axios from "axios";
 import { onMounted, ref } from "vue";
 // {
@@ -89,16 +88,9 @@ async function handleAddUser() {
       "http://localhost/LVTN/book-store/src/api/admin/addUser.php",
       newUser.value
     );
-    if (response.data.success === "Them thanh cong") {
-      modalVisible.value = false; // Hide the modal after successful addition
-      newUser.value = {}; // Clear the newUser object for next use
-      message.success("Thêm nhân viên thành công");
-      window.location.reload();
-    } else {
-      message.error(
-        "Thêm không thành công, Kiểm tra lại các trường xem có trùng hay không"
-      );
-    }
+    data.value.push(response.data); // Add the new user to the local data array
+    modalVisible.value = false; // Hide the modal after successful addition
+    newUser.value = {}; // Clear the newUser object for next use
   } catch (error) {
     console.error("Error adding user:", error);
     // Handle error state or feedback to the user

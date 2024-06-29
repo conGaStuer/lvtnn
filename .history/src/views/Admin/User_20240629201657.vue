@@ -89,15 +89,14 @@ async function handleAddUser() {
       "http://localhost/LVTN/book-store/src/api/admin/addUser.php",
       newUser.value
     );
-    if (response.data.success === "Them thanh cong") {
+    if (response.data) {
+      data.value.push(response.data); // Add the new user to the local data array
       modalVisible.value = false; // Hide the modal after successful addition
       newUser.value = {}; // Clear the newUser object for next use
       message.success("Thêm nhân viên thành công");
       window.location.reload();
     } else {
-      message.error(
-        "Thêm không thành công, Kiểm tra lại các trường xem có trùng hay không"
-      );
+      message.error("Thêm không thành công");
     }
   } catch (error) {
     console.error("Error adding user:", error);

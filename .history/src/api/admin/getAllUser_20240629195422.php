@@ -7,7 +7,7 @@ $sql_get = "
     SELECT nguoi_dung.*, COUNT(don_dat_hang.madon) AS tongSoDonHang
     FROM nguoi_dung
     LEFT JOIN don_dat_hang ON nguoi_dung.maND = don_dat_hang.maND
-    where nguoi_dung.maVaiTro = 1 or nguoi_dung.maVaiTro =2
+    where maND = 1 or maND =2
     GROUP BY nguoi_dung.maND
 ";
 

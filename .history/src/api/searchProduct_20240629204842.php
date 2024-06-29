@@ -23,7 +23,8 @@ if (isset($_GET['keyword'])) {
    or dm.tenDM  LIKE '%$keyword%'
    or nn.tenNN  LIKE '%$keyword%'
    or tg.tenTG LIKE '%$keyword%'
-   or s.chiTiet LIKE '%$keyword%'
+or
+   s.chiTiet LIKE '%$keyword%'
    ";
     $books = [];
     $result = $conn->query($sql);

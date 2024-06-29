@@ -1,23 +1,23 @@
 <template>
-  <a-button type="primary" @click="showAddUserModal">Thêm NV</a-button>
+  <a-button type="primary" @click="showAddUserModal">Add User</a-button>
   <!-- Modal for adding a new user -->
   <a-modal v-model:visible="modalVisible">
-    <template #title> Thêm tài khoản nhân viên mới</template>
+    <template #title> Add New User </template>
     <form @submit.prevent="handleAddUser">
       <!-- Input fields for user details -->
-      <a-form-item label="Tên nhân viên" required>
-        <a-input v-model:value="newUser.tenKH" />
+      <a-form-item label="Username" required>
+        <a-input v-model="newUser.tenKH" />
       </a-form-item>
-      <a-form-item label="Tài khoản" required>
-        <a-input v-model:value="newUser.taikhoan" />
+      <a-form-item label="Phone Number" required>
+        <a-input v-model="newUser.sdt" />
       </a-form-item>
-      <a-form-item label="Mật khẩu" required>
-        <a-input v-model:value="newUser.matkhau" />
+      <a-form-item label="Email" required>
+        <a-input v-model="newUser.email" />
       </a-form-item>
       <!-- Add more fields as needed -->
 
       <a-form-item>
-        <a-button type="primary" html-type="submit">Thêm</a-button>
+        <a-button type="primary" html-type="submit">Add User</a-button>
       </a-form-item>
     </form>
   </a-modal>
@@ -62,7 +62,6 @@
   </a-table>
 </template>
 <script setup>
-import { message } from "ant-design-vue";
 import axios from "axios";
 import { onMounted, ref } from "vue";
 // {
@@ -77,11 +76,6 @@ const modalVisible = ref(false);
 function showAddUserModal() {
   modalVisible.value = true;
 }
-const newUser = ref({
-  tenKH: "",
-  taikhoan: "",
-  matkhau: "",
-});
 
 async function handleAddUser() {
   try {
@@ -89,21 +83,19 @@ async function handleAddUser() {
       "http://localhost/LVTN/book-store/src/api/admin/addUser.php",
       newUser.value
     );
-    if (response.data.success === "Them thanh cong") {
-      modalVisible.value = false; // Hide the modal after successful addition
-      newUser.value = {}; // Clear the newUser object for next use
-      message.success("Thêm nhân viên thành công");
-      window.location.reload();
-    } else {
-      message.error(
-        "Thêm không thành công, Kiểm tra lại các trường xem có trùng hay không"
-      );
-    }
+    data.value.push(response.data); // Add the new user to the local data array
+    modalVisible.value = false; // Hide the modal after successful addition
+    newUser.value = {}; // Clear the newUser object for next use
   } catch (error) {
     console.error("Error adding user:", error);
     // Handle error state or feedback to the user
   }
 }
+const newUser = ref({
+  tenKH: "",
+  sdt: "",
+  email: "",
+});
 
 onMounted(() => {
   axios

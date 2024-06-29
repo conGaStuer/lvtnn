@@ -90,6 +90,7 @@ async function handleAddUser() {
       newUser.value
     );
     if (response.data.success === "Them thanh cong") {
+      data.value.push(response.data); // Add the new user to the local data array
       modalVisible.value = false; // Hide the modal after successful addition
       newUser.value = {}; // Clear the newUser object for next use
       message.success("Thêm nhân viên thành công");

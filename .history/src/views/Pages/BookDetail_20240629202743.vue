@@ -178,7 +178,7 @@
         </div>
       </div>
 
-      <form @submit.prevent="handleComment1" v-if="currentUser.maND">
+      <form @submit.prevent="handleComment1">
         <input type="text" v-model="userComment1" />
         <Rating v-model="value" :cancel="false" class="star star1" />
 

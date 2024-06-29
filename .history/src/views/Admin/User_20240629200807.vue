@@ -6,13 +6,13 @@
     <form @submit.prevent="handleAddUser">
       <!-- Input fields for user details -->
       <a-form-item label="Tên nhân viên" required>
-        <a-input v-model:value="newUser.tenKH" />
+        <a-input v-model="newUser.tenKH" />
       </a-form-item>
       <a-form-item label="Tài khoản" required>
-        <a-input v-model:value="newUser.taikhoan" />
+        <a-input v-model="newUser.taikhoan" />
       </a-form-item>
       <a-form-item label="Mật khẩu" required>
-        <a-input v-model:value="newUser.matkhau" />
+        <a-input v-model="newUser.matkhau" />
       </a-form-item>
       <!-- Add more fields as needed -->
 
@@ -62,7 +62,6 @@
   </a-table>
 </template>
 <script setup>
-import { message } from "ant-design-vue";
 import axios from "axios";
 import { onMounted, ref } from "vue";
 // {
@@ -89,16 +88,9 @@ async function handleAddUser() {
       "http://localhost/LVTN/book-store/src/api/admin/addUser.php",
       newUser.value
     );
-    if (response.data.success === "Them thanh cong") {
-      modalVisible.value = false; // Hide the modal after successful addition
-      newUser.value = {}; // Clear the newUser object for next use
-      message.success("Thêm nhân viên thành công");
-      window.location.reload();
-    } else {
-      message.error(
-        "Thêm không thành công, Kiểm tra lại các trường xem có trùng hay không"
-      );
-    }
+    data.value.push(response.data); // Add the new user to the local data array
+    modalVisible.value = false; // Hide the modal after successful addition
+    newUser.value = {}; // Clear the newUser object for next use
   } catch (error) {
     console.error("Error adding user:", error);
     // Handle error state or feedback to the user

@@ -99,7 +99,7 @@
     </nav>
     <div v-if="selectedTab === 'description'">
       <div v-if="selectedTab === 'description'">
-        <div v-if="comments && comments.length">
+        <div v-if="comments && comments.length && currentUser">
           <div class="comment" v-for="comment in comments" :key="comment.maDG">
             <!-- Display only root comments (parent_id === null) -->
             <div v-if="comment.parent_id === null" class="comment-item">
@@ -178,7 +178,7 @@
         </div>
       </div>
 
-      <form @submit.prevent="handleComment1" v-if="currentUser.maND">
+      <form @submit.prevent="handleComment1">
         <input type="text" v-model="userComment1" />
         <Rating v-model="value" :cancel="false" class="star star1" />
 
