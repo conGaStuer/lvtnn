@@ -20,12 +20,10 @@ $sql_orders = "SELECT COUNT(*) as total_orders FROM don_dat_hang WHERE trangthai
 if ($filterType == 'date' && $filterValue) {
     $sql_orders .= " AND ngaydat = '$filterValue'";
 } elseif ($filterType == 'week' && $filterValue) {
-    $sql_orders .= " AND WEEKOFYEAR(ngaydat)= '$filterValue' ";
+    $sql_orders .= " AND WEEK(ngaydat)= '$filterValue' ";
 } elseif ($filterType == 'month' && $filterValue) {
 
     $sql_orders .= " AND MONTH(ngaydat) = '$filterValue' ";
-} else if ($filterType == 'all') {
-    $result_orders = $conn->query($sql_orders);
 }
 
 $result_orders = $conn->query($sql_orders);
@@ -44,11 +42,13 @@ join don_dat_hang ddh on ctdh.madon = ddh.madon WHERE
 if ($filterType == 'date' && $filterValue) {
     $sql_revenue .= " AND ddh.ngaydat = '$filterValue'";
 } elseif ($filterType == 'week' && $filterValue) {
-
-    $sql_revenue .= " AND WEEKOFYEAR(ddh.ngaydat)  = '$filterValue'  ";
+    $startOfWeek = date('Y-m-d', strtotime($filterValue));
+    $endOfWeek = date('Y-m-d', strtotime($filterValue . ' +6 dates'));
+    $sql_revenue .= " AND ddh.ngaydat BETWEEN '$startOfWeek' AND '$endOfWeek'";
 } elseif ($filterType == 'month' && $filterValue) {
-
-    $sql_revenue .= " AND  MONTH(ddh.ngaydat) = '$filterValue' ";
+    $startOfMonth = date('Y-m-01', strtotime($filterValue));
+    $endOfMonth = date('Y-m-t', strtotime($filterValue));
+    $sql_revenue .= " AND ddh.ngaydat BETWEEN '$startOfMonth' AND '$endOfMonth'";
 }
 $result_revenue = $conn->query($sql_revenue);
 

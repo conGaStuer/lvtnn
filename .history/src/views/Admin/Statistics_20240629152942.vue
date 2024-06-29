@@ -3,17 +3,17 @@
     <h1>Thống kê đơn hàng và người dùng</h1>
     <a-select
       v-model:value="filterType"
-      style="width: 120px; margin-bottom: 15px"
+      style="width: 120px"
       @change="handleFilterChange"
     >
-      <a-select-option value="all">Tất cả</a-select-option>
+      <a-select-option value="time">Tất cả</a-select-option>
       <a-select-option value="date">Date</a-select-option>
       <a-select-option value="week">Week</a-select-option>
       <a-select-option value="month">Month</a-select-option>
       <a-select-option value="year">Year</a-select-option>
     </a-select>
-    <template v-if="filterType === 'all'">
-      <a-time-picker v-model:value="selectedTime" />
+    <template v-if="filterType === 'time'">
+      <a-time-picker v-model:value="selectedTime" @change="logTime" />
     </template>
     <template v-else-if="filterType === 'date'">
       <a-date-picker
@@ -29,11 +29,11 @@
         @change="logWeek"
       />
     </template>
-    <template v-else-if="filterType === 'month'">
+    <template v-else-if="filterType === 'year'">
       <a-date-picker
         :picker="filterType"
-        v-model:value="selectedMonth"
-        @change="logMonth"
+        v-model:value="selectedYear"
+        @change="logYear"
       />
     </template>
     <div class="stats-container">
@@ -64,33 +64,34 @@ const stats = ref({
   total_revenue: 0,
 });
 
-const filterType = ref("all");
+const filterType = ref("time");
 const selectedTime = ref(null);
 const selectedDate = ref(null);
 const selectedWeek = ref(null);
-const selectedMonth = ref(null);
 
 const logDate = (date) => {
   console.log("Selected Date:", date ? date.format("YYYY-MM-DD") : null);
   fetchInvoices();
 };
 const logWeek = (week) => {
-  console.log("Selected Week:", week ? dayjs(week).week() : null);
+  console.log("Selected Date:", week ? dayjs(week).week() : null);
   fetchInvoices();
 };
-const logMonth = (month) => {
-  console.log("Selected Month:", month ? dayjs(month).month() : null);
+const logYear = (date) => {
+  console.log("Selected Date:", date ? date.format("YYYY-MM-DD") : null);
   fetchInvoices();
 };
 const fetchInvoices = () => {
   let filterValue = null;
   if (filterType.value === "date" && selectedDate.value) {
     filterValue = selectedDate.value.format("YYYY-MM-DD");
-  } else if (filterType.value === "week" && selectedWeek.value) {
-    filterValue = dayjs(selectedWeek.value).week();
-  } else if (filterType.value === "month" && selectedMonth.value) {
-    filterValue = dayjs(selectedMonth.value).month() + 1;
+  } else if (filterType.value === "week" && selectedDate.value) {
+    filterValue = dayjs(selectedDate.value).week();
   }
+  // } else if (filterType.value === "month" && filterMonth.value) {
+  //   filterValue = moment(filterMonth.value).format("YYYY-MM");
+  // }
+
   axios
     .post("http://localhost/LVTN/book-store/src/api/admin/postStatistics.php", {
       filterType: filterType.value,

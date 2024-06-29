@@ -3,38 +3,19 @@
     <h1>Thống kê đơn hàng và người dùng</h1>
     <a-select
       v-model:value="filterType"
-      style="width: 120px; margin-bottom: 15px"
+      style="width: 120px"
       @change="handleFilterChange"
     >
       <a-select-option value="all">Tất cả</a-select-option>
-      <a-select-option value="date">Date</a-select-option>
-      <a-select-option value="week">Week</a-select-option>
-      <a-select-option value="month">Month</a-select-option>
-      <a-select-option value="year">Year</a-select-option>
+      <a-select-option value="date">Ngày</a-select-option>
+      <a-select-option value="week">Tuần</a-select-option>
+      <a-select-option value="month">Tháng</a-select-option>
     </a-select>
     <template v-if="filterType === 'all'">
-      <a-time-picker v-model:value="selectedTime" />
+      <a-time-picker />
     </template>
-    <template v-else-if="filterType === 'date'">
-      <a-date-picker
-        :picker="filterType"
-        v-model:value="selectedDate"
-        @change="logDate"
-      />
-    </template>
-    <template v-else-if="filterType === 'week'">
-      <a-date-picker
-        :picker="filterType"
-        v-model:value="selectedWeek"
-        @change="logWeek"
-      />
-    </template>
-    <template v-else-if="filterType === 'month'">
-      <a-date-picker
-        :picker="filterType"
-        v-model:value="selectedMonth"
-        @change="logMonth"
-      />
+    <template v-else>
+      <a-date-picker v-model:value="filterDate" />
     </template>
     <div class="stats-container">
       <div class="stat-item">
@@ -50,11 +31,10 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watch } from "vue";
+import { ref, onMounted } from "vue";
 import axios from "axios";
 import { Select, DatePicker, Space, message } from "ant-design-vue";
 import moment from "moment";
-import dayjs, { Dayjs } from "dayjs";
 
 const { Option } = Select;
 const { RangePicker, WeekPicker, MonthPicker } = DatePicker;
@@ -65,32 +45,20 @@ const stats = ref({
 });
 
 const filterType = ref("all");
-const selectedTime = ref(null);
-const selectedDate = ref(null);
-const selectedWeek = ref(null);
-const selectedMonth = ref(null);
+const filterDate = ref(null);
+const filterWeek = ref(null);
+const filterMonth = ref(null);
 
-const logDate = (date) => {
-  console.log("Selected Date:", date ? date.format("YYYY-MM-DD") : null);
-  fetchInvoices();
-};
-const logWeek = (week) => {
-  console.log("Selected Week:", week ? dayjs(week).week() : null);
-  fetchInvoices();
-};
-const logMonth = (month) => {
-  console.log("Selected Month:", month ? dayjs(month).month() : null);
-  fetchInvoices();
-};
 const fetchInvoices = () => {
   let filterValue = null;
-  if (filterType.value === "date" && selectedDate.value) {
-    filterValue = selectedDate.value.format("YYYY-MM-DD");
-  } else if (filterType.value === "week" && selectedWeek.value) {
-    filterValue = dayjs(selectedWeek.value).week();
-  } else if (filterType.value === "month" && selectedMonth.value) {
-    filterValue = dayjs(selectedMonth.value).month() + 1;
+  if (filterType.value === "date" && filterDate.value) {
+    filterValue = moment(filterDate.value).format("YYYY-MM-DD");
+  } else if (filterType.value === "week" && filterWeek.value) {
+    filterValue = moment(filterWeek.value).startOf("week").format("YYYY-MM-DD");
+  } else if (filterType.value === "month" && filterMonth.value) {
+    filterValue = moment(filterMonth.value).format("YYYY-MM");
   }
+
   axios
     .post("http://localhost/LVTN/book-store/src/api/admin/postStatistics.php", {
       filterType: filterType.value,
@@ -107,13 +75,13 @@ const fetchInvoices = () => {
 };
 
 const handleFilterChange = () => {
-  selectedDate.value = null;
-  // filterWeek.value = null;
-  // filterMonth.value = null;
+  filterDate.value = null;
+  filterWeek.value = null;
+  filterMonth.value = null;
   fetchInvoices();
 };
 
-const handleDateChange = () => {
+const handleDateFilterChange = () => {
   fetchInvoices();
 };
 

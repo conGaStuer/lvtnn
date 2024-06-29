@@ -64,7 +64,7 @@ const stats = ref({
   total_revenue: 0,
 });
 
-const filterType = ref("all");
+const filterType = ref("time");
 const selectedTime = ref(null);
 const selectedDate = ref(null);
 const selectedWeek = ref(null);

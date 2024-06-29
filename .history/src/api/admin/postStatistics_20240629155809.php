@@ -24,8 +24,6 @@ if ($filterType == 'date' && $filterValue) {
 } elseif ($filterType == 'month' && $filterValue) {
 
     $sql_orders .= " AND MONTH(ngaydat) = '$filterValue' ";
-} else if ($filterType == 'all') {
-    $result_orders = $conn->query($sql_orders);
 }
 
 $result_orders = $conn->query($sql_orders);

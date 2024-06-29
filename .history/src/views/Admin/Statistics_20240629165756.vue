@@ -13,14 +13,10 @@
       <a-select-option value="year">Year</a-select-option>
     </a-select>
     <template v-if="filterType === 'all'">
-      <a-time-picker v-model:value="selectedTime" />
+      <a-time-picker v-model:value="selectedTime" :picker="filterType" />
     </template>
     <template v-else-if="filterType === 'date'">
-      <a-date-picker
-        :picker="filterType"
-        v-model:value="selectedDate"
-        @change="logDate"
-      />
+      <a-date-picker :picker="filterType" />
     </template>
     <template v-else-if="filterType === 'week'">
       <a-date-picker

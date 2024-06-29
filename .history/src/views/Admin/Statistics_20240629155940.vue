@@ -6,13 +6,13 @@
       style="width: 120px; margin-bottom: 15px"
       @change="handleFilterChange"
     >
-      <a-select-option value="all">Tất cả</a-select-option>
+      <a-select-option value="time">Tất cả</a-select-option>
       <a-select-option value="date">Date</a-select-option>
       <a-select-option value="week">Week</a-select-option>
       <a-select-option value="month">Month</a-select-option>
       <a-select-option value="year">Year</a-select-option>
     </a-select>
-    <template v-if="filterType === 'all'">
+    <template v-if="filterType === 'time'">
       <a-time-picker v-model:value="selectedTime" />
     </template>
     <template v-else-if="filterType === 'date'">
@@ -64,7 +64,7 @@ const stats = ref({
   total_revenue: 0,
 });
 
-const filterType = ref("all");
+const filterType = ref("time");
 const selectedTime = ref(null);
 const selectedDate = ref(null);
 const selectedWeek = ref(null);

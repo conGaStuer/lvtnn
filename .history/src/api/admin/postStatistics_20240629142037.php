@@ -17,15 +17,16 @@ error_log("Filter Value: " . $filterValue);
 
 // Fetch total number of orders with filter
 $sql_orders = "SELECT COUNT(*) as total_orders FROM don_dat_hang WHERE trangthai = 'giaohangthanhcong'";
-if ($filterType == 'date' && $filterValue) {
+if ($filterType == 'day' && $filterValue) {
     $sql_orders .= " AND ngaydat = '$filterValue'";
 } elseif ($filterType == 'week' && $filterValue) {
-    $sql_orders .= " AND WEEKOFYEAR(ngaydat)= '$filterValue' ";
+    $startOfWeek = date('Y-m-d', strtotime($filterValue));
+    $endOfWeek = date('Y-m-d', strtotime($filterValue . ' +6 days'));
+    $sql_orders .= " AND ngaydat BETWEEN '$startOfWeek' AND '$endOfWeek'";
 } elseif ($filterType == 'month' && $filterValue) {
-
-    $sql_orders .= " AND MONTH(ngaydat) = '$filterValue' ";
-} else if ($filterType == 'all') {
-    $result_orders = $conn->query($sql_orders);
+    $startOfMonth = date('Y-m-01', strtotime($filterValue));
+    $endOfMonth = date('Y-m-t', strtotime($filterValue));
+    $sql_orders .= " AND ngaydat BETWEEN '$startOfMonth' AND '$endOfMonth'";
 }
 
 $result_orders = $conn->query($sql_orders);
@@ -41,14 +42,16 @@ if ($result_orders->num_rows > 0) {
 $sql_revenue = "SELECT SUM(ctdh.dongia * ctdh.soluong) as total_revenue FROM chi_tiet_don_hang ctdh
 join don_dat_hang ddh on ctdh.madon = ddh.madon WHERE 
   ddh.trangthai = 'giaohangthanhcong'";
-if ($filterType == 'date' && $filterValue) {
+if ($filterType == 'day' && $filterValue) {
     $sql_revenue .= " AND ddh.ngaydat = '$filterValue'";
 } elseif ($filterType == 'week' && $filterValue) {
-
-    $sql_revenue .= " AND WEEKOFYEAR(ddh.ngaydat)  = '$filterValue'  ";
+    $startOfWeek = date('Y-m-d', strtotime($filterValue));
+    $endOfWeek = date('Y-m-d', strtotime($filterValue . ' +6 days'));
+    $sql_revenue .= " AND ddh.ngaydat BETWEEN '$startOfWeek' AND '$endOfWeek'";
 } elseif ($filterType == 'month' && $filterValue) {
-
-    $sql_revenue .= " AND  MONTH(ddh.ngaydat) = '$filterValue' ";
+    $startOfMonth = date('Y-m-01', strtotime($filterValue));
+    $endOfMonth = date('Y-m-t', strtotime($filterValue));
+    $sql_revenue .= " AND ddh.ngaydat BETWEEN '$startOfMonth' AND '$endOfMonth'";
 }
 $result_revenue = $conn->query($sql_revenue);
 

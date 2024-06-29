@@ -12,7 +12,7 @@
       <a-select-option value="month">Month</a-select-option>
       <a-select-option value="year">Year</a-select-option>
     </a-select>
-    <template v-if="filterType === 'all'">
+    <template v-if="filterType === 'time'">
       <a-time-picker v-model:value="selectedTime" />
     </template>
     <template v-else-if="filterType === 'date'">
@@ -64,7 +64,7 @@ const stats = ref({
   total_revenue: 0,
 });
 
-const filterType = ref("all");
+const filterType = ref("time");
 const selectedTime = ref(null);
 const selectedDate = ref(null);
 const selectedWeek = ref(null);

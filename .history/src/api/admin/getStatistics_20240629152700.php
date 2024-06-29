@@ -5,7 +5,7 @@ include "../config.php";
 $response = array();
 
 // Fetch total number of orders
-$sql_orders = "SELECT COUNT(*) as total_orders FROM don_dat_hang WHERE trangthai= 'giaohangthanhcong'";
+$sql_orders = "SELECT COUNT(*) as total_orders FROM don_dat_hang";
 $result_orders = $conn->query($sql_orders);
 
 if ($result_orders->num_rows > 0) {
@@ -18,10 +18,7 @@ if ($result_orders->num_rows > 0) {
 
 
 // Fetch total revenue (sum of all orders)
-$sql_revenue = "SELECT SUM(ctdh.dongia * ctdh.soluong) as total_revenue FROM chi_tiet_don_hang ctdh
-JOIN don_dat_hang ddh on ddh.madon = ctdh.madon
-WHERE ddh.trangthai= 'giaohangthanhcong'
-";
+$sql_revenue = "SELECT SUM(chi_tiet_don_hang.donGia * chi_tiet_don_hang.soLuong) as total_revenue FROM chi_tiet_don_hang";
 $result_revenue = $conn->query($sql_revenue);
 
 if ($result_revenue->num_rows > 0) {
