@@ -8,13 +8,11 @@
         class="w-full md:w-30rem"
       />
     </div>
-    <Chart
-      type="bar"
-      :data="barChartData"
-      :options="chartOptions"
-      class="w-full md:w-30rem"
-    />
+    <Chart type="bar" :data="barChartData" :options="chartOptions" />
 
+    <a-card title="Danh sách người dùng" class="k">
+      <a-table :columns="userColumns" :data-source="userData" />
+    </a-card>
     <div>
       <button style="cursor: pointer" @click="handleLogout">
         {{ currentUser ? "Đăng xuất" : "Đăng nhập" }}
@@ -29,9 +27,18 @@ import Chart from "primevue/chart";
 import axios from "axios";
 import { useRouter } from "vue-router";
 
-const pieChartData = ref();
-const barChartData = ref();
-const chartOptions = ref();
+const pieChartData = ref(null);
+const barChartData = ref(null);
+const chartOptions = ref({
+  plugins: {
+    legend: {
+      labels: {
+        usePointStyle: true,
+        color: "#495057",
+      },
+    },
+  },
+});
 const currentUser = JSON.parse(localStorage.getItem("currentUser"));
 
 const fetchChartData = async () => {
@@ -41,11 +48,12 @@ const fetchChartData = async () => {
     );
     const data = response.data;
 
+    // Process revenue data for pie chart
     pieChartData.value = {
       labels: data.revenue.map((item) => `Tháng ${item.month}`),
       datasets: [
         {
-          data: data.revenue.map((item) => item.total_revenue),
+          data: data.revenue.map((item) => parseFloat(item.total_revenue)),
           backgroundColor: [
             "#42A5F5",
             "#66BB6A",
@@ -64,26 +72,16 @@ const fetchChartData = async () => {
       ],
     };
 
+    // Process orders data for bar chart
     barChartData.value = {
       labels: data.orders.map((item) => `Tháng ${item.month}`),
       datasets: [
         {
           label: "Đơn hàng",
           backgroundColor: "#42A5F5",
-          data: data.orders.map((item) => item.orders),
+          data: data.orders.map((item) => parseInt(item.orders)),
         },
       ],
-    };
-
-    chartOptions.value = {
-      plugins: {
-        legend: {
-          labels: {
-            usePointStyle: true,
-            color: "#495057",
-          },
-        },
-      },
     };
   } catch (error) {
     console.error("Error fetching chart data:", error);

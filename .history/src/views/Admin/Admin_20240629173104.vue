@@ -74,7 +74,7 @@ const items = reactive([
 const currentComponent = ref(DashBoard); // Default component
 const currentUser = JSON.parse(localStorage.getItem("currentUser"));
 const filteredItems = computed(() => {
-  if (currentUser && currentUser.maVaiTro === "3") {
+  if (currentUser && currentUser.maVaiTro === 3) {
     return items;
   }
   return items.filter((item) => item.key !== "2"); // Remove "Quản lý người dùng" if not admin

@@ -110,11 +110,7 @@
             </div>
 
             <div><router-link to="/profile">Hồ sơ</router-link></div>
-            <div>
-              <router-link to="/order" v-if="currentUser.maVaiTro === '1'"
-                >Đơn mua</router-link
-              >
-            </div>
+            <div><router-link to="/order">Đơn mua</router-link></div>
             <div>
               <a style="cursor: pointer" @click="handleLogout">{{
                 currentUser ? "Đăng xuất" : "Đăng nhập"
@@ -126,7 +122,7 @@
           to="/cart"
           class="cart"
           @click="showSideCart"
-          v-if="currentUser.maVaiTro === '1'"
+          :disabled="currentUser.maVaiTro === 1"
         >
           <i class="fas fa-shopping-cart"></i>
           <span class="cart-count">{{ cartlength ? cartlength : 0 }} </span>

@@ -126,7 +126,7 @@
           to="/cart"
           class="cart"
           @click="showSideCart"
-          v-if="currentUser.maVaiTro === '1'"
+          v-if="currentUser.maVaiTro === 1"
         >
           <i class="fas fa-shopping-cart"></i>
           <span class="cart-count">{{ cartlength ? cartlength : 0 }} </span>

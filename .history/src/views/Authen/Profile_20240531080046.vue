@@ -1,6 +1,6 @@
 <template>
   <NavBar></NavBar>
-  <div class="container" v-if="currentUser.maVaiTro === '1'">
+  <div class="container">
     <div
       class="cover-image"
       :style="{

@@ -4,7 +4,7 @@
       v-model:openKeys="state.openKeys"
       v-model:selectedKeys="state.selectedKeys"
       :mode="state.mode"
-      :items="filteredItems"
+      :items="items"
       :theme="state.theme"
       class="menu"
       @click="handleMenuClick"
@@ -16,7 +16,7 @@
 </template>
 
 <script setup>
-import { h, reactive, ref, computed } from "vue";
+import { h, reactive, ref } from "vue";
 import User from "./User.vue";
 import Book from "./Book.vue";
 import Cate from "./Cate.vue";
@@ -73,13 +73,7 @@ const items = reactive([
 
 const currentComponent = ref(DashBoard); // Default component
 const currentUser = JSON.parse(localStorage.getItem("currentUser"));
-const filteredItems = computed(() => {
-  if (currentUser && currentUser.maVaiTro === "3") {
-    return items;
-  }
-  return items.filter((item) => item.key !== "2"); // Remove "Quản lý người dùng" if not admin
-});
-console.log(currentUser);
+console.log(currentUser.value);
 const handleMenuClick = (e) => {
   if (e.key === "2") {
     currentComponent.value = User;

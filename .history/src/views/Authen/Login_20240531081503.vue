@@ -159,7 +159,6 @@ export default {
         } else {
           alert("Đăng nhập thành công!");
           localStorage.setItem("currentUser", JSON.stringify(response.data));
-
           router.push("/profile");
         }
       } catch (error) {

@@ -8,13 +8,11 @@
         class="w-full md:w-30rem"
       />
     </div>
-    <Chart
-      type="bar"
-      :data="barChartData"
-      :options="chartOptions"
-      class="w-full md:w-30rem"
-    />
+    <Chart type="bar" :data="barChartData" :options="chartOptions" />
 
+    <a-card title="Danh sách người dùng" class="k">
+      <a-table :columns="userColumns" :data-source="userData" />
+    </a-card>
     <div>
       <button style="cursor: pointer" @click="handleLogout">
         {{ currentUser ? "Đăng xuất" : "Đăng nhập" }}

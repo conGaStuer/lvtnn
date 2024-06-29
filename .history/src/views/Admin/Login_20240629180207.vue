@@ -57,7 +57,7 @@
         <div class="right-side">
           <div class="form-login">
             <h2>Xin chào!</h2>
-            <h4>Chào mừng bạn đến với cửa hàng Bookapee</h4>
+            <h4>Trang quản lý cửa hàng Bookapee</h4>
             <form @submit.prevent="loginUser">
               <input
                 type="text"
@@ -73,13 +73,9 @@
                 placeholder="Mật khẩu"
                 v-model="password"
               />
-              <router-link to="/newpass"
-                ><span>Quên mật khẩu</span></router-link
-              >
+
               <button type="submit">Đăng nhập</button>
             </form>
-            <span class="hoac">Hoặc</span>
-            <router-link to="/register">Đăng kí tài khoản</router-link>
           </div>
         </div>
       </div>
@@ -160,7 +156,7 @@ export default {
           alert("Đăng nhập thành công!");
           localStorage.setItem("currentUser", JSON.stringify(response.data));
 
-          router.push("/profile");
+          router.push("/admin");
         }
       } catch (error) {
         console.error(error);

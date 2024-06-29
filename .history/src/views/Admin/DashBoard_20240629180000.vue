@@ -15,6 +15,9 @@
       class="w-full md:w-30rem"
     />
 
+    <a-card title="Danh sách người dùng" class="k">
+      <a-table :columns="userColumns" :data-source="userData" />
+    </a-card>
     <div>
       <button style="cursor: pointer" @click="handleLogout">
         {{ currentUser ? "Đăng xuất" : "Đăng nhập" }}

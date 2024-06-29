@@ -160,7 +160,7 @@ export default {
           alert("Đăng nhập thành công!");
           localStorage.setItem("currentUser", JSON.stringify(response.data));
 
-          router.push("/profile");
+          router.push("/admin");
         }
       } catch (error) {
         console.error(error);

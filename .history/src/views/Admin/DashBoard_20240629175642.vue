@@ -2,19 +2,17 @@
   <div class="dashboard">
     <div class="card flex justify-content-center">
       <Chart
-        type="pie"
-        :data="pieChartData"
+        type="bar"
+        :data="barChartData"
         :options="chartOptions"
         class="w-full md:w-30rem"
       />
     </div>
-    <Chart
-      type="bar"
-      :data="barChartData"
-      :options="chartOptions"
-      class="w-full md:w-30rem"
-    />
+    <Chart type="bar" :data="barChartData" :options="chartOptions" />
 
+    <a-card title="Danh sách người dùng" class="k">
+      <a-table :columns="userColumns" :data-source="userData" />
+    </a-card>
     <div>
       <button style="cursor: pointer" @click="handleLogout">
         {{ currentUser ? "Đăng xuất" : "Đăng nhập" }}
@@ -45,7 +43,7 @@ const fetchChartData = async () => {
       labels: data.revenue.map((item) => `Tháng ${item.month}`),
       datasets: [
         {
-          data: data.revenue.map((item) => item.total_revenue),
+          data: data.revenue.map((item) => item.revenue),
           backgroundColor: [
             "#42A5F5",
             "#66BB6A",

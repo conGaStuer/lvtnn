@@ -30,11 +30,6 @@
           {{ record.ngayLapTaiKhoan }}
         </span>
       </template>
-      <template v-else-if="column.key === 'tongSoDonHang'">
-        <span>
-          {{ record.tongSoDonHang }}
-        </span>
-      </template>
     </template>
   </a-table>
 </template>
@@ -86,12 +81,9 @@ const columns = ref([
   {
     title: "Ngày lập tài khoản",
     key: "ngayLapTaiKhoan",
-    dataIndex: "ngayLapTaiKhoan",
-  },
-  {
-    title: "Tổng số đơn hàng",
-    key: "tongSoDonHang",
-    dataIndex: "tongSoDonHang",
+    dataIndex: "    dataIndex: "email",
+",
+
   },
 ]);
 function handleResizeColumn(w, col) {

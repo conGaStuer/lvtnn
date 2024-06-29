@@ -5,14 +5,14 @@
         type="pie"
         :data="pieChartData"
         :options="chartOptions"
-        class="w-full md:w-30rem"
+        class="w-full md:w-30rem chart-container"
       />
     </div>
     <Chart
       type="bar"
       :data="barChartData"
       :options="chartOptions"
-      class="w-full md:w-30rem"
+      class="w-full md:w-30rem chart-container"
     />
 
     <div>
@@ -125,16 +125,22 @@ const userData = reactive([
 ]);
 </script>
 
-<style>
+<style scoped>
 .dashboard {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   grid-gap: 20px;
+  height: 100%;
 }
-.k {
-  position: relative;
-  top: -150px;
+
+.card {
+  height: 45%;
 }
+
+.chart-container {
+  height: 100%;
+}
+
 button {
   width: 150px;
   height: 40px;
@@ -144,5 +150,6 @@ button {
   background-color: black;
   color: white;
   font-weight: bold;
+  margin-top: 20px;
 }
 </style>
