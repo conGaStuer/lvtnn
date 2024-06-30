@@ -39,7 +39,7 @@ export default {
       testimonials: [
         {
           id: 1,
-          image: require("@/api/upload/bg.jpg"),
+          image: require("@/assets/images/bg.jpg"),
           name: "Henry",
           role: "Trưởng Nhóm",
           comment:
@@ -47,7 +47,7 @@ export default {
         },
         {
           id: 2,
-          image: require("@/api/upload/home-bg.jpg"),
+          image: require("@/assets/images/home-bg.jpg"),
           name: "Jamie",
           role: "Nhà Thiết Kế Chính",
           comment:

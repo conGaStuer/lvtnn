@@ -30,6 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] == 'POST') {
 
             $orderIdsStr1 = implode(",", $orderIds);
             $stmt1 = $conn->prepare("DELETE FROM don_dat_hang WHERE  madon IN ($orderIdsStr)");
+            $stmt1->bind_param("s", $data->maSach);
             $stmt1->execute();
             $stmt1->close();
 

@@ -137,6 +137,9 @@
       </div>
     </header>
   </div>
+  <div class="overlay" v-if="showCart">
+    <Transition appear name="slide"> </Transition>
+  </div>
 </template>
 
 <script>

@@ -4,20 +4,17 @@ include (__DIR__ . "/config.php");
 
 if ($_SERVER["REQUEST_METHOD"] == 'POST') {
     $data = json_decode(file_get_contents("php://input"));
-
+    $maSach = $data->maSach;
+    $maND = $data->maND;
     if (isset($data->maSach)) {
-        // First, get the `madon` for the given `maSach` with `trangthai = 'giohang'`
-        $stmt = $conn->prepare("SELECT ctdh.madon FROM chi_tiet_don_hang ctdh
+        $stmt = "SELECT ctdh.madon FROM chi_tiet_don_hang ctdh
                                 JOIN don_dat_hang ddh ON ddh.madon = ctdh.madon
-                                WHERE ctdh.masach = ? AND ddh.maND = ? AND ddh.trangthai = 'giohang'");
-        $stmt->bind_param("si", $data->maSach, $data->maND);
-        $stmt->execute();
-        $result = $stmt->get_result();
+                                WHERE ctdh.masach = '$maSach' AND ddh.maND = '$maND' AND ddh.trangthai = 'giohang'";
+        $result = $conn->query($stmt);
         $orderIds = [];
         while ($row = $result->fetch_assoc()) {
             $orderIds[] = $row['madon'];
         }
-        $stmt->close();
 
         // If there are any matching orders with 'giohang' status, delete the items
         if (count($orderIds) > 0) {
@@ -30,6 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] == 'POST') {
 
             $orderIdsStr1 = implode(",", $orderIds);
             $stmt1 = $conn->prepare("DELETE FROM don_dat_hang WHERE  madon IN ($orderIdsStr)");
+            $stmt1->bind_param("s", $data->maSach);
             $stmt1->execute();
             $stmt1->close();
 

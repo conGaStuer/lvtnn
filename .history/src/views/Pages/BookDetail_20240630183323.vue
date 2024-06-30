@@ -57,23 +57,19 @@
 
         <p class="categories">
           Danh mục:
-          <span>
+          <span v-if="book.DanhMuc">
             <router-link
               v-for="(category, index) in book.DanhMuc.split(',')"
               :key="index"
               :to="{
                 name: 'Category',
                 params: {
-                  id: book.MaDanhMuc.split(',')[index],
-                  name: category.trim(), // trim to remove leading/trailing spaces
+                  id: book.MaDanhMuc[index],
+                  name: category.trim(), // Optionally trim whitespace
                 },
               }"
+              >{{ category }}</router-link
             >
-              {{ category.trim() }}
-              <!-- Trim to remove leading/trailing spaces -->
-              <span v-if="index < book.DanhMuc.split(',').length - 1">, </span>
-              <!-- Add comma except for the last category -->
-            </router-link>
           </span>
         </p>
         <p class="publisher lang">
@@ -292,7 +288,7 @@ export default {
   setup() {
     const quantity = ref(1);
     const value = ref(null);
-    const book = ref(null);
+    const book = ref({});
     const route = useRoute();
     const hover = null;
     const isRep = ref(null);

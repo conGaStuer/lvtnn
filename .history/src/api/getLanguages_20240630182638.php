@@ -2,11 +2,11 @@
 
 include "config.php";
 
-if (isset($_GET['publisherId'])) {
-    $publisherId = $_GET['publisherId'];
+if (isset($_GET['languagesId'])) {
+    $languagesId = $_GET['languagesId'];
 
-    // SQL query to get books by the publisher, avoiding duplicates
-    $sql_get_publisher = "
+    // SQL query to get books by language ID, avoiding duplicates
+    $sql_get_languagesId = "
         SELECT 
             s.maSach AS MaSach, 
             s.chiTiet AS ChiTiet, 
@@ -16,8 +16,9 @@ if (isset($_GET['publisherId'])) {
             s.donGia AS DonGia, 
             GROUP_CONCAT(DISTINCT tg.tenTG) AS TacGia,
             GROUP_CONCAT(DISTINCT tg.maTG) AS MaTacGia,
+            nn.maNN AS MaNgonNgu,
             GROUP_CONCAT(DISTINCT nn.tenNN) AS NgonNgu, 
-            GROUP_CONCAT(DISTINCT dm.tenDM) AS DanhMuc,
+            dm.tenDM AS DanhMuc,
             km.luongKM AS KhuyenMai
         FROM 
             sach AS s
@@ -38,7 +39,7 @@ if (isset($_GET['publisherId'])) {
         INNER JOIN 
             khuyen_mai AS km ON s.maKM = km.maKM
         WHERE 
-            nxbs.maNXB = ?
+            nn.maNN = ?
         GROUP BY 
             s.maSach, 
             s.chiTiet, 
@@ -46,12 +47,14 @@ if (isset($_GET['publisherId'])) {
             s.tenSach, 
             s.hinhAnh, 
             s.donGia, 
+            nn.maNN, 
+            dm.tenDM, 
             km.luongKM
     ";
 
     // Prepare and execute the statement
-    $stmt = $conn->prepare($sql_get_publisher);
-    $stmt->bind_param("i", $publisherId);
+    $stmt = $conn->prepare($sql_get_languagesId);
+    $stmt->bind_param("s", $languagesId);
     $stmt->execute();
     $result = $stmt->get_result();
 
@@ -62,12 +65,12 @@ if (isset($_GET['publisherId'])) {
         }
         echo json_encode($books);
     } else {
-        echo json_encode(['Error' => "No books found for this publisher."]);
+        echo json_encode(array("error" => "Không có sách nào thuộc ngôn ngữ này"));
     }
 
     $stmt->close();
     $conn->close();
 } else {
-    echo json_encode(['Error' => "Publisher ID not provided."]);
+    echo json_encode(array("error" => "Không có ngôn ngữ được chọn"));
 }
 ?>

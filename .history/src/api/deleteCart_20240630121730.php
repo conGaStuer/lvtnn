@@ -10,7 +10,7 @@ if ($_SERVER["REQUEST_METHOD"] == 'POST') {
         $stmt = $conn->prepare("SELECT ctdh.madon FROM chi_tiet_don_hang ctdh
                                 JOIN don_dat_hang ddh ON ddh.madon = ctdh.madon
                                 WHERE ctdh.masach = ? AND ddh.maND = ? AND ddh.trangthai = 'giohang'");
-        $stmt->bind_param("si", $data->maSach, $data->maND);
+        $stmt->bind_param("si", $data->maSach, $_SESSION['userId']);
         $stmt->execute();
         $result = $stmt->get_result();
         $orderIds = [];
@@ -30,6 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] == 'POST') {
 
             $orderIdsStr1 = implode(",", $orderIds);
             $stmt1 = $conn->prepare("DELETE FROM don_dat_hang WHERE  madon IN ($orderIdsStr)");
+            $stmt1->bind_param("s", $data->maSach);
             $stmt1->execute();
             $stmt1->close();
 

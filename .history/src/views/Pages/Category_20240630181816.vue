@@ -160,20 +160,13 @@ export default {
       fetchCategories();
       updateBooks();
     });
+
     const sortedBooks = computed(() => {
       let sorted = [...books.value];
       if (sortBy.value === "priceAsc") {
-        sorted.sort((a, b) => {
-          let priceA = a.DonGia - (a.DonGia * a.KhuyenMai) / 100;
-          let priceB = b.DonGia - (b.DonGia * b.KhuyenMai) / 100;
-          return priceA - priceB;
-        });
+        sorted.sort((a, b) => a.DonGia - b.DonGia);
       } else if (sortBy.value === "priceDesc") {
-        sorted.sort((a, b) => {
-          let priceA = a.DonGia - (a.DonGia * a.KhuyenMai) / 100;
-          let priceB = b.DonGia - (b.DonGia * b.KhuyenMai) / 100;
-          return priceB - priceA;
-        });
+        sorted.sort((a, b) => b.DonGia - a.DonGia);
       }
       return sorted;
     });

@@ -65,15 +65,11 @@
                 name: 'Category',
                 params: {
                   id: book.MaDanhMuc.split(',')[index],
-                  name: category.trim(), // trim to remove leading/trailing spaces
+                  name: category,
                 },
               }"
+              >{{ category }}</router-link
             >
-              {{ category.trim() }}
-              <!-- Trim to remove leading/trailing spaces -->
-              <span v-if="index < book.DanhMuc.split(',').length - 1">, </span>
-              <!-- Add comma except for the last category -->
-            </router-link>
           </span>
         </p>
         <p class="publisher lang">
