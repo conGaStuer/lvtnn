@@ -11,57 +11,57 @@ try {
     $mac = hash_hmac("sha256", $postdatajson["data"], $key2);
 
     $requestmac = $postdatajson["mac"];
-    if (strcmp($mac, $requestmac) != 0) {
-        // callback không hợp lệ
+    if (strcmp($mac, $requestmac) !== 0) {
         $result["return_code"] = -1;
-        $result["return_message"] = "mac not equal";
+        $result["return_message"] = "Invalid MAC";
     } else {
-        // Process callback data
         $datajson = json_decode($postdatajson["data"], true);
         $app_trans_id = $datajson["app_trans_id"];
+
         $userId = $datajson["app_user"];
         $amount = $datajson["amount"];
         $items = $datajson["items"];
 
-        $conn->begin_transaction();
         try {
-            // Create new order
+            $conn->begin_transaction(); // Start transaction
+
             $sql_create_order = "INSERT INTO don_dat_hang (maND, trangthai, ngaydat) VALUES ('$userId', 'choduyet', CURDATE())";
             if ($conn->query($sql_create_order) !== TRUE) {
-                throw new Exception("Failed to create order");
+                throw new Exception("Failed to create order: " . $conn->error);
             }
-
-            // Get the ID of the newly created order
             $orderId = $conn->insert_id;
+            $result['debug_create_order'] = 'Order created with ID ' . $orderId;
 
-            // Add event to order_events table
             $sql_add_event = "INSERT INTO order_events (order_id, event, timestamp) VALUES ('$orderId', 'choduyet', NOW())";
             if ($conn->query($sql_add_event) !== TRUE) {
-                throw new Exception("Failed to add event");
+                throw new Exception("Failed to add event: " . $conn->error);
             }
+            $result['debug_add_event'] = 'Event added for order ID ' . $orderId;
 
-            // Add each item to order_details table
             foreach ($items as $item) {
                 $maSach = $item['MaSach'];
                 $soLuong = $item['SoLuong'];
                 $donGia = $item['DonGia'];
 
                 $sql_insert_item = "INSERT INTO chi_tiet_don_hang (madon, masach, soluong, dongia) 
-                                    VALUES ('$orderId', '$maSach', '$soLuong', '$donGia')";
+                VALUES ('$orderId', '$maSach', '$soLuong', '$donGia')";
                 if ($conn->query($sql_insert_item) !== TRUE) {
-                    throw new Exception("Failed to add item to order");
+                    throw new Exception("Failed to add item to order: " . $conn->error);
                 }
             }
+            $result['debug_insert_items'] = 'Items added for order ID ' . $orderId;
 
-            $conn->commit();
+            $conn->commit(); // Commit transaction
+
             $result["return_code"] = 1;
             $result["return_message"] = "Success";
-
         } catch (Exception $e) {
-            $conn->rollback();
+            $conn->rollback(); // Rollback transaction
             $result["return_code"] = 0;
             $result["return_message"] = $e->getMessage();
         }
+
+        $conn->close();
     }
 } catch (Exception $e) {
     $result["return_code"] = 0;

@@ -110,17 +110,10 @@ const fetchOrders = () => {
     });
 };
 const calculateTotalPrice = (order) => {
-  if (!order.Items || !Array.isArray(order.Items)) {
-    return 0; // Return 0 if Items is not an array or is undefined
-  }
-
-  return order.Items.reduce((total, item) => {
-    const price = parseInt(item.GiaDonHang) || 0;
-    const quantity = parseInt(item.SoLuong) || 1;
-    return total + price * quantity;
+  return order.GiaDonHang.reduce((total, price, index) => {
+    return total + price * order.SoLuong[index];
   }, 0);
 };
-
 const parseOrderItems = (order) => {
   return order.Items.map((item) => {
     return {

@@ -67,4 +67,8 @@ if ($result['return_code'] == 1) {
         'message' => $result['return_message']
     ]);
 }
+
+// foreach ($result as $key => $value) {
+//     echo "$key: $value<br>";
+// }
 ?>

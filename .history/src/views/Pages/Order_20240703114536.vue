@@ -110,13 +110,12 @@ const fetchOrders = () => {
     });
 };
 const calculateTotalPrice = (order) => {
-  if (!order.Items || !Array.isArray(order.Items)) {
-    return 0; // Return 0 if Items is not an array or is undefined
+  if (!order.GiaDonHang || !Array.isArray(order.GiaDonHang)) {
+    return 0; // Return 0 if GiaDonHang is not an array or is undefined
   }
 
-  return order.Items.reduce((total, item) => {
-    const price = parseInt(item.GiaDonHang) || 0;
-    const quantity = parseInt(item.SoLuong) || 1;
+  return order.GiaDonHang.reduce((total, price, index) => {
+    const quantity = order.SoLuong ? order.SoLuong[index] : 1;
     return total + price * quantity;
   }, 0);
 };

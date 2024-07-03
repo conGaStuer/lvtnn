@@ -13,17 +13,20 @@ try {
     $requestmac = $postdatajson["mac"];
     if (strcmp($mac, $requestmac) != 0) {
         // callback không hợp lệ
-        $result["return_code"] = -1;
-        $result["return_message"] = "mac not equal";
+        $result["returncode"] = -1;
+        $result["returnmessage"] = "mac not equal";
     } else {
         // Process callback data
         $datajson = json_decode($postdatajson["data"], true);
         $app_trans_id = $datajson["app_trans_id"];
+
         $userId = $datajson["app_user"];
         $amount = $datajson["amount"];
         $items = $datajson["items"];
 
-        $conn->begin_transaction();
+        // Return success message
+        $result["return_code"] = 1;
+        $result["return_message"] = "Success";
         try {
             // Create new order
             $sql_create_order = "INSERT INTO don_dat_hang (maND, trangthai, ngaydat) VALUES ('$userId', 'choduyet', CURDATE())";
@@ -47,21 +50,23 @@ try {
                 $donGia = $item['DonGia'];
 
                 $sql_insert_item = "INSERT INTO chi_tiet_don_hang (madon, masach, soluong, dongia) 
-                                    VALUES ('$orderId', '$maSach', '$soLuong', '$donGia')";
+                VALUES ('$orderId', '$maSach', '$soLuong', '$donGia')";
                 if ($conn->query($sql_insert_item) !== TRUE) {
                     throw new Exception("Failed to add item to order");
                 }
             }
 
-            $conn->commit();
-            $result["return_code"] = 1;
-            $result["return_message"] = "Success";
+
+
 
         } catch (Exception $e) {
-            $conn->rollback();
+            // Rollback transaction on failure
             $result["return_code"] = 0;
             $result["return_message"] = $e->getMessage();
         }
+
+        // Close database connection
+        $conn->close();
     }
 } catch (Exception $e) {
     $result["return_code"] = 0;

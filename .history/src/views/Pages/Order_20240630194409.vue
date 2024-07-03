@@ -110,35 +110,41 @@ const fetchOrders = () => {
     });
 };
 const calculateTotalPrice = (order) => {
-  if (!order.Items || !Array.isArray(order.Items)) {
-    return 0; // Return 0 if Items is not an array or is undefined
+  if (!order || !Array.isArray(order)) {
+    return 0;
   }
 
-  return order.Items.reduce((total, item) => {
-    const price = parseInt(item.GiaDonHang) || 0;
-    const quantity = parseInt(item.SoLuong) || 1;
-    return total + price * quantity;
+  return order.reduce((total, book) => {
+    return total + book.GiaDonHang * book.SoLuong;
   }, 0);
 };
-
 const parseOrderItems = (order) => {
-  return order.Items.map((item) => {
-    return {
-      MaSach: item.MaSach,
-      TenSach: item.TenSach,
-      HinhAnh: item.HinhAnh,
-      DonGia: parseInt(item.DonGia),
-      GiaDonHang: parseInt(item.GiaDonHang),
-      SoLuong: item.SoLuong,
-      TacGia: item.TacGia,
-      NgonNgu: item.NgonNgu,
-      DanhMuc: item.DanhMuc,
-      NhaXuatBan: item.NhaXuatBan,
-      KhuyenMai: item.KhuyenMai,
-    };
-  });
-};
+  if (!order || !order.MaSach || !Array.isArray(order.MaSach)) {
+    return []; // Return an empty array or handle appropriately
+  }
 
+  const items = [];
+
+  for (let i = 0; i < order.MaSach.length; i++) {
+    const item = {
+      MaSach: order.MaSach[i],
+      TenSach: order.TenSach ? order.TenSach[i] : "",
+      HinhAnh: order.HinhAnh ? order.HinhAnh[i] : "",
+      DonGia: order.DonGia ? parseInt(order.DonGia[i]) : 0,
+      GiaDonHang: order.GiaDonHang ? parseInt(order.GiaDonHang[i]) : 0,
+      SoLuong: order.SoLuong ? parseInt(order.SoLuong[i]) : 0,
+      TacGia: order.TacGia ? order.TacGia[i] : "",
+      NgonNgu: order.NgonNgu ? order.NgonNgu[i] : "",
+      DanhMuc: order.DanhMuc ? order.DanhMuc[i] : "",
+      NhaXuatBan: order.NhaXuatBan ? order.NhaXuatBan[i] : "",
+      KhuyenMai: order.KhuyenMai ? order.KhuyenMai[i] : "",
+    };
+
+    items.push(item);
+  }
+
+  return items;
+};
 const confirmDelivery = (order) => {
   axios
     .post("http://localhost/LVTN/book-store/src/api/updateOrderStatus.php", {

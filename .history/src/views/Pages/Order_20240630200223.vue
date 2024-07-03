@@ -109,34 +109,38 @@ const fetchOrders = () => {
       console.error("Error fetching orders:", error);
     });
 };
-const calculateTotalPrice = (order) => {
-  if (!order.Items || !Array.isArray(order.Items)) {
-    return 0; // Return 0 if Items is not an array or is undefined
+calculateTotalPrice(order) {
+    if (Array.isArray(order.GiaDonHang)) {
+        return order.GiaDonHang.reduce((total, price) => total + price, 0);
+    } else {
+        // Handle the case where GiaDonHang is not an array
+        console.error('GiaDonHang is not an array:', order.GiaDonHang);
+        return 0; // or handle gracefully based on your application logic
+    }
+}
+const parseOrderItems = (order) => {
+  const items = []; // Process order details
+
+  for (let i = 0; i < order.MaSach.length; i++) {
+    const item = {
+      MaSach: order.MaSach[i],
+      TenSach: order.TenSach[i],
+      HinhAnh: order.HinhAnh[i],
+      DonGia: parseInt(order.DonGia[i]),
+      GiaDonHang: parseInt(order.GiaDonHang[i]),
+
+      SoLuong: order.SoLuong[i],
+      TacGia: order.TacGia[i],
+      NgonNgu: order.NgonNgu[i],
+      DanhMuc: order.DanhMuc[i],
+      NhaXuatBan: order.NhaXuatBan[i],
+      KhuyenMai: order.KhuyenMai[i],
+    };
+
+    items.push(item);
   }
 
-  return order.Items.reduce((total, item) => {
-    const price = parseInt(item.GiaDonHang) || 0;
-    const quantity = parseInt(item.SoLuong) || 1;
-    return total + price * quantity;
-  }, 0);
-};
-
-const parseOrderItems = (order) => {
-  return order.Items.map((item) => {
-    return {
-      MaSach: item.MaSach,
-      TenSach: item.TenSach,
-      HinhAnh: item.HinhAnh,
-      DonGia: parseInt(item.DonGia),
-      GiaDonHang: parseInt(item.GiaDonHang),
-      SoLuong: item.SoLuong,
-      TacGia: item.TacGia,
-      NgonNgu: item.NgonNgu,
-      DanhMuc: item.DanhMuc,
-      NhaXuatBan: item.NhaXuatBan,
-      KhuyenMai: item.KhuyenMai,
-    };
-  });
+  return items;
 };
 
 const confirmDelivery = (order) => {

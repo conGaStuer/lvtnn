@@ -3,10 +3,11 @@ include "config.php";
 header('Content-Type: application/json');
 
 $config = [
-    "app_id" => 2553,
-    "key1" => "PcY4iZIKFCIdgZvA6ueMcMHHUbRLYjPL",
-    "key2" => "kLtgPl8HHhfvMuDHPwKfgfsY4Ydm9eIz",
-    "endpoint" => "https://sb-openapi.zalopay.vn/v2/create"
+    "app_id" => 57475,
+    "key1" => "*********",
+    "key2" => "*********",
+    "endpoint" => "https://openapi.zalopay.vn/v2/create
+"
 ];
 
 $data = json_decode(file_get_contents('php://input'), true);
@@ -67,4 +68,8 @@ if ($result['return_code'] == 1) {
         'message' => $result['return_message']
     ]);
 }
+
+// foreach ($result as $key => $value) {
+//     echo "$key: $value<br>";
+// }
 ?>
