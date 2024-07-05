@@ -52,7 +52,7 @@
             v-if="record.TrangThai === 'danggiao'"
             @click="deliveredOrder(record)"
           >
-            Đã thanh toán
+            Giao đơn hàng
           </a-button>
           <a-button
             @click="cancelOrder(record)"

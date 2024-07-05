@@ -49,12 +49,6 @@
             Giao đơn hàng
           </a-button>
           <a-button
-            v-if="record.TrangThai === 'danggiao'"
-            @click="deliveredOrder(record)"
-          >
-            Đã thanh toán
-          </a-button>
-          <a-button
             @click="cancelOrder(record)"
             :disabled="isCancelDisabled(record)"
           >
@@ -152,24 +146,7 @@ const shipOrder = (order) => {
       message.error("Đã có lỗi xảy ra khi giao đơn hàng");
     });
 };
-const deliveredOrder = (order) => {
-  axios
-    .post(
-      "http://localhost/LVTN/book-store/src/api/admin/updateOrderStatus.php",
-      {
-        maDon: order.MaDon,
-        status: "giaohangthanhcong",
-      }
-    )
-    .then(() => {
-      message.success("Thanh toán đơn hàng thành công");
-      order.TrangThai = "giaohangthanhcong"; // Update local order status
-    })
-    .catch((error) => {
-      console.error("Error shipping order:", error);
-      message.error("Đã có lỗi xảy ra khi giao đơn hàng");
-    });
-};
+
 const cancelOrder = (order) => {
   axios
     .post(
