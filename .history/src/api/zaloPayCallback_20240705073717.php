@@ -68,17 +68,15 @@ $payload = json_decode($data['data'], true);
 // Log payload
 log_message("Payload: " . print_r($payload, true));
 
-// Kiểm tra trạng thái giao dịch từ payload trả về
-if (!isset($payload['zp_trans_id']) || !isset($payload['amount']) || $payload['amount'] <= 0) {
-    log_message("Invalid transaction data");
+if ($payload['return_code'] != 1) {
+    log_message("Payment failed");
     echo json_encode([
         'status' => 'error',
-        'message' => 'Invalid transaction data'
+        'message' => 'Payment failed'
     ]);
     exit;
 }
 
-// Nếu các điều kiện trên đều hợp lệ, tiếp tục xử lý đơn hàng
 $userId = $payload['app_user'];
 $items = json_decode($payload['item'], true);
 

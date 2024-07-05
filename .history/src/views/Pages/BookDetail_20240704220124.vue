@@ -40,11 +40,11 @@
             type="number"
             class="quantity"
             v-model="quantity"
-            :disabled="!currentUser.maND || currentUser.maVaiTro != 1"
+            :disabled="!currentUser.maND"
           />
           <button
             @click="addToCart"
-            :disabled="!currentUser.maND || currentUser.maVaiTro != 1"
+            :disabled="!currentUser.maND && currentUser.maVaiTro !== 1"
           >
             THÊM VÀO GIỎ
           </button>

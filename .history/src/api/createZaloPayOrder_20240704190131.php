@@ -9,9 +9,14 @@ $config = [
     "endpoint" => "https://sb-openapi.zalopay.vn/v2/create"
 ];
 
-$data = json_decode(file_get_contents('php://input'), true);
+// Get raw POST data
+$postdata = file_get_contents('php://input');
 
-if (!isset($data['userId']) || !isset($data['items'])) {
+// Decode JSON data received
+$datajson = json_decode($postdata, true);
+
+// Validate required data
+if (!isset($datajson['app_user']) || !isset($datajson['items'])) {
     echo json_encode([
         'status' => 'error',
         'message' => 'Invalid request data'
@@ -19,17 +24,21 @@ if (!isset($data['userId']) || !isset($data['items'])) {
     exit;
 }
 
-$userId = $data['userId'];
-$items = json_encode($data['items']);
+$userId = $datajson['app_user'];
+$items = json_encode($datajson['items']);
 
 $transID = rand(0, 1000000);
 $amount = 0;
-foreach ($data['items'] as $item) {
+
+// Calculate total amount from items
+foreach ($datajson['items'] as $item) {
     $amount += $item['DonGia'] * $item['SoLuong'];
 }
+
 $embeddata = [
-    "redirecturl" => "http://localhost:8080/order"
+    "redirecturl" => "http://localhost/LVTN/book-store/src/api/zaloPayCallback.php"
 ];
+
 $order = [
     "app_id" => $config["app_id"],
     "app_time" => round(microtime(true) * 1000),
@@ -40,7 +49,7 @@ $order = [
     "amount" => $amount,
     "description" => "Payment for order #$transID",
     "bank_code" => "zalopayapp",
-    "callback_url" => "https://ea03-42-114-97-46.ngrok-free.app/LVTN/book-store/src/api/zaloPayCallback.php"
+    "callback_url" => "https://dc6b-113-172-127-251.ngrok-free.app/LVTN/book-store/src/api/zaloPayCallback.php"
 ];
 
 $data_string = $order["app_id"] . "|" . $order["app_trans_id"] . "|" . $order["app_user"] . "|" . $order["amount"]
@@ -58,6 +67,7 @@ $context = stream_context_create([
 
 $response = file_get_contents($config["endpoint"], false, $context);
 $result = json_decode($response, true);
+
 if ($result['return_code'] == 1) {
     echo json_encode([
         'status' => 'success',

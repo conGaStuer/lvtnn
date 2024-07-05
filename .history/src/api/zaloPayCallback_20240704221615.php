@@ -68,17 +68,15 @@ $payload = json_decode($data['data'], true);
 // Log payload
 log_message("Payload: " . print_r($payload, true));
 
-// Kiểm tra trạng thái giao dịch từ payload trả về
-if (!isset($payload['zp_trans_id']) || !isset($payload['amount']) || $payload['amount'] <= 0) {
-    log_message("Invalid transaction data");
+if ($payload['return_code'] != 1) {
+    log_message("Payment failed");
     echo json_encode([
         'status' => 'error',
-        'message' => 'Invalid transaction data'
+        'message' => 'Payment failed'
     ]);
     exit;
 }
 
-// Nếu các điều kiện trên đều hợp lệ, tiếp tục xử lý đơn hàng
 $userId = $payload['app_user'];
 $items = json_decode($payload['item'], true);
 
@@ -87,27 +85,25 @@ try {
     $conn->begin_transaction();
 
     // Create a new order
-    $stmt_create_order = $conn->prepare("INSERT INTO don_dat_hang (maND, trangthai, ngaydat) VALUES (?, 'choduyet', CURDATE())");
-    $stmt_create_order->bind_param('i', $userId);
-    if ($stmt_create_order->execute()) {
+    $sql_create_order = "INSERT INTO don_dat_hang (maND, trangthai, ngaydat) VALUES ('$userId', 'choduyet', CURDATE())";
+    if ($conn->query($sql_create_order) === TRUE) {
         $orderId = $conn->insert_id;
 
         // Add event
-        $stmt_add_event = $conn->prepare("INSERT INTO order_events (order_id, event, timestamp) VALUES (?, 'choduyet', NOW())");
-        $stmt_add_event->bind_param('i', $orderId);
-        if (!$stmt_add_event->execute()) {
-            throw new Exception("Failed to add event: " . $stmt_add_event->error);
+        $sql_add_event = "INSERT INTO order_events (order_id, event, timestamp) VALUES ('$orderId', 'choduyet', NOW())";
+        if ($conn->query($sql_add_event) !== TRUE) {
+            throw new Exception("Failed to add event: " . $conn->error);
         }
 
         // Add items to the order
-        $stmt_insert_item = $conn->prepare("INSERT INTO chi_tiet_don_hang (madon, masach, soluong, dongia) VALUES (?, ?, ?, ?)");
         foreach ($items as $item) {
             $maSach = $item['MaSach'];
             $soLuong = $item['SoLuong'];
             $donGia = $item['DonGia'];
-            $stmt_insert_item->bind_param('iiid', $orderId, $maSach, $soLuong, $donGia);
-            if (!$stmt_insert_item->execute()) {
-                throw new Exception("Failed to add item to order: " . $stmt_insert_item->error);
+
+            $sql_insert_item = "INSERT INTO chi_tiet_don_hang (madon, masach, soluong, dongia) VALUES ('$orderId', '$maSach', '$soLuong', '$donGia')";
+            if ($conn->query($sql_insert_item) !== TRUE) {
+                throw new Exception("Failed to add item to order: " . $conn->error);
             }
         }
 
@@ -116,7 +112,7 @@ try {
         log_message("Order created successfully");
         echo json_encode(['status' => 'success']);
     } else {
-        throw new Exception("Failed to create order: " . $stmt_create_order->error);
+        throw new Exception("Failed to create order: " . $conn->error);
     }
 } catch (Exception $e) {
     // Rollback transaction on error

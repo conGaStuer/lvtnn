@@ -1,0 +1,99 @@
+
+
+Raw POST data: 
+Raw POST data: 
+Decoded data: 
+Raw POST data: 
+Decoded data: 
+Invalid request data
+Raw POST data: {"data":"{\"app_id\":2553,\"app_trans_id\":\"240705_278618\",\"app_time\":1720139070236,\"app_user\":\"1\",\"amount\":900,\"embed_data\":\"{\\\"redirecturl\\\":\\\"http:\\\\/\\\\/localhost:8080\\\\/order\\\"}\",\"item\":\"[{\\\"MaSach\\\":\\\"66\\\",\\\"ChiTiet\\\":\\\"Le Petit Prince l\\\\u00e0 cu\\\\u1ed1n s\\\\u00e1ch c\\\\u1ee7a Antoine de Saint-Exup\\\\u00e9ry, k\\\\u1ec3 v\\\\u1ec1 cu\\\\u1ed9c h\\\\u00e0nh tr\\\\u00ecnh c\\\\u1ee7a m\\\\u1ed9t ho\\\\u00e0ng t\\\\u1eed nh\\\\u1ecf t\\\\u1eeb h\\\\u00e0nh tinh n\\\\u00e0y \\\\u0111\\\\u1ebfn h\\\\u00e0nh tinh kh\\\\u00e1c.\\\",\\\"TenSach\\\":\\\"Le Petit Prince\\\",\\\"HinhAnh\\\":\\\"https:\\\\/\\\\/m.media-amazon.com\\\\/images\\\\/I\\\\/61NGp-UxolL._AC_UF1000,1000_QL80_.jpg\\\",\\\"DonGia\\\":\\\"900\\\",\\\"SoLuong\\\":\\\"1\\\",\\\"KhuyenMai\\\":\\\"10\\\",\\\"NhaXuatBan\\\":\\\"Steam\\\",\\\"MaDanhMuc\\\":\\\"9\\\",\\\"MaTacGia\\\":\\\"11\\\",\\\"MaNgonNgu\\\":\\\"6\\\",\\\"MaNhaXuatBan\\\":\\\"7\\\",\\\"MaKhuyenMai\\\":\\\"2\\\",\\\"TacGia\\\":\\\"Bernhard Schlink, Harper Lee\\\",\\\"NgonNgu\\\":\\\"Ti\\\\u1ebfng Nh\\\\u1eadt\\\",\\\"DanhMuc\\\":\\\"\\\\u00c2m nh\\\\u1ea1c, Thi\\\\u1ebft k\\\\u1ebf n\\\\u1ed9i th\\\\u1ea5t\\\"}]\",\"zp_trans_id\":240705000000847,\"server_time\":1720139111845,\"channel\":38,\"merchant_user_id\":\"H8nlQkfXGJWqpN0W0RfZG6dO1ENltWP2FBJEkuOfpzk\",\"zp_user_id\":\"H8nlQkfXGJWqpN0W0RfZG6dO1ENltWP2FBJEkuOfpzk\",\"user_fee_amount\":0,\"discount_amount\":0}","mac":"2fd77369aaa60e665579c24b00a356aaf61ec5be9fad0ac7b64944a3549ededa","type":1}
+Raw POST data: {"data":"{\"app_id\":2553,\"app_trans_id\":\"240705_278618\",\"app_time\":1720139070236,\"app_user\":\"1\",\"amount\":900,\"embed_data\":\"{\\\"redirecturl\\\":\\\"http:\\\\/\\\\/localhost:8080\\\\/order\\\"}\",\"item\":\"[{\\\"MaSach\\\":\\\"66\\\",\\\"ChiTiet\\\":\\\"Le Petit Prince l\\\\u00e0 cu\\\\u1ed1n s\\\\u00e1ch c\\\\u1ee7a Antoine de Saint-Exup\\\\u00e9ry, k\\\\u1ec3 v\\\\u1ec1 cu\\\\u1ed9c h\\\\u00e0nh tr\\\\u00ecnh c\\\\u1ee7a m\\\\u1ed9t ho\\\\u00e0ng t\\\\u1eed nh\\\\u1ecf t\\\\u1eeb h\\\\u00e0nh tinh n\\\\u00e0y \\\\u0111\\\\u1ebfn h\\\\u00e0nh tinh kh\\\\u00e1c.\\\",\\\"TenSach\\\":\\\"Le Petit Prince\\\",\\\"HinhAnh\\\":\\\"https:\\\\/\\\\/m.media-amazon.com\\\\/images\\\\/I\\\\/61NGp-UxolL._AC_UF1000,1000_QL80_.jpg\\\",\\\"DonGia\\\":\\\"900\\\",\\\"SoLuong\\\":\\\"1\\\",\\\"KhuyenMai\\\":\\\"10\\\",\\\"NhaXuatBan\\\":\\\"Steam\\\",\\\"MaDanhMuc\\\":\\\"9\\\",\\\"MaTacGia\\\":\\\"11\\\",\\\"MaNgonNgu\\\":\\\"6\\\",\\\"MaNhaXuatBan\\\":\\\"7\\\",\\\"MaKhuyenMai\\\":\\\"2\\\",\\\"TacGia\\\":\\\"Bernhard Schlink, Harper Lee\\\",\\\"NgonNgu\\\":\\\"Ti\\\\u1ebfng Nh\\\\u1eadt\\\",\\\"DanhMuc\\\":\\\"\\\\u00c2m nh\\\\u1ea1c, Thi\\\\u1ebft k\\\\u1ebf n\\\\u1ed9i th\\\\u1ea5t\\\"}]\",\"zp_trans_id\":240705000000847,\"server_time\":1720139111845,\"channel\":38,\"merchant_user_id\":\"H8nlQkfXGJWqpN0W0RfZG6dO1ENltWP2FBJEkuOfpzk\",\"zp_user_id\":\"H8nlQkfXGJWqpN0W0RfZG6dO1ENltWP2FBJEkuOfpzk\",\"user_fee_amount\":0,\"discount_amount\":0}","mac":"2fd77369aaa60e665579c24b00a356aaf61ec5be9fad0ac7b64944a3549ededa","type":1}
+Decoded data: Array
+(
+    [data] => {"app_id":2553,"app_trans_id":"240705_278618","app_time":1720139070236,"app_user":"1","amount":900,"embed_data":"{\"redirecturl\":\"http:\\/\\/localhost:8080\\/order\"}","item":"[{\"MaSach\":\"66\",\"ChiTiet\":\"Le Petit Prince l\\u00e0 cu\\u1ed1n s\\u00e1ch c\\u1ee7a Antoine de Saint-Exup\\u00e9ry, k\\u1ec3 v\\u1ec1 cu\\u1ed9c h\\u00e0nh tr\\u00ecnh c\\u1ee7a m\\u1ed9t ho\\u00e0ng t\\u1eed nh\\u1ecf t\\u1eeb h\\u00e0nh tinh n\\u00e0y \\u0111\\u1ebfn h\\u00e0nh tinh kh\\u00e1c.\",\"TenSach\":\"Le Petit Prince\",\"HinhAnh\":\"https:\\/\\/m.media-amazon.com\\/images\\/I\\/61NGp-UxolL._AC_UF1000,1000_QL80_.jpg\",\"DonGia\":\"900\",\"SoLuong\":\"1\",\"KhuyenMai\":\"10\",\"NhaXuatBan\":\"Steam\",\"MaDanhMuc\":\"9\",\"MaTacGia\":\"11\",\"MaNgonNgu\":\"6\",\"MaNhaXuatBan\":\"7\",\"MaKhuyenMai\":\"2\",\"TacGia\":\"Bernhard Schlink, Harper Lee\",\"NgonNgu\":\"Ti\\u1ebfng Nh\\u1eadt\",\"DanhMuc\":\"\\u00c2m nh\\u1ea1c, Thi\\u1ebft k\\u1ebf n\\u1ed9i th\\u1ea5t\"}]","zp_trans_id":240705000000847,"server_time":1720139111845,"channel":38,"merchant_user_id":"H8nlQkfXGJWqpN0W0RfZG6dO1ENltWP2FBJEkuOfpzk","zp_user_id":"H8nlQkfXGJWqpN0W0RfZG6dO1ENltWP2FBJEkuOfpzk","user_fee_amount":0,"discount_amount":0}
+    [mac] => 2fd77369aaa60e665579c24b00a356aaf61ec5be9fad0ac7b64944a3549ededa
+    [type] => 1
+)
+
+Raw POST data: {"data":"{\"app_id\":2553,\"app_trans_id\":\"240705_278618\",\"app_time\":1720139070236,\"app_user\":\"1\",\"amount\":900,\"embed_data\":\"{\\\"redirecturl\\\":\\\"http:\\\\/\\\\/localhost:8080\\\\/order\\\"}\",\"item\":\"[{\\\"MaSach\\\":\\\"66\\\",\\\"ChiTiet\\\":\\\"Le Petit Prince l\\\\u00e0 cu\\\\u1ed1n s\\\\u00e1ch c\\\\u1ee7a Antoine de Saint-Exup\\\\u00e9ry, k\\\\u1ec3 v\\\\u1ec1 cu\\\\u1ed9c h\\\\u00e0nh tr\\\\u00ecnh c\\\\u1ee7a m\\\\u1ed9t ho\\\\u00e0ng t\\\\u1eed nh\\\\u1ecf t\\\\u1eeb h\\\\u00e0nh tinh n\\\\u00e0y \\\\u0111\\\\u1ebfn h\\\\u00e0nh tinh kh\\\\u00e1c.\\\",\\\"TenSach\\\":\\\"Le Petit Prince\\\",\\\"HinhAnh\\\":\\\"https:\\\\/\\\\/m.media-amazon.com\\\\/images\\\\/I\\\\/61NGp-UxolL._AC_UF1000,1000_QL80_.jpg\\\",\\\"DonGia\\\":\\\"900\\\",\\\"SoLuong\\\":\\\"1\\\",\\\"KhuyenMai\\\":\\\"10\\\",\\\"NhaXuatBan\\\":\\\"Steam\\\",\\\"MaDanhMuc\\\":\\\"9\\\",\\\"MaTacGia\\\":\\\"11\\\",\\\"MaNgonNgu\\\":\\\"6\\\",\\\"MaNhaXuatBan\\\":\\\"7\\\",\\\"MaKhuyenMai\\\":\\\"2\\\",\\\"TacGia\\\":\\\"Bernhard Schlink, Harper Lee\\\",\\\"NgonNgu\\\":\\\"Ti\\\\u1ebfng Nh\\\\u1eadt\\\",\\\"DanhMuc\\\":\\\"\\\\u00c2m nh\\\\u1ea1c, Thi\\\\u1ebft k\\\\u1ebf n\\\\u1ed9i th\\\\u1ea5t\\\"}]\",\"zp_trans_id\":240705000000847,\"server_time\":1720139111845,\"channel\":38,\"merchant_user_id\":\"H8nlQkfXGJWqpN0W0RfZG6dO1ENltWP2FBJEkuOfpzk\",\"zp_user_id\":\"H8nlQkfXGJWqpN0W0RfZG6dO1ENltWP2FBJEkuOfpzk\",\"user_fee_amount\":0,\"discount_amount\":0}","mac":"2fd77369aaa60e665579c24b00a356aaf61ec5be9fad0ac7b64944a3549ededa","type":1}
+Decoded data: Array
+(
+    [data] => {"app_id":2553,"app_trans_id":"240705_278618","app_time":1720139070236,"app_user":"1","amount":900,"embed_data":"{\"redirecturl\":\"http:\\/\\/localhost:8080\\/order\"}","item":"[{\"MaSach\":\"66\",\"ChiTiet\":\"Le Petit Prince l\\u00e0 cu\\u1ed1n s\\u00e1ch c\\u1ee7a Antoine de Saint-Exup\\u00e9ry, k\\u1ec3 v\\u1ec1 cu\\u1ed9c h\\u00e0nh tr\\u00ecnh c\\u1ee7a m\\u1ed9t ho\\u00e0ng t\\u1eed nh\\u1ecf t\\u1eeb h\\u00e0nh tinh n\\u00e0y \\u0111\\u1ebfn h\\u00e0nh tinh kh\\u00e1c.\",\"TenSach\":\"Le Petit Prince\",\"HinhAnh\":\"https:\\/\\/m.media-amazon.com\\/images\\/I\\/61NGp-UxolL._AC_UF1000,1000_QL80_.jpg\",\"DonGia\":\"900\",\"SoLuong\":\"1\",\"KhuyenMai\":\"10\",\"NhaXuatBan\":\"Steam\",\"MaDanhMuc\":\"9\",\"MaTacGia\":\"11\",\"MaNgonNgu\":\"6\",\"MaNhaXuatBan\":\"7\",\"MaKhuyenMai\":\"2\",\"TacGia\":\"Bernhard Schlink, Harper Lee\",\"NgonNgu\":\"Ti\\u1ebfng Nh\\u1eadt\",\"DanhMuc\":\"\\u00c2m nh\\u1ea1c, Thi\\u1ebft k\\u1ebf n\\u1ed9i th\\u1ea5t\"}]","zp_trans_id":240705000000847,"server_time":1720139111845,"channel":38,"merchant_user_id":"H8nlQkfXGJWqpN0W0RfZG6dO1ENltWP2FBJEkuOfpzk","zp_user_id":"H8nlQkfXGJWqpN0W0RfZG6dO1ENltWP2FBJEkuOfpzk","user_fee_amount":0,"discount_amount":0}
+    [mac] => 2fd77369aaa60e665579c24b00a356aaf61ec5be9fad0ac7b64944a3549ededa
+    [type] => 1
+)
+
+Received MAC: 2fd77369aaa60e665579c24b00a356aaf61ec5be9fad0ac7b64944a3549ededa
+Raw POST data: {"data":"{\"app_id\":2553,\"app_trans_id\":\"240705_278618\",\"app_time\":1720139070236,\"app_user\":\"1\",\"amount\":900,\"embed_data\":\"{\\\"redirecturl\\\":\\\"http:\\\\/\\\\/localhost:8080\\\\/order\\\"}\",\"item\":\"[{\\\"MaSach\\\":\\\"66\\\",\\\"ChiTiet\\\":\\\"Le Petit Prince l\\\\u00e0 cu\\\\u1ed1n s\\\\u00e1ch c\\\\u1ee7a Antoine de Saint-Exup\\\\u00e9ry, k\\\\u1ec3 v\\\\u1ec1 cu\\\\u1ed9c h\\\\u00e0nh tr\\\\u00ecnh c\\\\u1ee7a m\\\\u1ed9t ho\\\\u00e0ng t\\\\u1eed nh\\\\u1ecf t\\\\u1eeb h\\\\u00e0nh tinh n\\\\u00e0y \\\\u0111\\\\u1ebfn h\\\\u00e0nh tinh kh\\\\u00e1c.\\\",\\\"TenSach\\\":\\\"Le Petit Prince\\\",\\\"HinhAnh\\\":\\\"https:\\\\/\\\\/m.media-amazon.com\\\\/images\\\\/I\\\\/61NGp-UxolL._AC_UF1000,1000_QL80_.jpg\\\",\\\"DonGia\\\":\\\"900\\\",\\\"SoLuong\\\":\\\"1\\\",\\\"KhuyenMai\\\":\\\"10\\\",\\\"NhaXuatBan\\\":\\\"Steam\\\",\\\"MaDanhMuc\\\":\\\"9\\\",\\\"MaTacGia\\\":\\\"11\\\",\\\"MaNgonNgu\\\":\\\"6\\\",\\\"MaNhaXuatBan\\\":\\\"7\\\",\\\"MaKhuyenMai\\\":\\\"2\\\",\\\"TacGia\\\":\\\"Bernhard Schlink, Harper Lee\\\",\\\"NgonNgu\\\":\\\"Ti\\\\u1ebfng Nh\\\\u1eadt\\\",\\\"DanhMuc\\\":\\\"\\\\u00c2m nh\\\\u1ea1c, Thi\\\\u1ebft k\\\\u1ebf n\\\\u1ed9i th\\\\u1ea5t\\\"}]\",\"zp_trans_id\":240705000000847,\"server_time\":1720139111845,\"channel\":38,\"merchant_user_id\":\"H8nlQkfXGJWqpN0W0RfZG6dO1ENltWP2FBJEkuOfpzk\",\"zp_user_id\":\"H8nlQkfXGJWqpN0W0RfZG6dO1ENltWP2FBJEkuOfpzk\",\"user_fee_amount\":0,\"discount_amount\":0}","mac":"2fd77369aaa60e665579c24b00a356aaf61ec5be9fad0ac7b64944a3549ededa","type":1}
+Decoded data: Array
+(
+    [data] => {"app_id":2553,"app_trans_id":"240705_278618","app_time":1720139070236,"app_user":"1","amount":900,"embed_data":"{\"redirecturl\":\"http:\\/\\/localhost:8080\\/order\"}","item":"[{\"MaSach\":\"66\",\"ChiTiet\":\"Le Petit Prince l\\u00e0 cu\\u1ed1n s\\u00e1ch c\\u1ee7a Antoine de Saint-Exup\\u00e9ry, k\\u1ec3 v\\u1ec1 cu\\u1ed9c h\\u00e0nh tr\\u00ecnh c\\u1ee7a m\\u1ed9t ho\\u00e0ng t\\u1eed nh\\u1ecf t\\u1eeb h\\u00e0nh tinh n\\u00e0y \\u0111\\u1ebfn h\\u00e0nh tinh kh\\u00e1c.\",\"TenSach\":\"Le Petit Prince\",\"HinhAnh\":\"https:\\/\\/m.media-amazon.com\\/images\\/I\\/61NGp-UxolL._AC_UF1000,1000_QL80_.jpg\",\"DonGia\":\"900\",\"SoLuong\":\"1\",\"KhuyenMai\":\"10\",\"NhaXuatBan\":\"Steam\",\"MaDanhMuc\":\"9\",\"MaTacGia\":\"11\",\"MaNgonNgu\":\"6\",\"MaNhaXuatBan\":\"7\",\"MaKhuyenMai\":\"2\",\"TacGia\":\"Bernhard Schlink, Harper Lee\",\"NgonNgu\":\"Ti\\u1ebfng Nh\\u1eadt\",\"DanhMuc\":\"\\u00c2m nh\\u1ea1c, Thi\\u1ebft k\\u1ebf n\\u1ed9i th\\u1ea5t\"}]","zp_trans_id":240705000000847,"server_time":1720139111845,"channel":38,"merchant_user_id":"H8nlQkfXGJWqpN0W0RfZG6dO1ENltWP2FBJEkuOfpzk","zp_user_id":"H8nlQkfXGJWqpN0W0RfZG6dO1ENltWP2FBJEkuOfpzk","user_fee_amount":0,"discount_amount":0}
+    [mac] => 2fd77369aaa60e665579c24b00a356aaf61ec5be9fad0ac7b64944a3549ededa
+    [type] => 1
+)
+
+Received MAC: 2fd77369aaa60e665579c24b00a356aaf61ec5be9fad0ac7b64944a3549ededa
+Calculated MAC: 2fd77369aaa60e665579c24b00a356aaf61ec5be9fad0ac7b64944a3549ededa
+Raw POST data: {"data":"{\"app_id\":2553,\"app_trans_id\":\"240705_278618\",\"app_time\":1720139070236,\"app_user\":\"1\",\"amount\":900,\"embed_data\":\"{\\\"redirecturl\\\":\\\"http:\\\\/\\\\/localhost:8080\\\\/order\\\"}\",\"item\":\"[{\\\"MaSach\\\":\\\"66\\\",\\\"ChiTiet\\\":\\\"Le Petit Prince l\\\\u00e0 cu\\\\u1ed1n s\\\\u00e1ch c\\\\u1ee7a Antoine de Saint-Exup\\\\u00e9ry, k\\\\u1ec3 v\\\\u1ec1 cu\\\\u1ed9c h\\\\u00e0nh tr\\\\u00ecnh c\\\\u1ee7a m\\\\u1ed9t ho\\\\u00e0ng t\\\\u1eed nh\\\\u1ecf t\\\\u1eeb h\\\\u00e0nh tinh n\\\\u00e0y \\\\u0111\\\\u1ebfn h\\\\u00e0nh tinh kh\\\\u00e1c.\\\",\\\"TenSach\\\":\\\"Le Petit Prince\\\",\\\"HinhAnh\\\":\\\"https:\\\\/\\\\/m.media-amazon.com\\\\/images\\\\/I\\\\/61NGp-UxolL._AC_UF1000,1000_QL80_.jpg\\\",\\\"DonGia\\\":\\\"900\\\",\\\"SoLuong\\\":\\\"1\\\",\\\"KhuyenMai\\\":\\\"10\\\",\\\"NhaXuatBan\\\":\\\"Steam\\\",\\\"MaDanhMuc\\\":\\\"9\\\",\\\"MaTacGia\\\":\\\"11\\\",\\\"MaNgonNgu\\\":\\\"6\\\",\\\"MaNhaXuatBan\\\":\\\"7\\\",\\\"MaKhuyenMai\\\":\\\"2\\\",\\\"TacGia\\\":\\\"Bernhard Schlink, Harper Lee\\\",\\\"NgonNgu\\\":\\\"Ti\\\\u1ebfng Nh\\\\u1eadt\\\",\\\"DanhMuc\\\":\\\"\\\\u00c2m nh\\\\u1ea1c, Thi\\\\u1ebft k\\\\u1ebf n\\\\u1ed9i th\\\\u1ea5t\\\"}]\",\"zp_trans_id\":240705000000847,\"server_time\":1720139111845,\"channel\":38,\"merchant_user_id\":\"H8nlQkfXGJWqpN0W0RfZG6dO1ENltWP2FBJEkuOfpzk\",\"zp_user_id\":\"H8nlQkfXGJWqpN0W0RfZG6dO1ENltWP2FBJEkuOfpzk\",\"user_fee_amount\":0,\"discount_amount\":0}","mac":"2fd77369aaa60e665579c24b00a356aaf61ec5be9fad0ac7b64944a3549ededa","type":1}
+Decoded data: Array
+(
+    [data] => {"app_id":2553,"app_trans_id":"240705_278618","app_time":1720139070236,"app_user":"1","amount":900,"embed_data":"{\"redirecturl\":\"http:\\/\\/localhost:8080\\/order\"}","item":"[{\"MaSach\":\"66\",\"ChiTiet\":\"Le Petit Prince l\\u00e0 cu\\u1ed1n s\\u00e1ch c\\u1ee7a Antoine de Saint-Exup\\u00e9ry, k\\u1ec3 v\\u1ec1 cu\\u1ed9c h\\u00e0nh tr\\u00ecnh c\\u1ee7a m\\u1ed9t ho\\u00e0ng t\\u1eed nh\\u1ecf t\\u1eeb h\\u00e0nh tinh n\\u00e0y \\u0111\\u1ebfn h\\u00e0nh tinh kh\\u00e1c.\",\"TenSach\":\"Le Petit Prince\",\"HinhAnh\":\"https:\\/\\/m.media-amazon.com\\/images\\/I\\/61NGp-UxolL._AC_UF1000,1000_QL80_.jpg\",\"DonGia\":\"900\",\"SoLuong\":\"1\",\"KhuyenMai\":\"10\",\"NhaXuatBan\":\"Steam\",\"MaDanhMuc\":\"9\",\"MaTacGia\":\"11\",\"MaNgonNgu\":\"6\",\"MaNhaXuatBan\":\"7\",\"MaKhuyenMai\":\"2\",\"TacGia\":\"Bernhard Schlink, Harper Lee\",\"NgonNgu\":\"Ti\\u1ebfng Nh\\u1eadt\",\"DanhMuc\":\"\\u00c2m nh\\u1ea1c, Thi\\u1ebft k\\u1ebf n\\u1ed9i th\\u1ea5t\"}]","zp_trans_id":240705000000847,"server_time":1720139111845,"channel":38,"merchant_user_id":"H8nlQkfXGJWqpN0W0RfZG6dO1ENltWP2FBJEkuOfpzk","zp_user_id":"H8nlQkfXGJWqpN0W0RfZG6dO1ENltWP2FBJEkuOfpzk","user_fee_amount":0,"discount_amount":0}
+    [mac] => 2fd77369aaa60e665579c24b00a356aaf61ec5be9fad0ac7b64944a3549ededa
+    [type] => 1
+)
+
+Received MAC: 2fd77369aaa60e665579c24b00a356aaf61ec5be9fad0ac7b64944a3549ededa
+Calculated MAC: 2fd77369aaa60e665579c24b00a356aaf61ec5be9fad0ac7b64944a3549ededa
+Payload: Array
+(
+    [app_id] => 2553
+    [app_trans_id] => 240705_278618
+    [app_time] => 1720139070236
+    [app_user] => 1
+    [amount] => 900
+    [embed_data] => {"redirecturl":"http:\/\/localhost:8080\/order"}
+    [item] => [{"MaSach":"66","ChiTiet":"Le Petit Prince l\u00e0 cu\u1ed1n s\u00e1ch c\u1ee7a Antoine de Saint-Exup\u00e9ry, k\u1ec3 v\u1ec1 cu\u1ed9c h\u00e0nh tr\u00ecnh c\u1ee7a m\u1ed9t ho\u00e0ng t\u1eed nh\u1ecf t\u1eeb h\u00e0nh tinh n\u00e0y \u0111\u1ebfn h\u00e0nh tinh kh\u00e1c.","TenSach":"Le Petit Prince","HinhAnh":"https:\/\/m.media-amazon.com\/images\/I\/61NGp-UxolL._AC_UF1000,1000_QL80_.jpg","DonGia":"900","SoLuong":"1","KhuyenMai":"10","NhaXuatBan":"Steam","MaDanhMuc":"9","MaTacGia":"11","MaNgonNgu":"6","MaNhaXuatBan":"7","MaKhuyenMai":"2","TacGia":"Bernhard Schlink, Harper Lee","NgonNgu":"Ti\u1ebfng Nh\u1eadt","DanhMuc":"\u00c2m nh\u1ea1c, Thi\u1ebft k\u1ebf n\u1ed9i th\u1ea5t"}]
+    [zp_trans_id] => 240705000000847
+    [server_time] => 1720139111845
+    [channel] => 38
+    [merchant_user_id] => H8nlQkfXGJWqpN0W0RfZG6dO1ENltWP2FBJEkuOfpzk
+    [zp_user_id] => H8nlQkfXGJWqpN0W0RfZG6dO1ENltWP2FBJEkuOfpzk
+    [user_fee_amount] => 0
+    [discount_amount] => 0
+)
+
+Raw POST data: {"data":"{\"app_id\":2553,\"app_trans_id\":\"240705_278618\",\"app_time\":1720139070236,\"app_user\":\"1\",\"amount\":900,\"embed_data\":\"{\\\"redirecturl\\\":\\\"http:\\\\/\\\\/localhost:8080\\\\/order\\\"}\",\"item\":\"[{\\\"MaSach\\\":\\\"66\\\",\\\"ChiTiet\\\":\\\"Le Petit Prince l\\\\u00e0 cu\\\\u1ed1n s\\\\u00e1ch c\\\\u1ee7a Antoine de Saint-Exup\\\\u00e9ry, k\\\\u1ec3 v\\\\u1ec1 cu\\\\u1ed9c h\\\\u00e0nh tr\\\\u00ecnh c\\\\u1ee7a m\\\\u1ed9t ho\\\\u00e0ng t\\\\u1eed nh\\\\u1ecf t\\\\u1eeb h\\\\u00e0nh tinh n\\\\u00e0y \\\\u0111\\\\u1ebfn h\\\\u00e0nh tinh kh\\\\u00e1c.\\\",\\\"TenSach\\\":\\\"Le Petit Prince\\\",\\\"HinhAnh\\\":\\\"https:\\\\/\\\\/m.media-amazon.com\\\\/images\\\\/I\\\\/61NGp-UxolL._AC_UF1000,1000_QL80_.jpg\\\",\\\"DonGia\\\":\\\"900\\\",\\\"SoLuong\\\":\\\"1\\\",\\\"KhuyenMai\\\":\\\"10\\\",\\\"NhaXuatBan\\\":\\\"Steam\\\",\\\"MaDanhMuc\\\":\\\"9\\\",\\\"MaTacGia\\\":\\\"11\\\",\\\"MaNgonNgu\\\":\\\"6\\\",\\\"MaNhaXuatBan\\\":\\\"7\\\",\\\"MaKhuyenMai\\\":\\\"2\\\",\\\"TacGia\\\":\\\"Bernhard Schlink, Harper Lee\\\",\\\"NgonNgu\\\":\\\"Ti\\\\u1ebfng Nh\\\\u1eadt\\\",\\\"DanhMuc\\\":\\\"\\\\u00c2m nh\\\\u1ea1c, Thi\\\\u1ebft k\\\\u1ebf n\\\\u1ed9i th\\\\u1ea5t\\\"}]\",\"zp_trans_id\":240705000000847,\"server_time\":1720139111845,\"channel\":38,\"merchant_user_id\":\"H8nlQkfXGJWqpN0W0RfZG6dO1ENltWP2FBJEkuOfpzk\",\"zp_user_id\":\"H8nlQkfXGJWqpN0W0RfZG6dO1ENltWP2FBJEkuOfpzk\",\"user_fee_amount\":0,\"discount_amount\":0}","mac":"2fd77369aaa60e665579c24b00a356aaf61ec5be9fad0ac7b64944a3549ededa","type":1}
+Decoded data: Array
+(
+    [data] => {"app_id":2553,"app_trans_id":"240705_278618","app_time":1720139070236,"app_user":"1","amount":900,"embed_data":"{\"redirecturl\":\"http:\\/\\/localhost:8080\\/order\"}","item":"[{\"MaSach\":\"66\",\"ChiTiet\":\"Le Petit Prince l\\u00e0 cu\\u1ed1n s\\u00e1ch c\\u1ee7a Antoine de Saint-Exup\\u00e9ry, k\\u1ec3 v\\u1ec1 cu\\u1ed9c h\\u00e0nh tr\\u00ecnh c\\u1ee7a m\\u1ed9t ho\\u00e0ng t\\u1eed nh\\u1ecf t\\u1eeb h\\u00e0nh tinh n\\u00e0y \\u0111\\u1ebfn h\\u00e0nh tinh kh\\u00e1c.\",\"TenSach\":\"Le Petit Prince\",\"HinhAnh\":\"https:\\/\\/m.media-amazon.com\\/images\\/I\\/61NGp-UxolL._AC_UF1000,1000_QL80_.jpg\",\"DonGia\":\"900\",\"SoLuong\":\"1\",\"KhuyenMai\":\"10\",\"NhaXuatBan\":\"Steam\",\"MaDanhMuc\":\"9\",\"MaTacGia\":\"11\",\"MaNgonNgu\":\"6\",\"MaNhaXuatBan\":\"7\",\"MaKhuyenMai\":\"2\",\"TacGia\":\"Bernhard Schlink, Harper Lee\",\"NgonNgu\":\"Ti\\u1ebfng Nh\\u1eadt\",\"DanhMuc\":\"\\u00c2m nh\\u1ea1c, Thi\\u1ebft k\\u1ebf n\\u1ed9i th\\u1ea5t\"}]","zp_trans_id":240705000000847,"server_time":1720139111845,"channel":38,"merchant_user_id":"H8nlQkfXGJWqpN0W0RfZG6dO1ENltWP2FBJEkuOfpzk","zp_user_id":"H8nlQkfXGJWqpN0W0RfZG6dO1ENltWP2FBJEkuOfpzk","user_fee_amount":0,"discount_amount":0}
+    [mac] => 2fd77369aaa60e665579c24b00a356aaf61ec5be9fad0ac7b64944a3549ededa
+    [type] => 1
+)
+
+Received MAC: 2fd77369aaa60e665579c24b00a356aaf61ec5be9fad0ac7b64944a3549ededa
+Calculated MAC: 2fd77369aaa60e665579c24b00a356aaf61ec5be9fad0ac7b64944a3549ededa
+Payload: Array
+(
+    [app_id] => 2553
+    [app_trans_id] => 240705_278618
+    [app_time] => 1720139070236
+    [app_user] => 1
+    [amount] => 900
+    [embed_data] => {"redirecturl":"http:\/\/localhost:8080\/order"}
+    [item] => [{"MaSach":"66","ChiTiet":"Le Petit Prince l\u00e0 cu\u1ed1n s\u00e1ch c\u1ee7a Antoine de Saint-Exup\u00e9ry, k\u1ec3 v\u1ec1 cu\u1ed9c h\u00e0nh tr\u00ecnh c\u1ee7a m\u1ed9t ho\u00e0ng t\u1eed nh\u1ecf t\u1eeb h\u00e0nh tinh n\u00e0y \u0111\u1ebfn h\u00e0nh tinh kh\u00e1c.","TenSach":"Le Petit Prince","HinhAnh":"https:\/\/m.media-amazon.com\/images\/I\/61NGp-UxolL._AC_UF1000,1000_QL80_.jpg","DonGia":"900","SoLuong":"1","KhuyenMai":"10","NhaXuatBan":"Steam","MaDanhMuc":"9","MaTacGia":"11","MaNgonNgu":"6","MaNhaXuatBan":"7","MaKhuyenMai":"2","TacGia":"Bernhard Schlink, Harper Lee","NgonNgu":"Ti\u1ebfng Nh\u1eadt","DanhMuc":"\u00c2m nh\u1ea1c, Thi\u1ebft k\u1ebf n\u1ed9i th\u1ea5t"}]
+    [zp_trans_id] => 240705000000847
+    [server_time] => 1720139111845
+    [channel] => 38
+    [merchant_user_id] => H8nlQkfXGJWqpN0W0RfZG6dO1ENltWP2FBJEkuOfpzk
+    [zp_user_id] => H8nlQkfXGJWqpN0W0RfZG6dO1ENltWP2FBJEkuOfpzk
+    [user_fee_amount] => 0
+    [discount_amount] => 0
+)
+
+Payment failed
+Raw POST data: 
+Raw POST data: 
+Decoded data: 
+Raw POST data: 
+Decoded data: 
+Invalid request data

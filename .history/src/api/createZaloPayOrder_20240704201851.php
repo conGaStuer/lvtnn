@@ -28,7 +28,7 @@ foreach ($data['items'] as $item) {
     $amount += $item['DonGia'] * $item['SoLuong'];
 }
 $embeddata = [
-    "redirecturl" => "http://localhost:8080/order"
+    "redirecturl" => "true"
 ];
 $order = [
     "app_id" => $config["app_id"],
@@ -40,7 +40,7 @@ $order = [
     "amount" => $amount,
     "description" => "Payment for order #$transID",
     "bank_code" => "zalopayapp",
-    "callback_url" => "https://ea03-42-114-97-46.ngrok-free.app/LVTN/book-store/src/api/zaloPayCallback.php"
+    "callback_url" => "https://dc6b-113-172-127-251.ngrok-free.app/LVTN/book-store/src/api/zaloPayCallback.php"
 ];
 
 $data_string = $order["app_id"] . "|" . $order["app_trans_id"] . "|" . $order["app_user"] . "|" . $order["amount"]
@@ -59,14 +59,66 @@ $context = stream_context_create([
 $response = file_get_contents($config["endpoint"], false, $context);
 $result = json_decode($response, true);
 if ($result['return_code'] == 1) {
+    // ZaloPay transaction created successfully
     echo json_encode([
         'status' => 'success',
         'payment_url' => $result['order_url']
     ]);
 } else {
+    // ZaloPay transaction creation failed
     echo json_encode([
         'status' => 'error',
         'message' => $result['return_message']
     ]);
 }
-?>
+$embed_data = json_decode($order["embed_data"], true);
+
+if ($result['return_message'] == "Giao dịch thành công") {
+    try {
+        // Start transaction
+        $conn->begin_transaction();
+
+        // Insert order into database
+        $sql_create_order = "INSERT INTO don_dat_hang (maND, trangthai, ngaydat) 
+                             VALUES ('$userId', 'choduyet', CURDATE())";
+        if ($conn->query($sql_create_order) !== TRUE) {
+            throw new Exception("Failed to create order");
+        }
+
+        // Get the ID of the newly created order
+        $orderId = $conn->insert_id;
+
+        // Insert items into order_details table
+        foreach ($data['items'] as $item) {
+            $maSach = $item['MaSach'];
+            $soLuong = $item['SoLuong'];
+            $donGia = $item['DonGia'];
+
+            $sql_insert_item = "INSERT INTO chi_tiet_don_hang (madon, masach, soluong, dongia) 
+                                VALUES ('$orderId', '$maSach', '$soLuong', '$donGia')";
+            if ($conn->query($sql_insert_item) !== TRUE) {
+                throw new Exception("Failed to add item to order");
+            }
+        }
+
+        // Commit transaction if all queries succeed
+        $conn->commit();
+
+        // Respond with success and payment URL
+
+    } catch (Exception $e) {
+        // Rollback transaction on failure
+        $conn->rollback();
+
+        echo json_encode([
+            'status' => 'error',
+            'message' => $e->getMessage()
+        ]);
+    }
+} else {
+    // Respond with success and payment URL without database operation
+    echo json_encode([
+        'status' => 'success',
+        'payment_url' => $result['order_url']
+    ]);
+}
