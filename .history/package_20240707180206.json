@@ -5,22 +5,16 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "test": "vitest --environment jsdom",
-    "test:unit": "vitest",
-    "test:navbar": "vitest run tests/NavBar.spec.js",
-    "test:products": "vitest run tests/Products.spec.js",
-    "test:bookdetail": "vitest run tests/BookDetail.spec.js"
+    "test:unit": "vitest"
   },
   "dependencies": {
     "@ant-design/icons-vue": "^7.0.1",
-    "@vitejs/plugin-vue": "^5.0.5",
     "ant-design-vue": "^4.2.1",
     "axios": "^1.7.2",
     "chart.js": "^4.4.3",
     "core-js": "^3.8.3",
     "dayjs": "^1.11.11",
     "gsap": "^3.12.5",
-    "jsdom": "^24.1.0",
     "moment": "^2.30.1",
     "primeicons": "^7.0.0",
     "primevue": "^3.52.0",

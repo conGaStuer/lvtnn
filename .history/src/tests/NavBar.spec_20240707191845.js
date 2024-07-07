@@ -1,0 +1,31 @@
+import { mount } from "@vue/test-utils";
+import NavBar from "@/views/UI_Components/NavBar.vue";
+import { describe, it, expect, beforeEach } from "vitest";
+
+describe("NavBar.vue", () => {
+  it("NavBar test", () => {
+    const wrapper = mount(NavBar);
+  });
+
+  it("show the mega menu on mouseover and hide on mouseleave", async () => {
+    const wrapper = mount(NavBar);
+
+    const navItem = wrapper.find(".nav-item:nth-child(2) > a");
+    await navItem.trigger("mouseover");
+    expect(wrapper.vm.megaMenuVisible).toBe(true);
+    const megaMenu = wrapper.find(".mega-menu");
+    await megaMenu.trigger("mouseleave");
+    expect(wrapper.vm.megaMenuVisible).toBe(false);
+  });
+
+  it("show user dropdown on mouseover and hide when mouseleave", async () => {
+    const wrapper = mount(NavBar);
+
+    const userIcon = wrapper.find(".fa-user");
+    await userIcon.trigger("mouseover");
+    expect(wrapper.vm.userDropdownVisible).toBe(true);
+    const userDropdown = wrapper.find(".dropdown1");
+    await userDropdown.trigger("mouseleave");
+    expect(wrapper.vm.userDropdownVisible).toBe(false);
+  });
+});

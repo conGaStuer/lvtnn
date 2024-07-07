@@ -5,11 +5,9 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "test": "vitest --environment jsdom",
-    "test:unit": "vitest",
+    "test:unit": "vitest run --config vite.config.js",
     "test:navbar": "vitest run tests/NavBar.spec.js",
-    "test:products": "vitest run tests/Products.spec.js",
-    "test:bookdetail": "vitest run tests/BookDetail.spec.js"
+    "test:anothercomponent": "vitest run tests/unit/AnotherComponent.spec.js"
   },
   "dependencies": {
     "@ant-design/icons-vue": "^7.0.1",
