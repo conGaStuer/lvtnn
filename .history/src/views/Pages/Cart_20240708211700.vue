@@ -223,7 +223,7 @@ export default {
       fetchCart();
       setTimeout(() => {
         popUp.value = false;
-      }, 2000);
+      }, 3000);
     });
 
     return {

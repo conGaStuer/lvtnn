@@ -65,6 +65,7 @@
                 id=""
                 placeholder="Tên đăng nhập"
                 v-model="username"
+                class="username"
               />
               <input
                 type="password"
@@ -79,9 +80,7 @@
               <button type="submit">Đăng nhập</button>
             </form>
             <span class="hoac">Hoặc</span>
-            <router-link to="/register" class="register"
-              >Đăng kí tài khoản</router-link
-            >
+            <router-link to="/register">Đăng kí tài khoản</router-link>
           </div>
         </div>
       </div>

@@ -14,8 +14,7 @@
     "test:register": "vitest run tests/Register.spec.js",
     "test:newpass": "vitest run tests/NewPass.spec.js",
     "test:cart": "vitest run tests/Cart.spec.js",
-    "test:order": "vitest run tests/Order.spec.js",
-    "testing:login": "jest run tests/Login.spec.js"
+    "test:order": "vitest run tests/Order.spec.js"
   },
   "dependencies": {
     "@ant-design/icons-vue": "^7.0.1",
