@@ -219,53 +219,11 @@ export default {
       }
     );
     const addBook = () => {
-      if (!book.value.TenSach) {
-        message.error("Tên sách không được bỏ trống");
-        return;
-      }
-
       if (book.value.SoLuong <= 0) {
-        message.error("Số lượng phải lớn hơn 0");
-        return;
+        message.error("Số lượng phải lớn hơn 0 ");
       }
-
       if (book.value.DonGia <= 0) {
         message.error("Đơn giá phải lớn hơn 0");
-        return;
-      }
-
-      if (!book.value.ChiTiet) {
-        message.error("Chi tiết không được bỏ trống");
-        return;
-      }
-
-      if (!book.value.HinhAnh) {
-        message.error("Hình ảnh không được bỏ trống");
-        return;
-      }
-
-      if (!book.value.NhaXuatBan) {
-        message.error("Nhà xuất bản không được bỏ trống");
-        return;
-      }
-
-      if (!book.value.KhuyenMai) {
-        message.error("Khuyến mãi không được bỏ trống");
-        return;
-      }
-
-      if (!book.value.DanhMuc || book.value.DanhMuc.length === 0) {
-        message.error("Danh mục không được bỏ trống");
-        return;
-      }
-
-      if (!book.value.TacGia || book.value.TacGia.length === 0) {
-        message.error("Tác giả không được bỏ trống");
-        return;
-      }
-
-      if (!book.value.NgonNgu) {
-        message.error("Ngôn ngữ không được bỏ trống");
         return;
       }
       const bookData = {

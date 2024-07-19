@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $mail->Host = 'smtp.gmail.com';
             $mail->SMTPAuth = true;
             $mail->Username = 'dh52003670@student.stu.edu.vn';
-            $mail->Password = '123456Aa!';
+            $mail->Password = '25112018Aa';
             $mail->SMTPSecure = 'tls';
             $mail->Port = 587;
 

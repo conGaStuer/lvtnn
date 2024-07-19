@@ -41,6 +41,7 @@
             v-for="publisher in publishers"
             :key="publisher.maNXB"
             :value="publisher.maNXB"
+            required
           >
             {{ publisher.tenNXB }}
           </a-select-option>
@@ -52,6 +53,7 @@
             v-for="promotion in promotions"
             :key="promotion.maKM"
             :value="promotion.maKM"
+            required
           >
             {{ promotion.luongKM }}
           </a-select-option>
@@ -67,6 +69,7 @@
             v-for="category in categories"
             :key="category.maDM"
             :value="category.maDM"
+            required
           >
             {{ category.tenDM }}
           </a-select-option>
@@ -83,6 +86,7 @@
             v-for="author in authors"
             :key="author.maTG"
             :value="author.maTG"
+            required
           >
             {{ author.tenTG }}
           </a-select-option>
@@ -95,6 +99,7 @@
             v-for="language in languages"
             :key="language.maNN"
             :value="language.maNN"
+            required
           >
             {{ language.tenNN }}
           </a-select-option>
@@ -219,53 +224,11 @@ export default {
       }
     );
     const addBook = () => {
-      if (!book.value.TenSach) {
-        message.error("Tên sách không được bỏ trống");
-        return;
-      }
-
       if (book.value.SoLuong <= 0) {
-        message.error("Số lượng phải lớn hơn 0");
-        return;
+        message.error("Số lượng phải lớn hơn 0 ");
       }
-
       if (book.value.DonGia <= 0) {
         message.error("Đơn giá phải lớn hơn 0");
-        return;
-      }
-
-      if (!book.value.ChiTiet) {
-        message.error("Chi tiết không được bỏ trống");
-        return;
-      }
-
-      if (!book.value.HinhAnh) {
-        message.error("Hình ảnh không được bỏ trống");
-        return;
-      }
-
-      if (!book.value.NhaXuatBan) {
-        message.error("Nhà xuất bản không được bỏ trống");
-        return;
-      }
-
-      if (!book.value.KhuyenMai) {
-        message.error("Khuyến mãi không được bỏ trống");
-        return;
-      }
-
-      if (!book.value.DanhMuc || book.value.DanhMuc.length === 0) {
-        message.error("Danh mục không được bỏ trống");
-        return;
-      }
-
-      if (!book.value.TacGia || book.value.TacGia.length === 0) {
-        message.error("Tác giả không được bỏ trống");
-        return;
-      }
-
-      if (!book.value.NgonNgu) {
-        message.error("Ngôn ngữ không được bỏ trống");
         return;
       }
       const bookData = {

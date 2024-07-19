@@ -25,7 +25,7 @@ try {
     $mail->Host = 'smtp.gmail.com'; // Thay đổi thành máy chủ SMTP của bạn
     $mail->SMTPAuth = true;
     $mail->Username = 'dh52003670@student.stu.edu.vn'; // Thay đổi thành địa chỉ email của bạn
-    $mail->Password = '123456Aa!'; // Thay đổi thành mật khẩu email của bạn
+    $mail->Password = '0854219725Cc'; // Thay đổi thành mật khẩu email của bạn
     $mail->SMTPSecure = 'tls';
     $mail->Port = 587;
     if ($_SERVER["REQUEST_METHOD"] == "POST") {

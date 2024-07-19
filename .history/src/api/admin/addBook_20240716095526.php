@@ -71,9 +71,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 echo json_encode("Thêm thất bại");
             }
 
-        } else {
-            echo json_encode("Thêm thất bại");
-
         }
     }
     $conn->close();

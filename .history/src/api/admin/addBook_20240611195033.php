@@ -43,37 +43,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo json_encode("Sách bị trùng tên");
     } else {
         // Insert new book into the database
-        if ($soLuong > 0 && $donGia > 0) {
-            $sql_insert_new_book = "INSERT INTO sach (tenSach, donGia, soLuong, chiTiet, hinhAnh, maNXB, maKM)
-            VALUES ('$tenSach', '$donGia', '$soLuong', '$chiTiet', '$hinhAnh', '$nhaXuatBan', '$khuyenMai')";
-            if ($conn->query($sql_insert_new_book) === true) {
-                // Get the last inserted book ID
-                $last_id = $conn->insert_id;
+        $sql_insert_new_book = "INSERT INTO sach (tenSach, donGia, soLuong, chiTiet, hinhAnh, maNXB, maKM)
+                                VALUES ('$tenSach', '$donGia', '$soLuong', '$chiTiet', '$hinhAnh', '$nhaXuatBan', '$khuyenMai')";
+        if ($conn->query($sql_insert_new_book) === true) {
+            // Get the last inserted book ID
+            $last_id = $conn->insert_id;
 
-                // Insert danhMuc
-                foreach ($danhMuc as $category) {
-                    $sql_insert_category = "INSERT INTO dm_sach (maSach, maDM) VALUES ('$last_id', '$category')";
-                    $conn->query($sql_insert_category);
-                }
-
-                // Insert tacGia
-                foreach ($tacGia as $author) {
-                    $sql_insert_author = "INSERT INTO tg_sach (maSach, maTG) VALUES ('$last_id', '$author')";
-                    $conn->query($sql_insert_author);
-                }
-
-                // Insert ngonNgu
-                $sql_insert_language = "INSERT INTO nn_sach (maSach, maNN) VALUES ('$last_id', '$ngonNgu')";
-                $conn->query($sql_insert_language);
-
-                echo json_encode("Them Thanh Cong");
-            } else {
-                echo json_encode("Thêm thất bại");
+            // Insert danhMuc
+            foreach ($danhMuc as $category) {
+                $sql_insert_category = "INSERT INTO dm_sach (maSach, maDM) VALUES ('$last_id', '$category')";
+                $conn->query($sql_insert_category);
             }
 
+            // Insert tacGia
+            foreach ($tacGia as $author) {
+                $sql_insert_author = "INSERT INTO tg_sach (maSach, maTG) VALUES ('$last_id', '$author')";
+                $conn->query($sql_insert_author);
+            }
+
+            // Insert ngonNgu
+            $sql_insert_language = "INSERT INTO nn_sach (maSach, maNN) VALUES ('$last_id', '$ngonNgu')";
+            $conn->query($sql_insert_language);
+
+            echo json_encode("Them Thanh Cong");
         } else {
             echo json_encode("Thêm thất bại");
-
         }
     }
     $conn->close();

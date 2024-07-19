@@ -59,12 +59,7 @@
               </div>
               <div class="info">
                 <p>Họ và tên</p>
-                <input
-                  type="text"
-                  name=""
-                  v-model="userData.tenKH"
-                  @input="validateFullName"
-                />
+                <input type="text" name="" v-model="userData.tenKH" />
               </div>
               <div class="info">
                 <p>Số điện thoại</p>
@@ -156,7 +151,7 @@
 </template>
 
 <script>
-import { ref, computed, onMounted, watch } from "vue";
+import { ref, computed, onMounted } from "vue";
 import axios from "axios";
 import { useRouter } from "vue-router";
 import NavBar from "@/views/UI_Components/NavBar.vue";
@@ -375,16 +370,11 @@ export default {
     const validateFullName = () => {
       userData.value.tenKH = userData.value.tenKH.replace(/[^a-zA-Z\s]/g, "");
     };
-    watch(
-      () => currentPassword.value,
-      (newVal) => {
-        if (newVal.length > 0) {
-          disabled.value = false;
-        } else {
-          disabled.value = true;
-        }
+    watch(userData.value, (newVal, oldVal) => {
+      if (newVal.tenKH !== oldVal.tenKH) {
+        validateFullName();
       }
-    );
+    });
     return {
       currentUser,
       userData,
@@ -411,7 +401,6 @@ export default {
       disabled,
       info,
       email,
-      validateFullName,
     };
   },
 };

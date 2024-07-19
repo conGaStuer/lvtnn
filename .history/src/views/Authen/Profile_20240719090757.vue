@@ -375,16 +375,11 @@ export default {
     const validateFullName = () => {
       userData.value.tenKH = userData.value.tenKH.replace(/[^a-zA-Z\s]/g, "");
     };
-    watch(
-      () => currentPassword.value,
-      (newVal) => {
-        if (newVal.length > 0) {
-          disabled.value = false;
-        } else {
-          disabled.value = true;
-        }
+    watch(userData.value, (newVal, oldVal) => {
+      if (newVal.tenKH !== oldVal.tenKH) {
+        validateFullName();
       }
-    );
+    });
     return {
       currentUser,
       userData,
@@ -411,7 +406,6 @@ export default {
       disabled,
       info,
       email,
-      validateFullName,
     };
   },
 };

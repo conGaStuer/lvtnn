@@ -358,10 +358,6 @@ export default {
     const selectedTab = ref("description");
 
     const addToCart = () => {
-      if (quantity.value <= 0) {
-        message.error("Số lượng sản phẩm phải lớn hơn 0");
-        return;
-      }
       axios
         .post("http://localhost/LVTN/book-store/src/api/checkStock.php", {
           maSach: book.value.MaSach,

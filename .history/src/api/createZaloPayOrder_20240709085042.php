@@ -40,7 +40,7 @@ $order = [
     "amount" => $amount,
     "description" => "Payment for order #$transID",
     "bank_code" => "zalopayapp",
-    "callback_url" => "https://b4bc-112-197-14-130.ngrok-free.app/LVTN/book-store/src/api/zaloPayCallback.php"
+    "callback_url" => "https://34b4-14-161-48-112.ngrok-free.app/LVTN/book-store/src/api/zaloPayCallback.php"
 ];
 
 $data_string = $order["app_id"] . "|" . $order["app_trans_id"] . "|" . $order["app_user"] . "|" . $order["amount"]

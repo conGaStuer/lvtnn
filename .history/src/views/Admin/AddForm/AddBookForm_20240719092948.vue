@@ -10,7 +10,6 @@
         <a-input
           v-model:value="book.TenSach"
           @input="console.log('TenSach:', book.TenSach)"
-          required
         />
       </a-form-item>
       <a-form-item label="Số Lượng">
@@ -18,7 +17,6 @@
           v-model:value="book.SoLuong"
           style="width: 100%"
           min="1"
-          required
         />
       </a-form-item>
       <a-form-item label="Đơn Giá">
@@ -26,14 +24,13 @@
           v-model:value="book.DonGia"
           style="width: 100%"
           min="1"
-          required
         />
       </a-form-item>
       <a-form-item label="Chi Tiết">
-        <a-input v-model:value="book.ChiTiet" required />
+        <a-input v-model:value="book.ChiTiet" />
       </a-form-item>
       <a-form-item label="Hình Ảnh">
-        <a-input v-model:value="book.HinhAnh" required />
+        <a-input v-model:value="book.HinhAnh" />
       </a-form-item>
       <a-form-item label="Nhà Xuất Bản">
         <a-select v-model:value="book.NhaXuatBan" style="width: 100%">
@@ -219,53 +216,11 @@ export default {
       }
     );
     const addBook = () => {
-      if (!book.value.TenSach) {
-        message.error("Tên sách không được bỏ trống");
-        return;
-      }
-
       if (book.value.SoLuong <= 0) {
-        message.error("Số lượng phải lớn hơn 0");
-        return;
+        message.error("Số lượng phải lớn hơn 0 ");
       }
-
       if (book.value.DonGia <= 0) {
         message.error("Đơn giá phải lớn hơn 0");
-        return;
-      }
-
-      if (!book.value.ChiTiet) {
-        message.error("Chi tiết không được bỏ trống");
-        return;
-      }
-
-      if (!book.value.HinhAnh) {
-        message.error("Hình ảnh không được bỏ trống");
-        return;
-      }
-
-      if (!book.value.NhaXuatBan) {
-        message.error("Nhà xuất bản không được bỏ trống");
-        return;
-      }
-
-      if (!book.value.KhuyenMai) {
-        message.error("Khuyến mãi không được bỏ trống");
-        return;
-      }
-
-      if (!book.value.DanhMuc || book.value.DanhMuc.length === 0) {
-        message.error("Danh mục không được bỏ trống");
-        return;
-      }
-
-      if (!book.value.TacGia || book.value.TacGia.length === 0) {
-        message.error("Tác giả không được bỏ trống");
-        return;
-      }
-
-      if (!book.value.NgonNgu) {
-        message.error("Ngôn ngữ không được bỏ trống");
         return;
       }
       const bookData = {

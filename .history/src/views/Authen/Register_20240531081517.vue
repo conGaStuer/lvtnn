@@ -177,7 +177,7 @@ export default {
     const password = ref("");
     const confirmPassword = ref("");
     const passwordsMatch = ref(false);
-    let specialCharacterRegex = new RegExp('[~!@#$%^&*(),.?":{}|<>]');
+    let specialCharacterRegex = new RegExp('[!@#$%^&*(),.?":{}|<>]');
 
     const checkPasswords = () => {
       passwordsMatch.value = password.value === confirmPassword.value;
@@ -194,11 +194,12 @@ export default {
 
     const passwordLengthValid = computed(() => password.value.length >= 8);
     const passwordSpecialCharValid = computed(() =>
-      specialCharacterRegex.test(password.value)
+      /[!@#$%^&*(),.?":{}|<>]/.test(password.value)
     );
+
     const router = useRouter();
     const handleRegister = () => {
-      if (passwordLengthValid.value && passwordSpecialCharValid.value) {
+      if (passwordLengthValid.value || passwordSpecialCharValid.value) {
         axios
           .post("http://localhost/LVTN/book-store/src/api/register.php", {
             username: username.value,

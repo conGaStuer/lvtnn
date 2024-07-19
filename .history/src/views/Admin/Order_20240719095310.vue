@@ -66,7 +66,7 @@
       v-model:visible="detailsVisible"
       title="Chi Tiết Đơn Hàng"
       @cancel="handleCancel"
-      footer="*********************************************************************************"
+      footer="**********************************************"
     >
       <div v-if="selectedOrder">
         <h2>Thông tin người dùng</h2>

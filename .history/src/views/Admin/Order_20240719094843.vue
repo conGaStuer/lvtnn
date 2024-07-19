@@ -66,14 +66,11 @@
       v-model:visible="detailsVisible"
       title="Chi Tiết Đơn Hàng"
       @cancel="handleCancel"
-      footer="*********************************************************************************"
+      footer="{null}"
     >
       <div v-if="selectedOrder">
         <h2>Thông tin người dùng</h2>
-        <p><strong>Tên Khách Hàng:</strong> {{ selectedOrder.TenKH }}</p>
-        <p><strong>Số điện thoại:</strong> {{ selectedOrder.SoDienThoai }}</p>
         <p><strong>Địa Chỉ:</strong> {{ selectedOrder.DiaChi }}</p>
-        <p><strong>Email:</strong> {{ selectedOrder.Email }}</p>
 
         <h2>Thông tin đơn hàng</h2>
         <p><strong>Mã Đơn:</strong> {{ selectedOrder.MaDon }}</p>
@@ -252,10 +249,10 @@ const handleCancel = () => {
 
 <style scoped>
 .order-container {
-  width: 100%;
+  width: 80vh;
   padding: 20px;
 }
 .ant-table-wrapper {
-  width: 100%;
+  width: 90%;
 }
 </style>

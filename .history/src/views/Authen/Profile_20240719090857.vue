@@ -411,7 +411,6 @@ export default {
       disabled,
       info,
       email,
-      validateFullName,
     };
   },
 };

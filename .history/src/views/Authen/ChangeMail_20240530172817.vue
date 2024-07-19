@@ -2,6 +2,10 @@
   <div class="container">
     <div class="left-side" :style="backgroundStyle"></div>
     <div class="right-side">
+      <span class="missing">
+        Chưa có tài khoản?
+        <router-link to="/register">Đăng ký ngay</router-link>
+      </span>
       <div class="form-fogot">
         <h3>Đổi email</h3>
         <p>Nhập email</p>
