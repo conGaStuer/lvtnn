@@ -149,8 +149,7 @@
         }
       }
 
-      .invoice,
-      .cancel {
+      .invoice {
         background-color: #f28b82;
         color: #fff;
         border-radius: 10px;
@@ -162,15 +161,12 @@
         font-size: 12px;
         margin-top: 10px;
         cursor: pointer;
-
-        &:hover {
-          color: black;
-        }
-      }
-      .invoice {
         position: absolute;
         top: 50px;
         left: -25px;
+        &:hover {
+          color: black;
+        }
       }
     }
   }

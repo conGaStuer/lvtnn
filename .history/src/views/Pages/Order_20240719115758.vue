@@ -2,92 +2,96 @@
   <NavBar></NavBar>
   <div class="orders">
     <div class="title">
-      <h1>Đơn hàng của bạn</h1>
+      <h1>Quản lý đơn hàng</h1>
     </div>
     <div class="tabs">
-      <button
+      <div
         v-for="tab in tabs"
-        :key="tab.value"
-        :class="{ active: tab.value === selectedStatus }"
-        @click="changeTab(tab.value)"
+        :key="tab.status"
+        :class="['tab', { active: activeTab === tab.status }]"
+        @click="selectTab(tab.status)"
       >
-        {{ tab.label }}
-      </button>
+        {{ tab.name }}
+        <span v-if="tab.count" class="count">{{ tab.count }}</span>
+      </div>
     </div>
-    <div class="order-container" v-if="orders.length">
-      <div class="order" v-for="order in orders" :key="order.MaDon">
-        <div class="order-header">
-          <h2>Đơn hàng: {{ order.MaDon }}</h2>
-          <p>Ngày đặt: {{ order.NgayDat }}</p>
-          <p>Tổng tiền: {{ calculateTotalPrice(order) }}</p>
-        </div>
-        <div class="order-items">
-          <div class="info">
-            <div>Hình Ảnh</div>
-            <div>Thông tin</div>
-            <div>Đơn giá</div>
-            <div>Số Lượng</div>
-            <div>Thành tiền</div>
-            <div>Trạng thái</div>
+    <div class="orders">
+      <div class="title">
+        <h1>Đơn hàng {{ getTabName(activeTab) }}</h1>
+      </div>
+      <div class="order-container" v-if="orders.length">
+        <div class="order" v-for="order in orders" :key="order.MaDon">
+          <div class="order-header">
+            <h2>Đơn hàng: {{ order.MaDon }}</h2>
+            <p>Ngày đặt: {{ order.NgayDat }}</p>
+            <p>Tổng tiền: {{ calculateTotalPrice(order) }}</p>
           </div>
-          <div
-            class="order-item"
-            v-for="(item, index) in parseOrderItems(order)"
-            :key="index"
-          >
-            <img :src="item.HinhAnh" alt="product-image" />
-            <div class="product-details">
-              <p class="name">{{ item.TenSach }}</p>
-              <h4>{{ item.DanhMuc }}</h4>
-              <p>
-                Tác giả: <span>{{ item.TacGia }}</span>
-              </p>
-              <p>
-                Nhà xuất bản: <span>{{ item.NhaXuatBan }}</span>
-              </p>
-              <p>
-                Ngôn ngữ: <span>{{ item.NgonNgu }}</span>
-              </p>
+          <div class="order-items">
+            <div class="info">
+              <div>Hình Ảnh</div>
+              <div>Thông tin</div>
+              <div>Đơn giá</div>
+              <div>Số Lượng</div>
+              <div>Thành tiền</div>
+              <div>Trạng thái</div>
             </div>
-            <div class="product-price">
-              <p>
-                {{ item.GiaDonHang }}
-              </p>
-            </div>
-            <div class="product-quantity">
-              <span>{{ item.SoLuong }}</span>
-            </div>
-            <div class="total-price">
-              <p>
-                {{ item.GiaDonHang }}
-              </p>
-            </div>
-            <div class="product-status">
-              <router-link to="/process" @click="process(order)">{{
-                displayStatus(order.TrangThai)
-              }}</router-link>
+            <div
+              class="order-item"
+              v-for="(item, index) in parseOrderItems(order)"
+              :key="index"
+            >
+              <img :src="item.HinhAnh" alt="product-image" />
+              <div class="product-details">
+                <p class="name">{{ item.TenSach }}</p>
+                <h4>{{ item.DanhMuc }}</h4>
+                <p>
+                  Tác giả: <span>{{ item.TacGia }}</span>
+                </p>
+                <p>
+                  Nhà xuất bản: <span>{{ item.NhaXuatBan }}</span>
+                </p>
+                <p>
+                  Ngôn ngữ: <span>{{ item.NgonNgu }}</span>
+                </p>
+              </div>
+              <div class="product-price">
+                <p>
+                  {{ item.GiaDonHang }}
+                </p>
+              </div>
+              <div class="product-quantity">
+                <span>{{ item.SoLuong }}</span>
+              </div>
+              <div class="total-price">
+                <p>
+                  {{ item.GiaDonHang }}
+                </p>
+              </div>
+              <div class="product-status">
+                <router-link to="/process" @click="process(order)">{{
+                  displayStatus(order.TrangThai)
+                }}</router-link>
 
-              <a-button
-                v-if="order.TrangThai === 'giaohangthanhcong'"
-                @click="printInvoice(order.MaDon)"
-                class="invoice"
-              >
-                In hóa đơn tại đây
-              </a-button>
-              <a-button
-                v-if="order.TrangThai === 'choduyet'"
-                @click="cancelOrder(order.MaDon)"
-                class="cancel"
-              >
-                Hủy đơn hàng
-              </a-button>
+                <a-button
+                  v-if="order.TrangThai === 'giaohangthanhcong'"
+                  @click="printInvoice(order.MaDon)"
+                >
+                  In hóa đơn tại đây
+                </a-button>
+                <a-button
+                  v-if="order.TrangThai === 'choduyet'"
+                  @click="cancelOrder(order.MaDon)"
+                >
+                  Hủy đơn hàng
+                </a-button>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-    <div v-else>
-      <p>Không có đơn hàng nào</p>
+      <div v-else>
+        <p>Không có đơn hàng nào</p>
+      </div>
     </div>
   </div>
   <Footer></Footer>
@@ -251,19 +255,15 @@ const changeTab = (status) => {
 }
 
 .tabs button {
-  width: 300px;
-  height: 50px;
+  padding: 10px 20px;
   border: none;
+  background: #ddd;
   cursor: pointer;
-  font-weight: bold;
-  font-family: "Noto Sans";
-
-  font-size: 15px;
 }
 
 .tabs button.active {
-  border-bottom: 1px solid #f28b82;
-  color: #f28b82;
+  background: #333;
+  color: white;
 }
 
 .order {
@@ -296,10 +296,5 @@ const changeTab = (status) => {
 
 .product-status a-button {
   margin-top: 10px;
-}
-.cancel {
-  position: relative;
-  top: 50px;
-  left: -10px;
 }
 </style>

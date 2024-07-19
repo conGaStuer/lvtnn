@@ -2,17 +2,7 @@
   <NavBar></NavBar>
   <div class="orders">
     <div class="title">
-      <h1>Đơn hàng của bạn</h1>
-    </div>
-    <div class="tabs">
-      <button
-        v-for="tab in tabs"
-        :key="tab.value"
-        :class="{ active: tab.value === selectedStatus }"
-        @click="changeTab(tab.value)"
-      >
-        {{ tab.label }}
-      </button>
+      <h1>Đơn hàng chờ duyệt</h1>
     </div>
     <div class="order-container" v-if="orders.length">
       <div class="order" v-for="order in orders" :key="order.MaDon">
@@ -70,14 +60,12 @@
               <a-button
                 v-if="order.TrangThai === 'giaohangthanhcong'"
                 @click="printInvoice(order.MaDon)"
-                class="invoice"
               >
                 In hóa đơn tại đây
               </a-button>
               <a-button
                 v-if="order.TrangThai === 'choduyet'"
                 @click="cancelOrder(order.MaDon)"
-                class="cancel"
               >
                 Hủy đơn hàng
               </a-button>
@@ -87,7 +75,7 @@
       </div>
     </div>
     <div v-else>
-      <p>Không có đơn hàng nào</p>
+      <p>Không có đơn hàng nào chờ duyệt</p>
     </div>
   </div>
   <Footer></Footer>
@@ -101,32 +89,19 @@ import Footer from "@/views/UI_Components/Footer.vue";
 import { useRouter } from "vue-router";
 
 const orders = ref([]);
-const selectedStatus = ref("all");
-const tabs = [
-  { label: "Tất cả", value: "all" },
-  { label: "Chờ duyệt", value: "choduyet" },
-  { label: "Đã duyệt", value: "daduyet" },
-  { label: "Đang giao", value: "danggiao" },
-  { label: "Giao hàng thành công", value: "giaohangthanhcong" },
-  { label: "Hủy đơn", value: "huydon" },
-];
 
 onMounted(() => {
-  fetchOrders("all");
+  fetchOrders();
 });
 
-const fetchOrders = (status) => {
+const fetchOrders = () => {
   const currentUser = JSON.parse(localStorage.getItem("currentUser"));
   const userId = currentUser.maND;
-  const fetchStatus =
-    status === "all"
-      ? ["choduyet", "danggiao", "daduyet", "huydon", "giaohangthanhcong"]
-      : [status];
 
   axios
     .post("http://localhost/LVTN/book-store/src/api/getorder.php", {
       userId: userId,
-      status: fetchStatus,
+      status: "choduyet",
     })
     .then((response) => {
       orders.value = response.data;
@@ -135,7 +110,6 @@ const fetchOrders = (status) => {
       console.error("Error fetching orders:", error);
     });
 };
-
 const calculateTotalPrice = (order) => {
   if (!order.Items || !Array.isArray(order.Items)) {
     return 0; // Return 0 if Items is not an array or is undefined
@@ -224,16 +198,11 @@ const cancelOrder = (maDon) => {
       status: "huydon",
     })
     .then((response) => {
-      fetchOrders(selectedStatus.value); // Refresh the orders list after cancellation
+      fetchOrders(); // Refresh the orders list after cancellation
     })
     .catch((error) => {
       console.error("Error canceling order:", error);
     });
-};
-
-const changeTab = (status) => {
-  selectedStatus.value = status;
-  fetchOrders(status);
 };
 </script>
 
@@ -242,28 +211,6 @@ const changeTab = (status) => {
 
 .orders {
   padding: 20px;
-}
-
-.tabs {
-  display: flex;
-  justify-content: space-around;
-  margin-bottom: 20px;
-}
-
-.tabs button {
-  width: 300px;
-  height: 50px;
-  border: none;
-  cursor: pointer;
-  font-weight: bold;
-  font-family: "Noto Sans";
-
-  font-size: 15px;
-}
-
-.tabs button.active {
-  border-bottom: 1px solid #f28b82;
-  color: #f28b82;
 }
 
 .order {
@@ -296,10 +243,5 @@ const changeTab = (status) => {
 
 .product-status a-button {
   margin-top: 10px;
-}
-.cancel {
-  position: relative;
-  top: 50px;
-  left: -10px;
 }
 </style>

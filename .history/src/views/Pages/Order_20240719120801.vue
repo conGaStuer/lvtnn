@@ -300,6 +300,6 @@ const changeTab = (status) => {
 .cancel {
   position: relative;
   top: 50px;
-  left: -10px;
+  left: 5px;
 }
 </style>

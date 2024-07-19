@@ -104,7 +104,6 @@ const columns = ref([
   { title: "Tên Sách", dataIndex: "TenSach", key: "TenSach" },
   { title: "Hình Ảnh", dataIndex: "HinhAnh", key: "HinhAnh" },
   { title: "Số Lượng", dataIndex: "SoLuong", key: "SoLuong" },
-  { title: "Ngày Đặt", dataIndex: "NgayDat", key: "NgayDat" },
   { title: "Đơn Giá", dataIndex: "DonGia", key: "DonGia" },
   { title: "Địa Chỉ", dataIndex: "DiaChi", key: "DiaChi" },
   { title: "Trạng Thái", dataIndex: "TrangThai", key: "TrangThai" },

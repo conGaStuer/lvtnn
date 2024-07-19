@@ -52,11 +52,7 @@ export default {
     };
 
     const updateBook = () => {
-      if (
-        validationError.value ||
-        !book.value.LuongKM ||
-        book.value.LuongKM <= 0
-      ) {
+      if (validationError.value || !book.value.LuongKM) {
         message.error("Vui lòng nhập đúng lượng khuyến mãi");
         return;
       }
@@ -87,8 +83,6 @@ export default {
       book,
       updateBook,
       handleCancel,
-      validateDiscount,
-      validationError,
     };
   },
 };

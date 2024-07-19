@@ -70,7 +70,6 @@
               <a-button
                 v-if="order.TrangThai === 'giaohangthanhcong'"
                 @click="printInvoice(order.MaDon)"
-                class="invoice"
               >
                 In hóa đơn tại đây
               </a-button>
@@ -299,7 +298,6 @@ const changeTab = (status) => {
 }
 .cancel {
   position: relative;
-  top: 50px;
-  left: -10px;
+  left: -8px;
 }
 </style>

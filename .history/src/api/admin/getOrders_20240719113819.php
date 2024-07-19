@@ -11,7 +11,7 @@ $sql_get_orders = "
            GROUP_CONCAT(nn.tenNN) AS NgonNgu, GROUP_CONCAT(dm.tenDM) AS DanhMuc,
            ctdh.SoLuong AS SoLuong, ctdh.DonGia AS DonGia, ddh.trangthai AS TrangThai, ddh.maND AS MaND,
            nd.diachi AS DiaChi, nd.email as Email, nd.tenKH as TenKH, nd.sdt as SoDienThoai,
-           ddh.ngaydat as NgayDat
+           ddh_ngaydat as NgayDat
     FROM don_dat_hang ddh
     INNER JOIN chi_tiet_don_hang ctdh ON ddh.madon = ctdh.madon
     INNER JOIN sach s ON ctdh.MaSach = s.maSach

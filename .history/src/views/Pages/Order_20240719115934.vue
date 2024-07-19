@@ -2,7 +2,7 @@
   <NavBar></NavBar>
   <div class="orders">
     <div class="title">
-      <h1>Đơn hàng của bạn</h1>
+      <h1>Quản lý đơn hàng</h1>
     </div>
     <div class="tabs">
       <button
@@ -70,14 +70,12 @@
               <a-button
                 v-if="order.TrangThai === 'giaohangthanhcong'"
                 @click="printInvoice(order.MaDon)"
-                class="invoice"
               >
                 In hóa đơn tại đây
               </a-button>
               <a-button
                 v-if="order.TrangThai === 'choduyet'"
                 @click="cancelOrder(order.MaDon)"
-                class="cancel"
               >
                 Hủy đơn hàng
               </a-button>
@@ -256,14 +254,11 @@ const changeTab = (status) => {
   border: none;
   cursor: pointer;
   font-weight: bold;
-  font-family: "Noto Sans";
-
-  font-size: 15px;
 }
 
 .tabs button.active {
-  border-bottom: 1px solid #f28b82;
-  color: #f28b82;
+  background: #333;
+  color: white;
 }
 
 .order {
@@ -296,10 +291,5 @@ const changeTab = (status) => {
 
 .product-status a-button {
   margin-top: 10px;
-}
-.cancel {
-  position: relative;
-  top: 50px;
-  left: -10px;
 }
 </style>

@@ -1,9 +1,9 @@
 <template>
   <a-modal
     :open="visible"
-    title="Sửa Khuyến Mãi"
+    title="Thêm Khuyến Mãi"
     @cancel="handleCancel"
-    @ok="updateBook"
+    @ok="addBook"
   >
     <a-form layout="vertical">
       <a-form-item label="Lượng Khuyến Mãi">
@@ -24,24 +24,29 @@ import axios from "axios";
 export default {
   props: {
     visible: Boolean,
-    bookData: Object,
   },
-  emits: ["update:visible", "book-updated"],
+  emits: ["update:visible", "book-added"],
   setup(props, { emit }) {
     const book = ref({
-      MaKhuyenMai: "",
-      TenKhuyenMai: "",
+      LuongKM: "",
     });
+    const validationError = ref("");
 
     watch(
       () => props.visible,
       (newVal) => {
         if (newVal) {
-          book.value = { ...props.bookData };
+          resetForm();
         }
       }
     );
-    const validationError = ref("");
+
+    const resetForm = () => {
+      book.value = {
+        LuongKM: "",
+      };
+      validationError.value = "";
+    };
 
     const validateDiscount = () => {
       if (!/^\d+$/.test(book.value.LuongKM)) {
@@ -51,31 +56,35 @@ export default {
       }
     };
 
-    const updateBook = () => {
-      if (
-        validationError.value ||
-        !book.value.LuongKM ||
-        book.value.LuongKM <= 0
-      ) {
+    const addBook = () => {
+      if (validationError.value || !book.value.LuongKM ||         book.value.LuongKM <= 0
+s      ) {
         message.error("Vui lòng nhập đúng lượng khuyến mãi");
         return;
       }
+
+      const bookData = {
+        LuongKM: book.value.LuongKM,
+      };
+
+      console.log("Sending book data:", bookData);
       axios
         .post(
-          "http://localhost/LVTN/book-store/src/api/admin/updateDiscount.php",
-          book.value
+          "http://localhost/LVTN/book-store/src/api/admin/addDiscount.php",
+          bookData
         )
         .then((res) => {
-          if (res.data === "Cap Nhat Thanh Cong") {
-            message.success("Cập nhật Khuyến Mãi thành công");
+          if (res.data === "Them Thanh Cong") {
+            message.success("Thêm Khuyến Mãi thành công");
             emit("update:visible", false);
-            emit("book-updated");
+            emit("book-added"); // Emit the book-added event
+            resetForm();
           } else {
-            message.error("Cập nhật Khuyến Mãi không thành công");
+            message.error("Thêm sách không thành công");
           }
         })
         .catch((err) => {
-          message.error("Có lỗi khi cập nhật Khuyến Mãi: " + err);
+          message.error("Có lỗi khi thêm sách: " + err);
         });
     };
 
@@ -85,7 +94,7 @@ export default {
 
     return {
       book,
-      updateBook,
+      addBook,
       handleCancel,
       validateDiscount,
       validationError,

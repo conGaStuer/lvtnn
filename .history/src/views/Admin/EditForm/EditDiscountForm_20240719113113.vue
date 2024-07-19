@@ -55,7 +55,7 @@ export default {
       if (
         validationError.value ||
         !book.value.LuongKM ||
-        book.value.LuongKM <= 0
+        book.value.LuongKM = 0
       ) {
         message.error("Vui lòng nhập đúng lượng khuyến mãi");
         return;
